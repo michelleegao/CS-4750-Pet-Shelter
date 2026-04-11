@@ -25,34 +25,42 @@
 <body>
     <h1>Create New Appointment</h1>
 
-    <div class="input-group">
-        <label for="petID">Pet ID</label>
-        <input id="petID" type="text" placeholder="Pet ID">
+    <div class="page">
+        <div class="outer-box">
+            <div class="inner-box">
+                <div class="input-group">
+                    <label for="petID"><strong>Pet ID</strong></label>
+                    <input id="petID" type="text" placeholder="Pet ID">
+                </div>
+                <div class="input-group">
+                    <label for="employeeID"><strong>Employee ID</strong></label>
+                    <input id="employeeID" type="text" placeholder="Employee ID">
+                </div>
+                <div class="input-group">
+                    <label for="dateTime"><strong>Date and Time of Appointment</strong></label>
+                    <input type="datetime-local">
+                </div>
+                <div class="input-group">
+                    <label for="appointmentReason"><strong>Reason for Appointment</strong></label>
+                    <input id="appointmentReason" type="text" placeholder="Reason for Appointment">
+                </div>
+                <div class="input-group">
+                    <label for="cost"><strong>Cost of Appointment</strong></label>
+                    <input id="cost" type="text" placeholder="Cost of Appointment">
+                </div>
+                <div class="input-group">
+                    <label for="notes"><strong>Appointment Notes</strong></label>
+                    <input id="notes" type="text" placeholder="Appointment Notes">
+                </div>
+                <div class="buttons-group">
+                    <button id="save"><strong>Save Changes</strong></button>
+                    <button id="cancel"><strong>Cancel Changes</strong></button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="input-group">
-        <label for="employeeID">Employee ID</label>
-        <input id="employeeID" type="text" placeholder="Employee ID">
-    </div>
-    <div class="input-group">
-        <label for="dateTime">Date and Time of Appointment</label>
-        <input type="datetime-local">
-    </div>
-    <div class="input-group">
-        <label for="appointmentReason">Reason for Appointment</label>
-        <input id="appointmentReason" type="text" placeholder="Reason for Appointment">
-    </div>
-    <div class="input-group">
-        <label for="cost">Cost of Appointment</label>
-        <input id="cost" type="text" placeholder="Cost of Appointment">
-    </div>
-    <div class="input-group">
-        <label for="notes">Appointment Notes</label>
-        <input id="notes" type="text" placeholder="Appointment Notes">
-    </div>
-    <div class="buttons-group">
-        <button id="save">Save Changes</button>
-        <button id="cancel">Cancel Changes</button>
-    </div>
+
+    
 </body>
 <footer>
     <p>CS4750 Final Project</p>

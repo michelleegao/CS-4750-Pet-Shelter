@@ -12,3 +12,38 @@ textarea {
   min-height: 120px;
 }
 
+.outer-box{
+    width: 1200px;
+    padding: 20px;
+    background: #607196;
+    border-radius: 20px;
+}
+
+.inner-box{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 15px;
+    border-radius: 20px;
+    background: #BABFD1;
+}
+
+h1{
+    text-align: center;
+}
+.page{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    font-family: Georgia, sans-serif;
+}
+
+input{
+    font-family: Georgia, sans-serif;
+    background: #E8E9ED;
+}
