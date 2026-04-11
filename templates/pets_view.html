@@ -3,82 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets View</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='view_style.css') }}">
+    <title>Pet Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pets_view.css') }}">
 </head>
 <body>
     <div class="page">
-        <!-- Navigation Bar -->
-        <div class="top-section">
-            <nav class="navbar">
-                <div class="nav-left">
-                    <a href="/">Pet Shelter App</a>
-                    <a href="pets">Pets</a>
-                    <a href="pets">Users</a>
-                    <a href="pets">Families</a>
-                    <a href="pets">Events</a>
-                    <a href="pets">Appointments</a>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/">Pet Shelter App</a>
+                <a href="/pets">Pets</a>
+                <a href="#">Users</a>
+                <a href="#">Foster Families</a>
+                <a href="#">Events</a>
+                <a href="#">Appointments</a>
+            </div>
+
+            <svg class="profile-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+            </svg>
+        </nav>
+
+        <!-- Main content area -->
+        <main class="details-section">
+            <div class="top-row">
+                <a href="/pets" class="return-btn">Return to Search</a>
+                <h1 class="page-title">All About [Pet Name]</h1>
+            </div>
+
+            <div class="details-content">
+                <!-- Left side -->
+                <div class="pet-left">
+                    <div class="pet-image-frame">
+                        <img
+                            src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg"
+                            alt="Pet photo"
+                        >
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="action-btn">Delete pet</button>
+                        <button class="action-btn" id="openEditModal">Edit pet information</button>
+                    </div>
                 </div>
-                <svg class="profile-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4"></circle>
-                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
-                </svg>
-            </nav>
 
-            <!-- Search bar, add button, filter button -->
-            <div class="search-bar">
-                <button class="add-btn">Add a pet</button>
+                <!-- Right side -->
+                <div class="pet-right">
+                    <div class="info-scroll">
 
-                <form class="search-form" action="/pets/search" method="GET">
-                    <input
-                    type="text"
-                    name="query"
-                    placeholder="Search..."
-                    class="search-input"
-                    />
-                </form>
+                        <div class="info-row">
+                            <div class="info-label">Pet ID:</div>
+                            <div class="info-value">[pet ID here]</div>
+                        </div>
 
-                <button class="filter-btn">Filter</button>
+                        <div class="info-row">
+                            <div class="info-label">Species:</div>
+                            <div class="info-value">[species info here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Breed:</div>
+                            <div class="info-value">[breed info here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Age:</div>
+                            <div class="info-value">[pet age here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Weight:</div>
+                            <div class="info-value">[pet weight here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">M / F:</div>
+                            <div class="info-value">[male or female]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Special Needs:</div>
+                            <div class="info-value">[special needs info here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Days in Shelter:</div>
+                            <div class="info-value">[number of days in the shelter]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Color:</div>
+                            <div class="info-value">[pet color here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Vaccinated:</div>
+                            <div class="info-value">[vaccination info here]</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Notes:</div>
+                            <div class="info-value">[additional notes here]</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Edit Popup -->
+        <div class="modal-overlay" id="editModal">
+            <div class="edit-modal">
+                <button class="close-modal" id="closeEditModal">&times;</button>
+
+                <div class="edit-title">Edit Pet Information</div>
+
+                <div class="edit-modal-content">
+                    <div class="edit-left-panel">
+                        <div class="edit-photo-box">
+                            <img
+                                src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg"
+                                alt="Pet photo"
+                            >
+                        </div>
+
+                        <button class="upload-btn">upload new photo</button>
+                    </div>
+
+                    <div class="edit-form-panel">
+                        <div class="edit-scroll">
+                            <div class="edit-row">
+                                <label class="edit-label">Pet ID:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Species:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Breed:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Age:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Weight:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">M / F:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Special Needs:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+
+                            <div class="edit-row">
+                                <label class="edit-label">Days in Shelter:</label>
+                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="edit-buttons-panel">
+                        <button class="modal-action-btn confirm-btn">confirm edits</button>
+                        <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <!-- Pets view -->
-        <div class="pets-container">
-            <div class="pets-grid">
-
-                <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Buddy</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Luna</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Max</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Bella</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Charlie</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-            </div>
-        </div>
-        
     </div>
+
+    <!-- Handles edit page -->
+    <script>
+        const editModal = document.getElementById("editModal");
+        const openEditModal = document.getElementById("openEditModal");
+        const closeEditModal = document.getElementById("closeEditModal");
+        const cancelEditModal = document.getElementById("cancelEditModal");
+
+        openEditModal.addEventListener("click", () => {
+            editModal.classList.add("show");
+        });
+
+        closeEditModal.addEventListener("click", () => {
+            editModal.classList.remove("show");
+        });
+
+        cancelEditModal.addEventListener("click", () => {
+            editModal.classList.remove("show");
+        });
+
+        editModal.addEventListener("click", (e) => {
+            if (e.target === editModal) {
+                editModal.classList.remove("show");
+            }
+        });
+    </script>
 </body>
 </html>

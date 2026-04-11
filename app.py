@@ -7,9 +7,14 @@ app = Flask(__name__)
 def home():
     return render_template('login.html')
 
-# links pets view HTML page
+# links pets search HTML page
 @app.route("/pets")
 def pets():
+    return render_template('pets_search.html')
+
+# links pets view HTML page
+@app.route("/pets_view")
+def pets_view():
     return render_template('pets_view.html')
 
 if __name__ == "__main__":
