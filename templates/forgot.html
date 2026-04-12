@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reset Password</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="top-section">
+  <div class="app-name">[Web App Name]</div>
+
+  <div class="login-container">
+    <h1>Reset Password</h1>
+
+    <form id="forgotForm">
+      <div class="form-group">
+        <label>Username:</label>
+        <input type="text" id="forgotUsername" required>
+      </div>
+
+      <div id="resetSection" style="display:none;">
+        <div class="form-group">
+          <label>New Password:</label>
+          <input type="password" id="newPassword">
+        </div>
+
+        <button type="button" id="resetBtn" class="enter-btn">Reset Password</button>
+      </div>
+
+      <button type="submit" class="enter-btn">Check User</button>
+
+      <div class="links">
+        <a href="login.html">Back to login</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="bottom-section"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
