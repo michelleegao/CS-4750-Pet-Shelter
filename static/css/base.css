@@ -89,6 +89,17 @@
     margin-top: 10px;
   }
 
+  input[type="submit"]{
+    width: 15%;
+    padding: 10px;
+    background:#FFC759;
+    color: #FF4372;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
   button:hover {
     background: #333;
   }
