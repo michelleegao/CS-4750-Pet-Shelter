@@ -27,6 +27,9 @@ textarea {
     padding: 15px;
     border-radius: 20px;
     background: #BABFD1;
+    height: 500px;
+
+    overflow-y: scroll;
 }
 
 h1{
@@ -47,3 +50,8 @@ input{
     font-family: Georgia, sans-serif;
     background: #E8E9ED;
 }
+
+
+/*.big-input{
+    height: 60px;
+}*/

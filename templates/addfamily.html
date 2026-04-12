@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add a New Family</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/add.css">
+</head>
+<header>
+    <nav class="navbar">
+        <div class="left">
+            Web App Name
+            Pets
+            Users
+            Foster Families
+            Events
+            Appointments
+            <a href="login.html">Login</a>
+        </div>
+
+        <div class="right">
+            <img class="user-pic" src="/static/images/userIcon.png" alt="user Image">
+        </div>
+    </nav>
+</header>
+<body>
+    <h1>Create New Family</h1>
+
+    <div class="page">
+        <div class="outer-box">
+            <div class="inner-box">
+                <div class="input-group">
+                    <label for="species"><strong>Preferred Species</strong></label>
+                    <input id="species" type="text" placeholder="Preferred Species">
+                </div>
+                <div class="input-group">
+                    <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
+                    <input id="adult_number" type="text" placeholder="Number of Adults">
+                </div>
+                <div class="input-group">
+                    <label for="child_number"><strong>Number of Children (0-17)</strong></label>
+                    <input id="child_number" type="text" placeholder="Number of Children">
+                </div>
+                <div class="input-group">
+                    <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
+                    <input id="pet_number" type="text" placeholder="Number of Pets">
+                </div>
+                <div class="input-group">
+                    <label for="street"><strong>Home Address: Street Number and Name</strong></label>
+                    <input id="street" type="text" placeholder="Home Address">
+                </div>
+                <div class="input-group">
+                    <label for="city"><strong>Home Address: City</strong></label>
+                    <input id="city" type="text" placeholder="Home Address">
+                </div>
+                <div class="input-group">
+                    <label for="state"><strong>Home Address: State</strong></label>
+                    <input id="state" type="text" placeholder="Home Address">
+                </div>
+                <div class="input-group">
+                    <label for="zipCode"><strong>Home Address: Zip Code</strong></label>
+                    <input id="zipCode" type="text" placeholder="Home Address">
+                </div>
+                <div class="input-group">
+                    <label for="country"><strong>Home Address: Country</strong></label>
+                    <input id="country" type="text" placeholder="Country">
+                </div>
+                <div class="input-group">
+                    <label><strong>Children?</strong></label>
+
+                    <label>
+                        <input type="radio" name="children" value="yes">
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="children" value="no">
+                        No
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label for="phone"><strong>Phone Number</strong></label>
+                    <input id="phone" type="text" placeholder="Phone Number">
+                </div>
+                <div class="input-group">
+                    <label for="email"><strong>Email Address</strong></label>
+                    <input id="email" type="text" placeholder="Email Address">
+                </div>
+                <div class="input-group">
+                    <label><strong>Type of Family</strong></label>
+
+                    <label>
+                        <input type="radio" name="family" value="Foster Family">
+                        Foster
+                    </label>
+                    <label>
+                        <input type="radio" name="family" value="Adoptive">
+                        Adoptive
+                    </label>
+                </div>
+
+                <div class="buttons-group">
+                    <button id="save"><strong>Save Changes</strong></button>
+                    <button id="cancel"><strong>Cancel Changes</strong></button>
+                    <button id="upload-photo"><strong>Upload Photo</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <p>CS4750 Final Project</p>
+</footer>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Sign Up</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/add.css">
+</head>
+<header>
+    <nav class="navbar">
+        <div class="left">
+            Web App Name
+            Pets
+            Users
+            Foster Families
+            Events
+            Appointments
+            <a href="login.html">Login</a>
+        </div>
+
+        <div class="right">
+            <img class="user-pic" src="/static/images/userIcon.png" alt="user Image">
+        </div>
+    </nav>
+</header>
+<body>
+    <h1>Employee Sign Up</h1>
+
+    <div class="page">
+        <div class="outer-box">
+            <div class="inner-box">
+                <div class="input-group">
+                    <label for="first-name"><strong>First Name</strong></label>
+                    <input id="first-name" type="text" placeholder="First Name">
+                </div>
+                <div class="input-group">
+                    <label for="last-name"><strong>Last Name</strong></label>
+                    <input id="last-name" type="text" placeholder="Last Name">
+                </div>
+                <div class="input-group">
+                    <label for="email-address"><strong>Email Address</strong></label>
+                    <input id="email-address" type="text" placeholder="Email Address">
+                </div>
+                <div class="input-group">
+                    <label for="phone"><strong>Phone Number</strong></label>
+                    <input id="phone" type="text" placeholder="Phone">
+                </div>
+                <div class="input-group">
+                    <label for="username"><strong>Username</strong></label>
+                    <input id="username" type="text" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <label for="password"><strong>Password</strong></label>
+                    <input id="password" type="password" placeholder="Password">
+                </div>
+                <div class="input-group">
+                    <label for="position"><strong>Position</strong></label>
+
+                    <select id="position">
+                    <option value="">Select an option</option>
+                    <option value="intern">Intern</option>
+                    <option value="part-time-employee">Part-Time Employee</option>
+                    <option value="full-time-employee">Full-Time Employee</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label><strong>Supervisor?</strong></label>
+
+                    <label>
+                        <input type="radio" name="supervisor" value="yes">
+                        Yes
+                    </label>
+                    <label>
+                        <input type="radio" name="supervisor" value="no">
+                        No
+                    </label>
+                </div>
+
+                <div class="buttons-group">
+                    <button id="save"><strong>Create Account</strong></button>
+                    <button id="cancel"><strong>Return to Login</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <p>CS4750 Final Project</p>
+</footer>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Appointment</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/add.css">
+</head>
+<header>
+    <nav class="navbar">
+        <div class="left">
+            Web App Name
+            Pets
+            Users
+            Foster Families
+            Events
+            Appointments
+            <a href="login.html">Login</a>
+        </div>
+
+        <div class="right">
+            <img class="user-pic" src="/static/images/userIcon.png" alt="user Image">
+        </div>
+    </nav>
+</header>
+<body>
+    <h1>Create New Adoption Event</h1>
+
+    <div class="page">
+        <div class="outer-box">
+            <div class="inner-box">
+                <div class="input-group">
+                    <label for="petID"><strong>Pet IDs Present</strong></label>
+                    <input id="petID" type="text" placeholder="Pet IDs">
+                </div>
+                <div class="input-group">
+                    <label for="employeeID"><strong>Employee IDs</strong></label>
+                    <input id="employeeID" type="text" placeholder="Employee IDs">
+                </div>
+                <div class="input-group">
+                    <label for="dateTime"><strong>Date and Time of Event</strong></label>
+                    <input type="datetime-local">
+                </div>
+                <div class="input-group">
+                    <label for="location"><strong>Location of Event</strong></label>
+                    <input id="location" type="text" placeholder="Location of Event">
+                </div>
+                <div class="buttons-group">
+                    <button id="save"><strong>Save Changes</strong></button>
+                    <button id="cancel"><strong>Cancel Changes</strong></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+<footer>
+    <p>CS4750 Final Project</p>
+</footer>
+</html>
