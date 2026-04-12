@@ -1,9 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Pet Shelter Login</title>
+  <meta charset="UTF-8">
+  <title>Employee Login</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Login</h1>
+
+<div class="top-section">
+  <div class="app-name">[Web App Name]</div>
+
+  <div class="login-container">
+    <h1>Employee Login</h1>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Username:</label>
+        <input type="text" id="username" required>
+      </div>
+
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" id="password" required>
+      </div>
+
+      <button type="submit" class="enter-btn">Enter</button>
+
+      <div class="links">
+        <a href="create.html">Sign up</a>
+        <a href="forgot.html">Forgot password/username?</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="bottom-section"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
