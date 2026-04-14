@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets Search</title>
+    <title>Families Search</title>
     <link rel="stylesheet" href="/static/css/pets_search.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
                     <a href="/">Pet Shelter App</a>
                     <a href="pets">Pets</a>
                     <a href="#">Users</a>
-                    <a href="/families">Families</a>
+                    <a href="families">Families</a>
                     <a href="#">Events</a>
                     <a href="#">Appointments</a>
                 </div>
@@ -27,7 +27,7 @@
 
             <!-- Search bar, add button, filter button -->
             <div class="search-bar">
-                <button class="add-btn">Add a pet</button>
+                <button onclick="location.href='/family_add'" class="add-btn">Add a family</button>
 
                 <form class="search-form" action="/pets/search" method="GET">
                     <input
@@ -42,43 +42,42 @@
             </div>
         </div>
 
-        <!-- Pets view -->
+        <!-- Family view -->
         <div class="pets-container">
             <div class="pets-grid">
 
                 <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Buddy</p>
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
                 </div>
 
                 <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Luna</p>
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
                 </div>
 
                 <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Max</p>
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
                 </div>
 
                 <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Bella</p>
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
                 </div>
 
                 <div class="pet-item">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Charlie</p>
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
                 </div>
 
             </div>
-        </div>
-        
+        </div> 
     </div>
 </body>
 </html>

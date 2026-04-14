@@ -17,5 +17,20 @@ def pets():
 def pets_view():
     return render_template('pets_view.html')
 
+# links family search HTML page
+@app.route("/families")
+def families():
+    return render_template('families_search.html')
+
+# links family view HTML page
+@app.route("/families_view")
+def families_view():
+    return render_template('families_view.html')
+
+# links family view HTML page
+@app.route("/family_add")
+def families_add():
+    return render_template('addFamily.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
