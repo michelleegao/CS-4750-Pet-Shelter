@@ -5,7 +5,7 @@
   }
 
  body {
-    font-family: Georgia, sans-serif;
+    font-family: Arial, sans-serif;
     background-color: #788bb3;
     color: #FF7B9C;
     line-height: 1.5;
@@ -17,19 +17,45 @@
     padding: 20px;
   }
 
-  /*Header Bar Information*/
-  header {
-    padding: 20px;
-    text-align: left;
-    background-color: #E8E9ED;
-    border-bottom: 1px solid #ddd;
-  }
+/* Nav bar stylings */
+.navbar {
+  width: 100%;
+  background-color: #E8E9ED;
+  padding: 18px 28px;
+  box-sizing: border-box;
 
-  .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style-type: none;
+}
+
+.nav-left a {
+  text-decoration: none;
+  color: #ff6f8f;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-left a:hover {
+  opacity: 0.6;
+}
+
+.profile-icon {
+  width: 28px;
+  height: 28px;
+  stroke: black;
+  stroke-width: 2;
+  fill: none;
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
   .left, .right{
       display: flex;
