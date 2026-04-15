@@ -29,7 +29,7 @@
     <div class="page">
         <div class="outer-box">
             <div class="inner-box">
-                <form id="add-form">
+                <form id="add-pet-form">
                     <div class="input-group">
                         <label for="name"><strong>Pet Name</strong></label>
                         <input id="name" type="text" placeholder="Pet Name">
@@ -53,6 +53,10 @@
                     <div class="input-group">
                         <label for="age"><strong>Age</strong></label>
                         <input id="age" type="text" placeholder="Age">
+                    </div>
+                    <div class="input-group">
+                        <label for="weight"><strong>Weight (pounds)</strong></label>
+                        <input id="weight" type="number" min="1" placeholder="Weight">
                     </div>
                     <div class="input-group">
                         <label><strong>Sex</strong></label>
@@ -118,11 +122,11 @@
                             Foster
                         </label>
                         <label>
-                            <input type="radio" name="spayed-neutered" value="Shelter">
+                            <input type="radio" name="cur-location" value="Shelter">
                             Shelter
                         </label>
                         <label>
-                            <input type="radio" name="spayed-neutered" value="Other">
+                            <input type="radio" name="cur-location" value="Other">
                             Other
                         </label>
                     </div>
@@ -142,13 +146,27 @@
                             No
                         </label>
                     </div>
+                    
                     <div class="input-group">
-                        <label for="sibling-name"><strong>Siblings Name</strong></label>
-                        <input id="sibling-name" type="text" placeholder="Siblings Name">
-                    </div>
+                        <button type="button" onclick="openModal('pet-modal')">
+                            Select Sibling Pet Here
+                        </button>
+                        <input type="hidden" id="pet-popup-value" name="pet-popup-value">
     
+                        <div id="pet-modal" class="modal">
+                            <div class="modal-content">
+                              <label>Please Select Sibling Pet Here</label>
+                              <select id="dropdown"></select>
+                              <div class="modal-buttons">
+                                <button onclick="saveModalValue('pet-popup-value')">Save</button>
+                                <button onclick="closeModal('pet-modal')">Cancel</button>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <div class="buttons-group">
-                        <button id="save"><strong>Save Changes</strong></button>
+                        <button type="submit"><strong>Submit</strong></button>
                         <button id="cancel"><strong>Cancel Changes</strong></button>
                         <button id="upload-photo"><strong>Upload Photo</strong></button>
                     </div>
@@ -157,6 +175,7 @@
         </div>
     </div>
 
+    <script src="/static/js/add.js"></script>
     
 </body>
 <footer>
