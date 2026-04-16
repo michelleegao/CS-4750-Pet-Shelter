@@ -23,68 +23,76 @@
     </nav>
 </header>
 <body>
-    <h1>Create New Appointment</h1>
-
     <div class="page">
         <div class="outer-box">
-            <div class="inner-box">
-                <form id="add-form">
-                    <div class="input-group">
-                        <button type="button" onclick="openModal('pet-modal')">
-                            Select Pet Here
-                        </button>
-                        <input type="hidden" id="pet-popup-value" name="pet-popup-value">
-    
-                        <div id="pet-modal" class="modal">
-                            <div class="modal-content">
-                              <label>Please Select Pet Here</label>
-                              <select id="dropdown"></select>
-                              <div class="modal-buttons">
-                                <button onclick="saveModalValue('pet-popup-value')">Save</button>
-                                <button onclick="closeModal('pet-modal')">Cancel</button>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <button type="button" onclick="openModal('employee-modal')">
-                            Assign Employee Here
-                        </button>
-                        <input type="hidden" id="emp-popup-value" name="employee-popup-value">
-    
-                        <div id="employee-modal" class="modal">
-                            <div class="modal-content">
-                              <label>Please Select Employee</label>
-                              <select id="dropdown"></select>
-                              <div class="modal-buttons">
-                                <button onclick="saveModalValue('employee-popup-value')">Save</button>
-                                <button onclick="closeModal('employee-modal')">Cancel</button>
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="dateTime"><strong>Date and Time of Appointment</strong></label>
-                        <input type="datetime-local">
-                    </div>
-                    <div class="input-group">
-                        <label for="appointmentReason"><strong>Reason for Appointment</strong></label>
-                        <input id="appointmentReason" type="text" placeholder="Reason for Appointment">
-                    </div>
-                    <div class="input-group">
-                        <label for="cost"><strong>Cost of Appointment</strong></label>
-                        <input id="cost" type="text" placeholder="Cost of Appointment">
-                    </div>
-                    <div class="input-group">
-                        <label for="notes"><strong>Appointment Notes</strong></label>
-                        <input id="notes" type="text" placeholder="Appointment Notes">
-                    </div>
-                    <input type="submit" name="Submit" value="Save Changes"></label>
+            <form id="add-form">
+                <div class="left">
                     <div class="buttons-group">
                         <button id="cancel">Cancel Changes</button>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="center">
+                    <div class="add-header">
+                        <h1>Create New Appointment</h1>
+                    </div>
+                    <div class="inner-box">
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('pet-modal')">
+                                Select Pet Here
+                            </button>
+                            <input type="hidden" id="pet-popup-value" name="pet-popup-value">
+            
+                            <div id="pet-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Pet Here</label>
+                                  <select id="dropdown"></select>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('pet-popup-value')">Save</button>
+                                    <button onclick="closeModal('pet-modal')">Cancel</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('employee-modal')">
+                                Assign Employee Here
+                            </button>
+                            <input type="hidden" id="emp-popup-value" name="employee-popup-value">
+            
+                             <div id="employee-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Employee</label>
+                                  <select id="dropdown"></select>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('employee-popup-value')">Save</button>
+                                    <button onclick="closeModal('employee-modal')">Cancel</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="dateTime"><strong>Date and Time of Appointment</strong></label>
+                            <input type="datetime-local">
+                        </div>
+                        <div class="input-group">
+                            <label for="appointmentReason"><strong>Reason for Appointment</strong></label>
+                            <input id="appointmentReason" type="text" placeholder="Reason for Appointment">
+                        </div>
+                        <div class="input-group">
+                            <label for="cost"><strong>Cost of Appointment</strong></label>
+                            <input id="cost" type="text" placeholder="Cost of Appointment">
+                        </div>
+                        <div class="input-group">
+                            <label for="notes"><strong>Appointment Notes</strong></label>
+                            <input id="notes" type="text" placeholder="Appointment Notes">
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" name="Submit" value="Create Appointment"></label>
+                </div>
+            </form>
+            
         </div>
     </div>
     
