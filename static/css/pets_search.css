@@ -157,9 +157,10 @@ body {
     border-radius: 10px;
 
     max-height: 80vh;
+    width: 900px;
     overflow-y: scroll;
 
-    max-height: 80vh;
+    justify-content:center;
 }
 
 .modal-header{
@@ -222,6 +223,9 @@ body {
 /*Formatting Modal Buttons at the Bottom of the Pop-Up*/
 .modal-footer{
     margin-top: 20px;
+
+    display:flex;
+    gap: 20px;
 }
 
 .btn{

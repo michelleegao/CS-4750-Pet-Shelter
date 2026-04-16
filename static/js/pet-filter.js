@@ -17,19 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
         pets.forEach(pet => {
             let show = true;
 
-            if (!matchesFilter(pet.dataset.species, selected.species)) {
+            if (!matchesFilter(pet.dataset.species.toLowerCase(), selected.species)) {
                 show = false;
             }
             if (!matchesAge(pet.dataset.age, selected.age)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.color, selected.color)) {
+            if (!matchesFilter(pet.dataset.color.toLowerCase(), selected.color)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.breed, selected.breed)) {
+            if (!matchesFilter(pet.dataset.breed.toLowerCase(), selected.breed)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.siblings, selected.siblings)) {
+            if (!matchesFilter(pet.dataset.siblings.toLowerCase(), selected.siblings)) {
                 show = false;
             }
             if (!matchesWeight(pet.dataset.weight, selected.weight)) {
