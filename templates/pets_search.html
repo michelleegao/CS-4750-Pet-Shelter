@@ -80,83 +80,101 @@
         </div>
         <div id="filterPetModal" class="modal hidden">
             <div class="modal-content">
-              <h3>Filter Pets</h3>
-          
-              <label>Species:</label>
-                <div>
-                <label><input type="checkbox" name="species" value="dog"> Dog</label>
-                <label><input type="checkbox" name="species" value="cat"> Cat</label>
+              <div class="modal-header">
+                <h3>Select Filter Options for Pets</h3>
+              </div>
+
+              <div class="modal-body">
+                <div class="filter-card">
+                    <h4>Species</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="species" value="dog"> Dog</label>
+                        <label><input type="checkbox" name="species" value="cat"> Cat</label>
+                      </div>
                 </div>
-          
-              <label>Age:</label>
-              <div>
-                <label><input type="checkbox" name="age" value="under1"> 1 and under</label>
-                <label><input type="checkbox" name="age" value="2"> 2</label>
-                <label><input type="checkbox" name="age" value="3"> 3</label>
-                <label><input type="checkbox" name="age" value="4"> 4</label>
-                <label><input type="checkbox" name="age" value="5"> 5</label>
-                <label><input type="checkbox" name="age" value="6"> 6</label>
-                <label><input type="checkbox" name="age" value="7"> 7</label>
-                <label><input type="checkbox" name="age" value="8"> 8</label>
-                <label><input type="checkbox" name="age" value="9"> 9</label>
-                <label><input type="checkbox" name="age" value="10over"> 10 and Over</label>
-              </div>
     
-              <label>Color:</label>
-              <div>
-                <label><input type="checkbox" name="color" value="yellow"> Yellow</label>
-                <label><input type="checkbox" name="color" value="mixed"> Mixed</label>
-                <label><input type="checkbox" name="color" value="black"> Black</label>
-                <label><input type="checkbox" name="color" value="white"> White</label>
-                <label><input type="checkbox" name="color" value="brown"> Brown</label>
-              </div>
+                <div class="filter-card">
+                    <h4>Age</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="age" value="under1"> 1 and under</label>
+                        <label><input type="checkbox" name="age" value="2"> 2</label>
+                        <label><input type="checkbox" name="age" value="3"> 3</label>
+                        <label><input type="checkbox" name="age" value="4"> 4</label>
+                        <label><input type="checkbox" name="age" value="5"> 5</label>
+                        <label><input type="checkbox" name="age" value="6"> 6</label>
+                        <label><input type="checkbox" name="age" value="7"> 7</label>
+                        <label><input type="checkbox" name="age" value="8"> 8</label>
+                        <label><input type="checkbox" name="age" value="9"> 9</label>
+                        <label><input type="checkbox" name="age" value="10over"> 10 and Over</label>
+                      </div>
+                </div>
     
-              <label>Breed:</label>
-              <div>
-                <label><input type="checkbox" name="breed" value="bernese"> Bernese Mountain Dog</label>
-                <label><input type="checkbox" name="breed" value="golden"> Golden Retriever</label>
-                <label><input type="checkbox" name="breed" value="chihuahua"> Chihuahua</label>
-                <label><input type="checkbox" name="breed" value="pitbull"> Pitbull</label>
-                <label><input type="checkbox" name="breed" value="rottweiler"> Rottweiler</label>
-                <label><input type="checkbox" name="breed" value="unknown"> Unknown Mix</label>
-                <label><input type="checkbox" name="breed" value="goldendoodle"> Golden Doodle</label>
-                <label><input type="checkbox" name="breed" value="blacklab"> Black Labrador</label>
-                <label><input type="checkbox" name="breed" value="bassett"> Bassett Hound</label>
-                <label><input type="checkbox" name="breed" value="foxhound"> Foxhound</label>
-                <label><input type="checkbox" name="breed" value="bulldog"> Bulldog</label>
-                <label><input type="checkbox" name="breed" value="dachshund"> Dachshund</label>
-                <label><input type="checkbox" name="breed" value="bengal"> Bengal</label>
-                <label><input type="checkbox" name="breed" value="birman"> Birman</label>
-                <label><input type="checkbox" name="breed" value="selkirk"> Selkirk Rex</label>
-                <label><input type="checkbox" name="breed" value="laperm"> Laperm</label>
-                <label><input type="checkbox" name="breed" value="bobtail"> American Bobtail</label>
-                <label><input type="checkbox" name="breed" value="siamese"> Siamese</label>
-                <label><input type="checkbox" name="breed" value="cyprus"> Cyprus</label>
-                <label><input type="checkbox" name="breed" value="shorthair"> British Shorthair</label>
-                <label><input type="checkbox" name="breed" value="curl"> American Curl</label>
-                <label><input type="checkbox" name="breed" value="husky"> Husky</label>
-                <label><input type="checkbox" name="breed" value="beagle"> Beagle</label>
-              </div>
+                <div class="filter-card">
+                    <h4>Color</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="color" value="yellow"> Yellow</label>
+                        <label><input type="checkbox" name="color" value="mixed"> Mixed</label>
+                        <label><input type="checkbox" name="color" value="black"> Black</label>
+                        <label><input type="checkbox" name="color" value="white"> White</label>
+                        <label><input type="checkbox" name="color" value="brown"> Brown</label>
+                      </div>
+                </div>
     
-              <label>Siblings:</label>
-              <div>
-                <label><input type="checkbox" name="siblings" value="yes"> Yes</label>
-                <label><input type="checkbox" name="siblings" value="no"> No</label>
-              </div>
+                <div class="filter-card">
+                    <h4>Breed</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="breed" value="bernese"> Bernese Mountain Dog</label>
+                        <label><input type="checkbox" name="breed" value="golden"> Golden Retriever</label>
+                        <label><input type="checkbox" name="breed" value="chihuahua"> Chihuahua</label>
+                        <label><input type="checkbox" name="breed" value="pitbull"> Pitbull</label>
+                        <label><input type="checkbox" name="breed" value="rottweiler"> Rottweiler</label>
+                        <label><input type="checkbox" name="breed" value="unknown"> Unknown Mix</label>
+                        <label><input type="checkbox" name="breed" value="goldendoodle"> Golden Doodle</label>
+                        <label><input type="checkbox" name="breed" value="blacklab"> Black Labrador</label>
+                        <label><input type="checkbox" name="breed" value="bassett"> Bassett Hound</label>
+                        <label><input type="checkbox" name="breed" value="foxhound"> Foxhound</label>
+                        <label><input type="checkbox" name="breed" value="bulldog"> Bulldog</label>
+                        <label><input type="checkbox" name="breed" value="dachshund"> Dachshund</label>
+                        <label><input type="checkbox" name="breed" value="bengal"> Bengal</label>
+                        <label><input type="checkbox" name="breed" value="birman"> Birman</label>
+                        <label><input type="checkbox" name="breed" value="selkirk"> Selkirk Rex</label>
+                        <label><input type="checkbox" name="breed" value="laperm"> Laperm</label>
+                        <label><input type="checkbox" name="breed" value="bobtail"> American Bobtail</label>
+                        <label><input type="checkbox" name="breed" value="siamese"> Siamese</label>
+                        <label><input type="checkbox" name="breed" value="cyprus"> Cyprus</label>
+                        <label><input type="checkbox" name="breed" value="shorthair"> British Shorthair</label>
+                        <label><input type="checkbox" name="breed" value="curl"> American Curl</label>
+                        <label><input type="checkbox" name="breed" value="husky"> Husky</label>
+                        <label><input type="checkbox" name="breed" value="beagle"> Beagle</label>
+                      </div>
+                </div>
     
-              <label>Weight:</label>
-              <div>
-                <label><input type="checkbox" name="weight" value="under10"> Under 10 Pounds</label>
-                <label><input type="checkbox" name="weight" value="10to20"> 10 to 20 Pounds</label>
-                <label><input type="checkbox" name="weight" value="20to30"> 20 to 30 Pounds</label>
-                <label><input type="checkbox" name="weight" value="30to40"> 30 to 40 Pounds</label>
-                <label><input type="checkbox" name="weight" value="40to50"> 40 to 50 Pounds</label>
-                <label><input type="checkbox" name="weight" value="over50"> Over 50 Pounds</label>
+                <div class="filter-card">
+                    <h4>Siblings</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="siblings" value="yes"> Yes</label>
+                        <label><input type="checkbox" name="siblings" value="no"> No</label>
+                    </div>
+                </div>
+                  
+                <div class="filter-card">
+                    <h4>Weight</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="weight" value="under10"> Under 10 Pounds</label>
+                        <label><input type="checkbox" name="weight" value="10to20"> 10 to 20 Pounds</label>
+                        <label><input type="checkbox" name="weight" value="20to30"> 20 to 30 Pounds</label>
+                        <label><input type="checkbox" name="weight" value="30to40"> 30 to 40 Pounds</label>
+                        <label><input type="checkbox" name="weight" value="40to50"> 40 to 50 Pounds</label>
+                        <label><input type="checkbox" name="weight" value="over50"> Over 50 Pounds</label>
+                      </div>
+                </div>
               </div>
-          
-              <button id="applyFilters">Apply</button>
-              <button id="clearFilters">Clear</button>
-              <button id="closeModal">Cancel</button>
+
+              <div class="modal-footer">
+                <button class="btn apply-filter" id="applyFilters">Apply Filters</button>
+                <button class="btn clear-filter" id="clearFilters">Clear Filters</button>
+                <button class="btn close-filter" id="closeModal">Cancel</button>
+              </div>
             </div>
           </div>
     
