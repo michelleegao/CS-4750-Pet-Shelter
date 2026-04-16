@@ -32,11 +32,11 @@
                     <label><strong>Type of Family</strong></label>
 
                     <label>
-                        <input type="radio" name="family" value="Foster Family">
+                        <input type="radio" id="foster" name="family" value="Foster Family">
                         Foster
                     </label>
                     <label>
-                        <input type="radio" name="family" value="Adoptive">
+                        <input type="radio" id="adoptive" name="family" value="Adoptive">
                         Adoptive
                     </label>
                 </div>
@@ -56,19 +56,26 @@
                     <input id="species" type="text" placeholder="Preferred Species">
                 </div>
 
-                <div class="input-group">
+                <!-- Only for foster families -->
+                <div class="input-group ffam-item">
                     <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
                     <input id="adult_number" type="text" placeholder="Number of Adults">
                 </div>
 
-                <div class="input-group">
+                <div class="input-group ffam-item">
                     <label for="child_number"><strong>Number of Children (0-17)</strong></label>
                     <input id="child_number" type="text" placeholder="Number of Children">
                 </div>
 
-                <div class="input-group">
+                <div class="input-group ffam-item">
                     <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
                     <input id="pet_number" type="text" placeholder="Number of Pets">
+                </div>
+
+                <!-- Only for adoptive families -->
+                 <div class="input-group afam-item">
+                    <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
+                    <input id="pet_number" type="text" placeholder="Number of Pets Fostered">
                 </div>
 
                 <div class="input-group">
@@ -128,6 +135,18 @@
         </div>
     </div>
 
+    <script>
+        const adoptive = document.getElementById('adoptive');
+        const foster = document.getElementById('foster');
+        const afamOptions = document.getElementById('afam');
+        const ffamOptions = document.getElementById('ffam');
+
+        function toggleOptions() {
+            if (adoptive.checked) {
+                afamOptions.style.display = 'block';
+            }
+        }
+    </script>
     
 </body>
 <footer>
