@@ -1,15 +1,27 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 app = Flask(__name__)
 
+# load variables from .env for Google Cloud SQL
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
+DB_HOST = os.getenv("DB_HOST")
+DB_NAME = os.getenv("DB_NAME")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-
-# User ORM for SQLAlchemy
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key = True, nullable = False)
-    name = db.Column(db.String(50), nullable = False)
-    email = db.Column(db.String(50), nullable = False, unique = True)
+# Flask config
+app.config["SECRET_KEY"] = SECRET_KEY
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"mysql+mysqldb://{DB_USER}:{DB_PASS}@{DB_HOST}/{DB_NAME}"
+)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
 
 # links login HTML page
 @app.route("/")
