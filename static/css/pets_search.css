@@ -87,6 +87,7 @@ body {
     border-radius: 20px;
     font-weight: 500;
     cursor: pointer;
+    text-decoration: none;
 }
 
 /* pets view div stylings */
