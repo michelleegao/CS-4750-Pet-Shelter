@@ -69,36 +69,47 @@
   
   .input-group {
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
   }
 
-  label {
-    display: inline-block;
-    margin-bottom: 10px;
-    margin-right: 10px;
-    font-size: 14px;
+  .input-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    margin-right: 12px;
   }
+  
+  .input-group input {
+    flex: 1;
+  }
+
 
   button {
-    width: 15%;
-    padding: 10px;
+    width: 100%;
+    padding: 20px;
     background:#FFC759;
     color: #FF4372;
     border: none;
-    border-radius: 6px;
+    border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
   }
 
   input[type="submit"]{
-    width: 15%;
-    padding: 10px;
-    background:#FFC759;
-    color: #FF4372;
+    width: 100%;
+    padding: 20px;
+    background:#FF4372;
+    color: #FFC759;
     border: none;
-    border-radius: 6px;
+    border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
   }
+
 
   button:hover {
     background: #333;

@@ -24,154 +24,160 @@
     </nav>
 </header>
 <body>
-    <h1>Add Pet</h1>
-
     <div class="page">
         <div class="outer-box">
-            <div class="inner-box">
-                <form id="add-pet-form">
-                    <div class="input-group">
-                        <label for="name"><strong>Pet Name</strong></label>
-                        <input id="name" type="text" placeholder="Pet Name">
+            <form id="add-pet-form">
+                <div class="left">
+                    <button id="upload-photo"><strong>Upload Photo</strong></button>
+                </div>
+                <div class="center">
+                    <div class="add-header">
+                        <h1>Add Pet</h1>
                     </div>
-                    <div class="input-group">
-                        <label><strong>Species</strong></label>
-    
-                        <label>
-                            <input type="radio" name="species" value="dog">
-                            Dog
-                        </label>
-                        <label>
-                            <input type="radio" name="species" value="cat">
-                            Cat
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="breed"><strong>Breed</strong></label>
-                        <input id="breed" type="text" placeholder="Breed">
-                    </div>
-                    <div class="input-group">
-                        <label for="age"><strong>Age</strong></label>
-                        <input id="age" type="text" placeholder="Age">
-                    </div>
-                    <div class="input-group">
-                        <label for="weight"><strong>Weight (pounds)</strong></label>
-                        <input id="weight" type="number" min="1" placeholder="Weight">
-                    </div>
-                    <div class="input-group">
-                        <label><strong>Sex</strong></label>
-    
-                        <label>
-                            <input type="radio" name="species" value="female">
-                            Female
-                        </label>
-                        <label>
-                            <input type="radio" name="species" value="male">
-                            Male
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="color"><strong>Pet Color</strong></label>
-                        <input id="color" type="text" placeholder="Pet Color">
-                    </div>
-                    <div class="input-group">
-                        <label for="description"><strong>Pet Description</strong></label>
-                        <input id="description" type="text" placeholder="Pet Description">
-                    </div>
-                    <div class="input-group">
-                        <label><strong>Spayed or Neutered?</strong></label>
-    
-                        <label>
-                            <input type="radio" name="spayed-neutered" value="spayed">
-                            Spayed
-                        </label>
-                        <label>
-                            <input type="radio" name="spayed-neutered" value="neutered">
-                            Neutered
-                        </label>
-                        <label>
-                            <input type="radio" name="spayed-neutered" value="neither">
-                            Neither
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="location-street"><strong>Location Found: Street Address</strong></label>
-                        <input id="location-street" type="text" placeholder="Street Address">
-                    </div>
-                    <div class="input-group">
-                        <label for="location-city"><strong>Location Found: City</strong></label>
-                        <input id="location-city" type="text" placeholder="City">
-                    </div>
-                    <div class="input-group">
-                        <label for="location-state"><strong>Location Found: State</strong></label>
-                        <input id="location-state" type="text" placeholder="State">
-                    </div>
-                    <div class="input-group">
-                        <label for="location-country"><strong>Location Found: Country</strong></label>
-                        <input id="location-country" type="text" placeholder="Country">
-                    </div>
-                    <div class="input-group">
-                        <label for="location-zip"><strong>Location Found: Zip Code</strong></label>
-                        <input id="location-zip" type="text" placeholder="Zip Code">
-                    </div>
-                    <div class="input-group">
-                        <label><strong>Current Location</strong></label>
-    
-                        <label>
-                            <input type="radio" name="cur-location" value="Foster">
-                            Foster
-                        </label>
-                        <label>
-                            <input type="radio" name="cur-location" value="Shelter">
-                            Shelter
-                        </label>
-                        <label>
-                            <input type="radio" name="cur-location" value="Other">
-                            Other
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="special-needs"><strong>Special Needs</strong></label>
-                        <input id="special-needs" type="text" placeholder="Special Needs">
-                    </div>
-                    <div class="input-group">
-                        <label><strong>Has Sibling</strong></label>
-    
-                        <label>
-                            <input type="radio" name="sibling" value="yes">
-                            Yes
-                        </label>
-                        <label>
-                            <input type="radio" name="sibling" value="no">
-                            No
-                        </label>
-                    </div>
-                    
-                    <div class="input-group">
-                        <button type="button" onclick="openModal('pet-modal')">
-                            Select Sibling Pet Here
-                        </button>
-                        <input type="hidden" id="pet-popup-value" name="pet-popup-value">
-    
-                        <div id="pet-modal" class="modal">
-                            <div class="modal-content">
-                              <label>Please Select Sibling Pet Here</label>
-                              <select id="dropdown"></select>
-                              <div class="modal-buttons">
-                                <button onclick="saveModalValue('pet-popup-value')">Save</button>
-                                <button onclick="closeModal('pet-modal')">Cancel</button>
-                              </div>
+                    <div class="inner-box">
+                        <div class="input-group">
+                            <label for="name"><strong>Pet Name</strong></label>
+                            <input id="name" type="text" placeholder="Pet Name">
+                        </div>
+                        <div class="input-group">
+                            <label><strong>Species</strong></label>
+        
+                            <label>
+                                <input type="radio" name="species" value="dog">
+                                Dog
+                            </label>
+                            <label>
+                                <input type="radio" name="species" value="cat">
+                                Cat
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <label for="breed"><strong>Breed</strong></label>
+                            <input id="breed" type="text" placeholder="Breed">
+                        </div>
+                        <div class="input-group">
+                            <label for="age"><strong>Age</strong></label>
+                            <input id="age" type="text" placeholder="Age">
+                        </div>
+                        <div class="input-group">
+                            <label for="weight"><strong>Weight (pounds)</strong></label>
+                            <input id="weight" type="number" min="1" placeholder="Weight">
+                        </div>
+                        <div class="input-group">
+                            <label><strong>Sex</strong></label>
+        
+                            <label>
+                                <input type="radio" name="species" value="female">
+                                Female
+                            </label>
+                            <label>
+                                <input type="radio" name="species" value="male">
+                                Male
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <label for="color"><strong>Pet Color</strong></label>
+                            <input id="color" type="text" placeholder="Pet Color">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label><strong>Spayed or Neutered?</strong></label>
+        
+                            <label>
+                                <input type="radio" name="spayed-neutered" value="spayed">
+                                Spayed
+                            </label>
+                            <label>
+                                <input type="radio" name="spayed-neutered" value="neutered">
+                                Neutered
+                            </label>
+                            <label>
+                                <input type="radio" name="spayed-neutered" value="neither">
+                                Neither
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <label for="location-street"><strong>Location Found: Street Address</strong></label>
+                            <input id="location-street" type="text" placeholder="Street Address">
+                        </div>
+                        <div class="input-group">
+                            <label for="location-city"><strong>Location Found: City</strong></label>
+                            <input id="location-city" type="text" placeholder="City">
+                        </div>
+                        <div class="input-group">
+                            <label for="location-state"><strong>Location Found: State</strong></label>
+                            <input id="location-state" type="text" placeholder="State">
+                        </div>
+                        <div class="input-group">
+                            <label for="location-country"><strong>Location Found: Country</strong></label>
+                            <input id="location-country" type="text" placeholder="Country">
+                        </div>
+                        <div class="input-group">
+                            <label for="location-zip"><strong>Location Found: Zip Code</strong></label>
+                            <input id="location-zip" type="text" placeholder="Zip Code">
+                        </div>
+                        <div class="input-group">
+                            <label><strong>Current Location</strong></label>
+        
+                            <label>
+                                <input type="radio" name="cur-location" value="Foster">
+                                Foster
+                            </label>
+                            <label>
+                                <input type="radio" name="cur-location" value="Shelter">
+                                Shelter
+                            </label>
+                            <label>
+                                <input type="radio" name="cur-location" value="Other">
+                                Other
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <label for="special-needs"><strong>Special Needs</strong></label>
+                            <input id="special-needs" type="text" placeholder="Special Needs">
+                        </div>
+                        <div class="input-group">
+                            <label><strong>Has Sibling</strong></label>
+        
+                            <label>
+                                <input type="radio" name="sibling" value="yes">
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="sibling" value="no">
+                                No
+                            </label>
+                        </div>
+                        
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('pet-modal')">
+                                Select Sibling Pet Here
+                            </button>
+                            <input type="hidden" id="pet-popup-value" name="pet-popup-value">
+        
+                            <div id="pet-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Sibling Pet Here</label>
+                                  <select id="dropdown"></select>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('pet-popup-value')">Save</button>
+                                    <button onclick="closeModal('pet-modal')">Cancel</button>
+                                  </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="input-group">
+                            <label for="description"><strong>Pet Description</strong></label>
+                            <input id="description" type="text" placeholder="Pet Description">
+                        </div>
                     </div>
-                    
-                    <div class="buttons-group">
-                        <button type="submit"><strong>Submit</strong></button>
-                        <button id="cancel"><strong>Cancel Changes</strong></button>
-                        <button id="upload-photo"><strong>Upload Photo</strong></button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="right">
+                    <input type="submit" value="Submit">
+                    <!--<button type="submit"><strong>Submit</strong></button> -->
+                    <button id="cancel"><strong>Cancel Changes</strong></button>
+                </div>
+            </form>
         </div>
     </div>
 

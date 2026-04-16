@@ -1,6 +1,6 @@
 input,
 textarea {
-  width: 50%;
+  width: 75%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -12,11 +12,20 @@ textarea {
   min-height: 120px;
 }
 
+form {
+  display: contents; /* makes form "invisible" to layout, children go straight to the grid */
+}
+
 .outer-box{
-    width: 1200px;
+    width: 1000px;
     padding: 20px;
-    background: #607196;
+    background: #BABFD1;
     border-radius: 20px;
+
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+    align-items: end;
+    gap: 20px;
 }
 
 .inner-box{
@@ -26,8 +35,8 @@ textarea {
     margin-right: 20px;
     padding: 15px;
     border-radius: 20px;
-    background: #BABFD1;
-    height: 500px;
+    background: #607196;
+    height: 400px;
 
     overflow-y: scroll;
 }
@@ -40,10 +49,7 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-button {
-    font-family: Arial, sans-serif;
+    background: #FFC759;
 }
 
 input{
@@ -51,34 +57,72 @@ input{
     background: #E8E9ED;
 }
 
-/*Modal Overlay Section*/
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5); /* dark overlay */
-  }
-  
-  /* Modal box */
-  .modal-content {
-    background-color: white;
-    margin: 30% auto;
-    padding: 40px;
-    width: 500px;
-    border-radius: 8px;
+  /*Layout of the Main Page*/
 
+  .add-header{
+    font-weight: 600;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    color: #607196;
+
+    background: #E8E9ED;
+    border-radius: 18px;
+    text-align: center;
+    
+    margin: 0 auto 5px auto;
+    padding: 6px 30px;
+    line-height: 1; 
+
+    width: 100%;
+  }
+
+  .left{
     display: flex;
-    flex-direction:column;
-    gap:12px;
+    flex-direction: column;
+    align-items: flex-end;
   }
-  
-  /* Close button */
-  .close {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
+
+  .center{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
+
+  .right{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  /*Modal Overlay Section*/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* dark overlay */
+}
+
+/* Modal box */
+.modal-content {
+  background-color: white;
+  margin: 30% auto;
+  padding: 40px;
+  width: 500px;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* Close button */
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+}
