@@ -51,24 +51,6 @@ input{
     background: #E8E9ED;
 }
 
-#ffam{
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    display: hidden;
-}
-
-#afam{
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    display: hidden;
-}
-
 
 /*.big-input{
     height: 60px;

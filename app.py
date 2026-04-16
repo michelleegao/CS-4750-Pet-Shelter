@@ -1,6 +1,15 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
+
+
+# User ORM for SQLAlchemy
+class Users(db.Model):
+    id = db.Column(db.Integer, primary_key = True, nullable = False)
+    name = db.Column(db.String(50), nullable = False)
+    email = db.Column(db.String(50), nullable = False, unique = True)
 
 # links login HTML page
 @app.route("/")

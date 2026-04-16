@@ -32,11 +32,11 @@
                     <label><strong>Type of Family</strong></label>
 
                     <label>
-                        <input type="radio" id="foster" name="family" value="Foster Family">
+                        <input type="checkbox" id="fosterCheck" name="family" value="Foster Family" onclick="ffamFunction()">
                         Foster
                     </label>
                     <label>
-                        <input type="radio" id="adoptive" name="family" value="Adoptive">
+                        <input type="checkbox" id="adoptiveCheck" name="family" value="Adoptive" onclick="afamFunction()">
                         Adoptive
                     </label>
                 </div>
@@ -54,28 +54,6 @@
                 <div class="input-group">
                     <label for="species"><strong>Preferred Species</strong></label>
                     <input id="species" type="text" placeholder="Preferred Species">
-                </div>
-
-                <!-- Only for foster families -->
-                <div class="input-group ffam-item">
-                    <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
-                    <input id="adult_number" type="text" placeholder="Number of Adults">
-                </div>
-
-                <div class="input-group ffam-item">
-                    <label for="child_number"><strong>Number of Children (0-17)</strong></label>
-                    <input id="child_number" type="text" placeholder="Number of Children">
-                </div>
-
-                <div class="input-group ffam-item">
-                    <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
-                    <input id="pet_number" type="text" placeholder="Number of Pets">
-                </div>
-
-                <!-- Only for adoptive families -->
-                 <div class="input-group afam-item">
-                    <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
-                    <input id="pet_number" type="text" placeholder="Number of Pets Fostered">
                 </div>
 
                 <div class="input-group">
@@ -116,6 +94,28 @@
                     </label>
                 </div>
 
+                <!-- Only for foster families -->
+                <div class="input-group" id="ffam-item1" style="display:none">
+                    <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
+                    <input id="adult_number" type="text" placeholder="Number of Adults">
+                </div>
+
+                <div class="input-group" id="ffam-item2" style="display:none">
+                    <label for="child_number"><strong>Number of Children (0-17)</strong></label>
+                    <input id="child_number" type="text" placeholder="Number of Children">
+                </div>
+
+                <div class="input-group" id="ffam-item3" style="display:none">
+                    <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
+                    <input id="pet_number" type="text" placeholder="Number of Pets">
+                </div>
+
+                <!-- Only for adoptive families -->
+                 <div class="input-group" id="afam-item" style="display:none">
+                    <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
+                    <input id="pet_number" type="text" placeholder="Number of Pets Fostered">
+                </div>
+
                 <div class="input-group">
                     <label for="phone"><strong>Phone Number</strong></label>
                     <input id="phone" type="text" placeholder="Phone Number">
@@ -136,14 +136,37 @@
     </div>
 
     <script>
-        const adoptive = document.getElementById('adoptive');
-        const foster = document.getElementById('foster');
-        const afamOptions = document.getElementById('afam');
-        const ffamOptions = document.getElementById('ffam');
+        // function to make foster family attributes appear
+        function ffamFunction() {
+            // get the foster checkbox
+            var fosterCheck = document.getElementById("fosterCheck");
+            // get foster family fields
+            var ffam1 = document.getElementById("ffam-item1");
+            var ffam2 = document.getElementById("ffam-item2");
+            var ffam3 = document.getElementById("ffam-item3");
 
-        function toggleOptions() {
-            if (adoptive.checked) {
-                afamOptions.style.display = 'block';
+            if (fosterCheck.checked == true) { // if foster family checkbox is checked
+                ffam1.style.display = "block";
+                ffam2.style.display = "block";
+                ffam3.style.display = "block";
+            } else { // if foster family checkbox is not checked
+                ffam1.style.display = "none";
+                ffam2.style.display = "none";
+                ffam3.style.display = "none";
+            }
+        }
+
+        // function to make adoptive family attributes appear
+        function afamFunction() {
+            // get the foster checkbox
+            var adoptiveCheck = document.getElementById("adoptiveCheck");
+            // get foster family fields
+            var afam = document.getElementById("afam-item");
+
+            if (adoptiveCheck.checked == true) { // if foster family checkbox is checked
+                afam.style.display = "block";
+            } else { // if foster family checkbox is not checked
+                afam.style.display = "none";
             }
         }
     </script>
