@@ -2,7 +2,9 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from urllib.parse import quote_plus
+from db.connection import getconn
 
+app = Flask(__name__)
 
 # links login HTML page
 @app.route("/")
