@@ -45,8 +45,22 @@
         <!-- Family view -->
         <div class="pets-container">
             <div class="pets-grid">
+                {% if families %}
+                    {% for family in families %}
+                        <div class="pet-item">
+                            <img
+                                src="{{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
+                                alt="Family"
+                            >
+                            <p class="pet-name">{{ family.first_name }} {{ family.last_name }}</p>
+                            <!-- <p class="pet-id">{{ family.family_id }}</p> -->
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No families found.</p>
+                {% endif %}
 
-                <div class="pet-item">
+                <!-- <div class="pet-item">
                     <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
                     <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
@@ -74,7 +88,7 @@
                     <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
                     <p class="pet-name">Family Name</p>
                     <p class="pet-id">123</p>
-                </div>
+                </div> -->
 
             </div>
         </div> 

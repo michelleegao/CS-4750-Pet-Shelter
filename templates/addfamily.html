@@ -28,69 +28,69 @@
     <div class="page">
         <div class="outer-box">
             <div class="inner-box">
-                <form id="add-form">
+                <form id="add-form" method="POST" action="/family_add" enctype="multipart/form-data">
                     <div class="input-group">
                         <label><strong>Type of Family</strong></label>
 
                         <label>
-                            <input type="checkbox" id="fosterCheck" name="family" value="Foster Family" onclick="ffamFunction()">
+                            <input type="checkbox" id="fosterCheck" name="is_foster" value="1" onclick="ffamFunction()">
                             Foster
                         </label>
                         <label>
-                            <input type="checkbox" id="adoptiveCheck" name="family" value="Adoptive" onclick="afamFunction()">
+                            <input type="checkbox" id="adoptiveCheck" name="is_adoptive" value="1" onclick="afamFunction()">
                             Adoptive
                         </label>
                     </div>
 
                     <div class="input-group">
                         <label for="fname"><strong>First Name</strong></label>
-                        <input id="fname" type="text" placeholder="First Name">
+                        <input id="fname" name="first_name" type="text" placeholder="First Name" required>
                     </div>
 
                     <div class="input-group">
                         <label for="lname"><strong>Last Name</strong></label>
-                        <input id="lname" type="text" placeholder="Last Name">
+                        <input id="lname" name="last_name" type="text" placeholder="Last Name" required>
                     </div>
 
                     <div class="input-group">
                         <label for="species"><strong>Preferred Species</strong></label>
-                        <input id="species" type="text" placeholder="Preferred Species">
+                        <input id="species" name="preferred_species" type="text" placeholder="Preferred Species">
                     </div>
 
                     <div class="input-group">
                         <label for="street"><strong>Home Address: Street Number and Name</strong></label>
-                        <input id="street" type="text" placeholder="Home Address">
+                        <input id="street" name="street" type="text" placeholder="Home Address">
                     </div>
 
                     <div class="input-group">
                         <label for="city"><strong>Home Address: City</strong></label>
-                        <input id="city" type="text" placeholder="Home Address">
+                        <input id="city" name="city" type="text" placeholder="Home Address">
                     </div>
 
                     <div class="input-group">
                         <label for="state"><strong>Home Address: State</strong></label>
-                        <input id="state" type="text" placeholder="Home Address">
+                        <input id="state" name="state" type="text" placeholder="Home Address">
                     </div>
 
                     <div class="input-group">
                         <label for="zipCode"><strong>Home Address: Zip Code</strong></label>
-                        <input id="zipCode" type="text" placeholder="Home Address">
+                        <input id="zipCode" name="zip_code" type="text" placeholder="Home Address">
                     </div>
 
                     <div class="input-group">
                         <label for="country"><strong>Home Address: Country</strong></label>
-                        <input id="country" type="text" placeholder="Country">
+                        <input id="country" name="country" type="text" placeholder="Country">
                     </div>
 
                     <div class="input-group">
                         <label><strong>Children?</strong></label>
 
                         <label>
-                            <input type="radio" name="children" value="yes">
+                            <input type="radio" name="children" value="1">
                             Yes
                         </label>
                         <label>
-                            <input type="radio" name="children" value="no">
+                            <input type="radio" name="children" value="0">
                             No
                         </label>
                     </div>
@@ -98,43 +98,43 @@
                     <!-- Only for foster families -->
                     <div class="input-group" id="ffam-item1" style="display:none">
                         <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
-                        <input id="adult_number" type="number" min="0" step="1" placeholder="Number of Adults">
+                        <input id="adult_number" name="num_adults" type="number" min="0" step="1" placeholder="Number of Adults">
                     </div>
 
                     <div class="input-group" id="ffam-item2" style="display:none">
                         <label for="child_number"><strong>Number of Children (0-17)</strong></label>
-                        <input id="child_number" type="number" min="0" step="1" placeholder="Number of Children">
+                        <input id="child_number" name="num_children" type="number" min="0" step="1" placeholder="Number of Children">
                     </div>
 
                     <div class="input-group" id="ffam-item3" style="display:none">
                         <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
-                        <input id="pet_number" type="number" min="0" step="1" placeholder="Number of Pets">
+                        <input id="pet_number" name="num_pets_owned" type="number" min="0" step="1" placeholder="Number of Pets">
                     </div>
 
                     <!-- Only for adoptive families -->
                     <div class="input-group" id="afam-item" style="display:none">
                         <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
-                        <input id="petfoster_number" type="number" min="0" step="1" type="text" placeholder="Number of Pets Fostered">
+                        <input id="petfoster_number" name="num_pets_fostered" type="number" min="0" step="1" type="text" placeholder="Number of Pets Fostered">
                     </div>
 
                     <div class="input-group">
                         <label for="phone"><strong>Phone Number</strong></label>
-                        <input id="phone" type="tel" placeholder="Phone Number">
+                        <input id="phone" name="phone_number" type="tel" placeholder="Phone Number">
                     </div>
 
                     <div class="input-group">
                         <label for="email"><strong>Email Address</strong></label>
-                        <input id="email" type="email" placeholder="Email Address">
+                        <input id="email" name="email" type="email" placeholder="Email Address">
                     </div>
 
                     <div class="input-group">
                         <label for="family-photo"><strong>Please Upload a Photo of the Family</strong></label>
-                        <input id="family_photo" type="image" placeholder="Family Photo Here">
+                        <input id="family_photo" name="family_photo" type="file" placeholder="Family Photo Here" accept="image/*">
                     </div>
 
                     <div class="buttons-group">
-                        <button id="save"><strong>Save Changes</strong></button>
-                        <button id="cancel"><strong>Cancel Changes</strong></button>
+                        <button id="save" type="submit"><strong>Save Changes</strong></button>
+                        <button id="cancel" type="button" onclick="window.location.href='/families'"><strong>Cancel Changes</strong></button>
                     </div>
                 </form>
             </div>
