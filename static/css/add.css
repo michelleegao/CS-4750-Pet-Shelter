@@ -126,3 +126,14 @@ input{
     font-size: 24px;
     cursor: pointer;
 }
+
+.family-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.family-card-link:hover {
+    opacity: 0.95;
+    cursor: pointer;
+}

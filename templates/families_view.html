@@ -29,7 +29,7 @@
         <main class="details-section">
             <div class="top-row">
                 <a href="/families" class="return-btn">Return to Search</a>
-                <h1 class="page-title">All About [Family Name]</h1>
+                <h1 class="page-title">All About {{ family.first_name }} {{ family.last_name }}</h1>
             </div>
 
             <div class="details-content">
@@ -37,7 +37,7 @@
                 <div class="pet-left">
                     <div class="pet-image-frame">
                         <img
-                            src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg"
+                            src=" {{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
                             alt="Family photo"
                         >
                     </div>
@@ -54,67 +54,86 @@
 
                         <div class="info-row">
                             <div class="info-label">Family ID:</div>
-                            <div class="info-value">[Family ID here]</div>
+                            <div class="info-value">{{ family.family_id }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Preferred Species:</div>
-                            <div class="info-value">[Species info here]</div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-label">Number of Adults (18+):</div>
-                            <div class="info-value">[# of adults]</div>
+                            <div class="info-value">{{ family.preferred_species }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Children?:</div>
-                            <div class="info-value">[Children info here]</div>
+                            <div class="info-value">
+                                {% if family.children == 1 %}
+                                    Yes
+                                {% elif family.children == 0 %}
+                                    No
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Number of Adults (18+):</div>
+                            <div class="info-value">{{ family.num_adults if family.num_adults is not none else 'N/A' }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Number of Children (0-17):</div>
-                            <div class="info-value">[# of children]</div>
+                            <div class="info-value">{{ family.num_children if family.num_children is not none else 'N/A' }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Number of Pets Already Owned :</div>
-                            <div class="info-value">[# of pets]</div>
+                            <div class="info-value">{{ family.num_pets_owned if family.num_pets_owned is not none else 'N/A' }}</div>
                         </div>
 
                         <div class="info-row">
+                            <div class="info-label">Number of Pets Fostered:</div>
+                            <div class="info-value">{{ family.num_pets_fostered if family.num_pets_fostered is not none else 'N/A' }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Number of Occupants:</div>
+                            <div class="info-value">{{ family.num_occupants if family.num_occupants is not none else 'N/A' }}</div>
+                        </div>
+
+
+                        <div class="info-row">
                             <div class="info-label">Home Address - Street Number and Name:</div>
-                            <div class="info-value">[Street number and name here]</div>
+                            <div class="info-value">{{ family.street }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Home Address - City</div>
-                            <div class="info-value">[City here]</div>
+                            <div class="info-value">{{ family.city }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Home Address - State:</div>
-                            <div class="info-value">[State here]</div>
+                            <div class="info-value">{{ family.state }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Home Address - Zip Code:</div>
-                            <div class="info-value">[Zip Code here]</div>
+                            <div class="info-value">{{ family.zip_code }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Home Address - Country:</div>
-                            <div class="info-value">[Country here]</div>
+                            <div class="info-value">{{ family.country }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Phone Number:</div>
-                            <div class="info-value">[primary phone number]</div>
+                            <div class="info-value">{{ family.phone_number }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Email Address:</div>
-                            <div class="info-value">[email address here]</div>
+                            <div class="info-value">{{ family.email }}</div>
                         </div>
 
                     </div>

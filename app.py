@@ -33,16 +33,24 @@ def families():
         conn = getconn()
         cursor = conn.cursor()
 
+        cursor.execute("SELECT DATABASE()")
+        print("CURRENT DB:", cursor.fetchone())
+
+        cursor.execute("SELECT COUNT(*) FROM families")
+        print("FAMILY COUNT:", cursor.fetchone())
+
         cursor.execute("""
-                       SELECT 
-                        HEX(familyID) AS family_ID, 
-                        first_name,
-                        last_name
-                       FROM families
-                       ORDER by creation_date DESC, last_name ASC, first_name ASC
-                       """)
-        
+            SELECT 
+                HEX(familyID) AS family_ID, 
+                first_name,
+                last_name
+            FROM families
+            ORDER BY creation_date DESC, last_name ASC, first_name ASC
+        """)
+
         rows = cursor.fetchall()
+        print("ROWS:", rows)
+
         families_list = []
         for row in rows:
             families_list.append({
@@ -55,9 +63,9 @@ def families():
         return render_template("families_search.html", families=families_list)
 
     except Exception as e:
-        flash(f"Error loading families: {e}")
-        return render_template("families_search.html", families=[])
-    
+        print("ERROR IN /families:", e)
+        return f"Error loading families: {e}"
+
     finally:
         if cursor:
             cursor.close()
@@ -65,9 +73,78 @@ def families():
             conn.close()
 
 # links family view HTML page
-@app.route("/families_view")
-def families_view():
-    return render_template('families_view.html')
+@app.route("/families/<family_id>")
+def families_view(family_id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = getconn()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+                       SELECT
+                            HEX(f.familyID) AS family_id,
+                            f.first_name,
+                            f.last_name,
+                            f.preferred_species,
+                            f.children,
+                            f.street,
+                            f.zip_code,
+                            f.city,
+                            f.state,
+                            f.country,
+                            f.num_occupants,
+                            f.phone_number,
+                            f.email,
+                            af.num_pets_owned,
+                            af.num_adults,
+                            af.num_children,
+                            ff.num_pets_fostered
+                       FROM families f
+                       LEFT JOIN zip_codes z ON f.zip_code = z.zip_code
+                       LEFT JOIN adoptive_families af ON f.familyID = af.familyID
+                       LEFT JOIN foster_families ff ON f.familyID = ff.familyID
+                       WHERE HEX(f.familyID) = %s
+                       """, (family_id,))
+        
+        row = cursor.fetchone()
+
+        if not row:
+            flash("Family not found.")
+            return redirect(url_for("families"))
+        
+        family = {
+            "family_id": row[0],
+            "first_name": row[1] or "",
+            "last_name": row[2] or "",
+            "preferred_species": row[3] or "",
+            "children": row[4],
+            "street": row[5] or "",
+            "zip_code": row[6] or "",
+            "city": row[7] or "",
+            "state": row[8] or "",
+            "country": row[9] or "",
+            "num_occupants": row[10],
+            "phone_number": row[11] or "",
+            "email": row[12] or "",
+            "num_pets_owned": row[13],
+            "num_adults": row[14],
+            "num_children": row[15],
+            "num_pets_fostered": row[16],
+            "photo_url": None
+        }
+        return render_template('families_view.html', family=family)
+
+    except Exception as e:
+        flash(f"Error loading family: {e}")
+        return redirect(url_for("families"))
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn: conn.close()
+
 
 # links family view HTML page
 @app.route("/family_add", methods=["GET", "POST"])
