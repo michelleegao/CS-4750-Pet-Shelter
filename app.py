@@ -83,37 +83,37 @@ def families_view(family_id):
         cursor = conn.cursor()
 
         cursor.execute("""
-                       SELECT
-                            HEX(f.familyID) AS family_id,
-                            f.first_name,
-                            f.last_name,
-                            f.preferred_species,
-                            f.children,
-                            f.street,
-                            f.zip_code,
-                            f.city,
-                            f.state,
-                            f.country,
-                            f.num_occupants,
-                            f.phone_number,
-                            f.email,
-                            af.num_pets_owned,
-                            af.num_adults,
-                            af.num_children,
-                            ff.num_pets_fostered
-                       FROM families f
-                       LEFT JOIN zip_codes z ON f.zip_code = z.zip_code
-                       LEFT JOIN adoptive_families af ON f.familyID = af.familyID
-                       LEFT JOIN foster_families ff ON f.familyID = ff.familyID
-                       WHERE HEX(f.familyID) = %s
-                       """, (family_id,))
-        
+            SELECT
+                HEX(f.familyID) AS family_id,
+                f.first_name,
+                f.last_name,
+                f.preferred_species,
+                f.children,
+                f.street,
+                f.zip_code,
+                z.city,
+                z.state,
+                f.country,
+                f.num_occupants,
+                f.phone_number,
+                f.email,
+                af.num_pets_owned,
+                af.num_adults,
+                af.num_children,
+                ff.num_pets_fostered
+            FROM families f
+            LEFT JOIN zip_codes z ON f.zip_code = z.zip_code
+            LEFT JOIN adoptive_families af ON f.familyID = af.familyID
+            LEFT JOIN foster_families ff ON f.familyID = ff.familyID
+            WHERE HEX(f.familyID) = %s
+        """, (family_id,))
+
         row = cursor.fetchone()
 
         if not row:
             flash("Family not found.")
             return redirect(url_for("families"))
-        
+
         family = {
             "family_id": row[0],
             "first_name": row[1] or "",
@@ -134,16 +134,18 @@ def families_view(family_id):
             "num_pets_fostered": row[16],
             "photo_url": None
         }
-        return render_template('families_view.html', family=family)
+
+        return render_template("families_view.html", family=family)
 
     except Exception as e:
-        flash(f"Error loading family: {e}")
-        return redirect(url_for("families"))
+        print("ERROR IN /families/<family_id>:", e)
+        return f"Error loading family: {e}"
 
     finally:
         if cursor:
             cursor.close()
-        if conn: conn.close()
+        if conn:
+            conn.close()
 
 
 # links family view HTML page
