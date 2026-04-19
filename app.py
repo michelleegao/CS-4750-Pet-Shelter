@@ -33,23 +33,32 @@ def families():
         conn = getconn()
         cursor = conn.cursor()
 
-        cursor.execute("SELECT DATABASE()")
-        print("CURRENT DB:", cursor.fetchone())
+        query = request.args.get("query", "").strip()
 
-        cursor.execute("SELECT COUNT(*) FROM families")
-        print("FAMILY COUNT:", cursor.fetchone())
-
-        cursor.execute("""
-            SELECT 
-                HEX(familyID) AS family_ID, 
-                first_name,
-                last_name
-            FROM families
-            ORDER BY creation_date DESC, last_name ASC, first_name ASC
-        """)
+        if query:
+            search_term = f"%{query}%"
+            cursor.execute("""
+                SELECT
+                    HEX(familyID) AS family_id,
+                    first_name,
+                    last_name
+                FROM families
+                WHERE first_name LIKE %s
+                   OR last_name LIKE %s
+                   OR CONCAT(first_name, ' ', last_name) LIKE %s
+                ORDER BY creation_date DESC, last_name ASC, first_name ASC
+            """, (search_term, search_term, search_term))
+        else:
+            cursor.execute("""
+                SELECT
+                    HEX(familyID) AS family_id,
+                    first_name,
+                    last_name
+                FROM families
+                ORDER BY creation_date DESC, last_name ASC, first_name ASC
+            """)
 
         rows = cursor.fetchall()
-        print("ROWS:", rows)
 
         families_list = []
         for row in rows:
@@ -60,10 +69,13 @@ def families():
                 "photo_url": None
             })
 
-        return render_template("families_search.html", families=families_list)
+        return render_template(
+            "families_search.html",
+            families=families_list,
+            query=query
+        )
 
     except Exception as e:
-        print("ERROR IN /families:", e)
         return f"Error loading families: {e}"
 
     finally:
@@ -471,7 +483,7 @@ def delete_family(family_id):
             WHERE HEX(familyID) = %s
         """, (family_id,))
 
-        # then delete the base family row
+        # delete the base family row
         cursor.execute("""
             DELETE FROM families
             WHERE HEX(familyID) = %s
