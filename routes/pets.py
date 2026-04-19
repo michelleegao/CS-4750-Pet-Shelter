@@ -25,10 +25,6 @@ def run_query(query, params=None, fetch=False):
 
     return result
 
-@pet_blueprint.route("/pets_search")
-def pets():
-    return render_template('/pets_search.html')
-
 # links pets view HTML page
 @pet_blueprint.route("/pets_view")
 def pets_view():
@@ -36,12 +32,22 @@ def pets_view():
 
 @pet_blueprint.route("/pets_search", methods=["GET"])
 def get_all_pets():
-    query = "SELECT * FROM pet"
-    return run_query(query, fetch=True)
+    if request.method == "GET":
+        query = "SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet"
+        get_all_pets = run_query(query, fetch=True)
+        # print(get_all_pets[0][7])
+        return render_template('/pets_search.html', pets=get_all_pets)
+    
+@pet_blueprint.route("/pet/<pet_id>")
+def pet_detail(pet_id):
+    query = "SELECT * FROM pet WHERE petID = UUID_TO_BIN(%s)"
+    pet = run_query(query, (pet_id,), fetch=True)[0]
+    return render_template("/pets_view.html", pets=pet)
+## come back to this! 
+
 
 @pet_blueprint.route("/addpet", methods=["GET", "POST"])
 def add_pet():
-    
     if request.method == "GET":
         ## get all pets for the sibling drop-down
         get_pets_query = "SELECT petID, name, species, breed FROM pet"
