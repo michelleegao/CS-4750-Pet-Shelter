@@ -280,5 +280,217 @@ def families_add():
             cursor.close()
         if conn: conn.close()
 
+# edit families
+@app.route("/families/<family_id>/edit", methods=["POST"])
+def edit_family(family_id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = getconn()
+        cursor = conn.cursor()
+
+        preferred_species = request.form.get("preferred_species", "").strip()
+        children = request.form.get("children", "").strip()
+        street = request.form.get("street", "").strip()
+        zip_code = request.form.get("zip_code", "").strip()
+        city = request.form.get("city", "").strip()
+        state = request.form.get("state", "").strip()
+        country = request.form.get("country", "").strip()
+        phone_number = request.form.get("phone_number", "").strip()
+        email = request.form.get("email", "").strip()
+
+        num_adults = request.form.get("num_adults", "").strip()
+        num_children = request.form.get("num_children", "").strip()
+        num_pets_owned = request.form.get("num_pets_owned", "").strip()
+        num_pets_fostered = request.form.get("num_pets_fostered", "").strip()
+
+        if zip_code:
+            cursor.execute("""
+                INSERT INTO zip_codes (zip_code, city, state)
+                VALUES (%s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    city = COALESCE(NULLIF(VALUES(city), ''), city),
+                    state = COALESCE(NULLIF(VALUES(state), ''), state)
+            """, (
+                int(zip_code),
+                city if city else None,
+                state if state else None
+            ))
+
+        family_updates = []
+        family_values = []
+
+        if preferred_species:
+            family_updates.append("preferred_species = %s")
+            family_values.append(preferred_species)
+
+        if children != "":
+            family_updates.append("children = %s")
+            family_values.append(int(children))
+
+        if street:
+            family_updates.append("street = %s")
+            family_values.append(street)
+
+        if zip_code:
+            family_updates.append("zip_code = %s")
+            family_values.append(int(zip_code))
+
+        if country:
+            family_updates.append("country = %s")
+            family_values.append(country)
+
+        if phone_number:
+            family_updates.append("phone_number = %s")
+            family_values.append(phone_number)
+
+        if email:
+            family_updates.append("email = %s")
+            family_values.append(email)
+
+        if family_updates:
+            query = f"""
+                UPDATE families
+                SET {', '.join(family_updates)}
+                WHERE HEX(familyID) = %s
+            """
+            family_values.append(family_id)
+            cursor.execute(query, tuple(family_values))
+
+        adoptive_updates = []
+        adoptive_values = []
+
+        if num_pets_owned != "":
+            adoptive_updates.append("num_pets_owned = %s")
+            adoptive_values.append(int(num_pets_owned))
+
+        if num_adults != "":
+            adoptive_updates.append("num_adults = %s")
+            adoptive_values.append(int(num_adults))
+
+        if num_children != "":
+            adoptive_updates.append("num_children = %s")
+            adoptive_values.append(int(num_children))
+
+        if adoptive_updates:
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM adoptive_families
+                WHERE HEX(familyID) = %s
+            """, (family_id,))
+            has_adoptive = cursor.fetchone()[0] > 0
+
+            if has_adoptive:
+                query = f"""
+                    UPDATE adoptive_families
+                    SET {', '.join(adoptive_updates)}
+                    WHERE HEX(familyID) = %s
+                """
+                adoptive_values.append(family_id)
+                cursor.execute(query, tuple(adoptive_values))
+            else:
+                cursor.execute("""
+                    INSERT INTO adoptive_families (
+                        familyID,
+                        adoptive_family_ID,
+                        num_pets_owned,
+                        num_adults,
+                        num_children
+                    )
+                    VALUES (UNHEX(%s), %s, %s, %s, %s)
+                """, (
+                    family_id,
+                    uuid.uuid4().bytes,
+                    int(num_pets_owned) if num_pets_owned != "" else 0,
+                    int(num_adults) if num_adults != "" else 0,
+                    int(num_children) if num_children != "" else 0
+                ))
+
+        if num_pets_fostered != "":
+            cursor.execute("""
+                SELECT COUNT(*)
+                FROM foster_families
+                WHERE HEX(familyID) = %s
+            """, (family_id,))
+            has_foster = cursor.fetchone()[0] > 0
+
+            if has_foster:
+                cursor.execute("""
+                    UPDATE foster_families
+                    SET num_pets_fostered = %s
+                    WHERE HEX(familyID) = %s
+                """, (int(num_pets_fostered), family_id))
+            else:
+                cursor.execute("""
+                    INSERT INTO foster_families (
+                        familyID,
+                        foster_family_ID,
+                        num_pets_fostered
+                    )
+                    VALUES (UNHEX(%s), %s, %s)
+                """, (
+                    family_id,
+                    uuid.uuid4().bytes,
+                    int(num_pets_fostered)
+                ))
+
+        conn.commit()
+        flash("Family updated successfully.")
+        return redirect(url_for("families_view", family_id=family_id))
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return f"Error updating family: {e}"
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+# delete families route
+@app.route("/families/<family_id>/delete", methods=["POST"])
+def delete_family(family_id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = getconn()
+        cursor = conn.cursor()
+
+        # delete subtype rows first
+        cursor.execute("""
+            DELETE FROM adoptive_families
+            WHERE HEX(familyID) = %s
+        """, (family_id,))
+
+        cursor.execute("""
+            DELETE FROM foster_families
+            WHERE HEX(familyID) = %s
+        """, (family_id,))
+
+        # then delete the base family row
+        cursor.execute("""
+            DELETE FROM families
+            WHERE HEX(familyID) = %s
+        """, (family_id,))
+
+        conn.commit()
+        flash("Family deleted successfully.")
+        return redirect(url_for("families"))
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        return f"Error deleting family: {e}"
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 if __name__ == "__main__":
     app.run(debug=True)

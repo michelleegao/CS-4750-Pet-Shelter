@@ -43,7 +43,10 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="action-btn">Delete family</button>
+                        <form method="POST" action="{{ url_for('delete_family', family_id=family.family_id) }}"
+                            onsubmit="return confirm('Are you sure you want to delete this family?');">
+                            <button class="action-btn" type="submit">Delete family</button>
+                        </form>
                         <button class="action-btn" id="openEditModal">Edit family information</button>
                     </div>
                 </div>
@@ -144,96 +147,103 @@
         <!-- Edit Popup -->
         <div class="modal-overlay" id="editModal">
             <div class="edit-modal">
-                <button class="close-modal" id="closeEditModal">&times;</button>
+                <button class="close-modal" id="closeEditModal" type="button">&times;</button>
 
                 <div class="edit-title">Edit Family Information</div>
 
-                <div class="edit-modal-content">
-                    <div class="edit-left-panel">
-                        <div class="edit-photo-box">
-                            <img
-                                src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg"
-                                alt="Family photo"
-                            >
+                <form method="POST" action="{{ url_for('edit_family', family_id=family.family_id) }}">
+                    <div class="edit-modal-content">
+                        <div class="edit-left-panel">
+                            <div class="edit-photo-box">
+                                <img
+                                    src="{{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
+                                    alt="Family photo"
+                                >
+                            </div>
+
+                            <button class="upload-btn" type="button">upload new photo</button>
                         </div>
 
-                        <button class="upload-btn">upload new photo</button>
-                    </div>
+                        <div class="edit-form-panel">
+                            <div class="edit-scroll">
 
-                    <div class="edit-form-panel">
-                        <div class="edit-scroll">
-                            <div class="edit-row">
-                                <label class="edit-label">Family ID:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Preferred species:</label>
+                                    <input class="edit-input" name="preferred_species" type="text" placeholder="{{ family.preferred_species }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Preferred species:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Children?</label>
+                                    <select class="edit-input" name="children">
+                                        <option value="">Leave unchanged</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Number of Adults (18+):</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Number of Adults (18+):</label>
+                                    <input class="edit-input" name="num_adults" type="number" min="0" placeholder="{{ family.num_adults if family.num_adults is not none else '' }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Children?</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Number of Children (0-17):</label>
+                                    <input class="edit-input" name="num_children" type="number" min="0" placeholder="{{ family.num_children if family.num_children is not none else '' }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Number of Children (0-17):</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Number of Pets Already Owned:</label>
+                                    <input class="edit-input" name="num_pets_owned" type="number" min="0" placeholder="{{ family.num_pets_owned if family.num_pets_owned is not none else '' }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Number of Pets Already Owned</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Number of Pets Fostered:</label>
+                                    <input class="edit-input" name="num_pets_fostered" type="number" min="0" placeholder="{{ family.num_pets_fostered if family.num_pets_fostered is not none else '' }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Home Address - Street Number and Name: </label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Home Address - Street Number and Name:</label>
+                                    <input class="edit-input" name="street" type="text" placeholder="{{ family.street }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Home Address - City</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Home Address - City:</label>
+                                    <input class="edit-input" name="city" type="text" placeholder="{{ family.city }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Home Address - State</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Home Address - State:</label>
+                                    <input class="edit-input" name="state" type="text" placeholder="{{ family.state }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Home Address - Zip Code</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-                            
-                            <div class="edit-row">
-                                <label class="edit-label">Home Address - Country</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Home Address - Zip Code:</label>
+                                    <input class="edit-input" name="zip_code" type="text" placeholder="{{ family.zip_code }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Email Address</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Home Address - Country:</label>
+                                    <input class="edit-input" name="country" type="text" placeholder="{{ family.country }}">
+                                </div>
 
-                            <div class="edit-row">
-                                <label class="edit-label">Phone Number</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                                <div class="edit-row">
+                                    <label class="edit-label">Email Address:</label>
+                                    <input class="edit-input" name="email" type="email" placeholder="{{ family.email }}">
+                                </div>
+
+                                <div class="edit-row">
+                                    <label class="edit-label">Phone Number:</label>
+                                    <input class="edit-input" name="phone_number" type="text" placeholder="{{ family.phone_number }}">
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="edit-buttons-panel">
-                        <button class="modal-action-btn confirm-btn">confirm edits</button>
-                        <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
+                        <div class="edit-buttons-panel">
+                            <button class="modal-action-btn confirm-btn" type="submit">save changes</button>
+                            <button class="modal-action-btn cancel-btn" id="cancelEditModal" type="button">cancel edits</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
