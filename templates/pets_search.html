@@ -45,37 +45,21 @@
         <!-- Pets view -->
         <div class="pets-container">
             <div class="pets-grid">
+              {% for pet in pets %}
+              <a href="/pet/{{ pet[0] }}" class="pet-link">
+                <div class="pet-item"
+                  data-species="{{  pet[1]  }}"
+                  data-age="{{ pet[2] }}"
+                  data-color="{{ pet[3] }}"
+                  data-breed="{{ pet[4] }}"
+                  data-siblings="{{ pet[5] }}"
+                  data-weight="{{ pet[6] }}">
+                  <img src="{{ pet[7] }}" alt="Pet">
 
-                <div class="pet-item" data-species="dog" data-age="2" data-color="brown" data-breed="bernese" data-siblings="no" data-weight="17">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Buddy</p>
-                    <p class="pet-id">123</p>
+                  <p class="pet-name">{{ pet[8] }}</p>
                 </div>
-
-                <div class="pet-item" data-species="dog" data-age="3" data-color="white" data-breed="goldendoodle" data-siblings="no" data-weight="90">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Luna</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="5" data-color="yellow" data-breed="chihuahua" data-siblings="no" data-weight="8">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Max</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="1" data-color="brown" data-breed="rottweiler" data-siblings="yes" data-weight="23">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Bella</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="7" data-color="brown" data-breed="pittbull" data-siblings="yes" data-weight="45">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Charlie</p>
-                    <p class="pet-id">123</p>
-                </div>
-
+              </a>
+              {% endfor %}
             </div>
         </div>
 
