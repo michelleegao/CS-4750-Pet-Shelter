@@ -16,5 +16,6 @@ app.secret_key = "dev-secret-key" # replace later with env var
 def home():
     return render_template('login.html')
 
+
 if __name__ == "__main__":
     app.run(debug=True)
