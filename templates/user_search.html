@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User View</title>
+    <link rel="stylesheet" href="/static/css/pets_search.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Navigation Bar -->
+        <div class="top-section">
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="/">Pet Shelter App</a>
+                    <a href="/templates/pets_search.html">Pets</a>
+                    <a href="/templates/user_search.html">Users</a>
+                    <a href="/templates/families_search.html">Foster Families</a>
+                    <a href="pets">Events</a>
+                    <a href="pets">Appointments</a>
+                </div>
+                <svg class="profile-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+                </svg>
+            </nav>
+
+            <!-- Search bar, add button, filter button -->
+            <div class="search-bar">
+                <button class="add-btn">Add a User</button>
+
+                <form class="search-form" action="/pets/search" method="GET">
+                    <input
+                    type="text"
+                    name="query"
+                    placeholder="Search..."
+                    class="search-input"
+                    />
+                </form>
+
+                <button class="filter-btn">Filter</button>
+            </div>
+        </div>
+
+        <!-- Pets view -->
+        <div class="pets-container">
+            <div class="pets-grid">
+
+                <div class="pet-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User">
+                    <p class="pet-name">Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User">
+                    <p class="pet-name">Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User">
+                    <p class="pet-name">Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User">
+                    <p class="pet-name">Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item">
+                    <img src="https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png" alt="User">
+                    <p class="pet-name">Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

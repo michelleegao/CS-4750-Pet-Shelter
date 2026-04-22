@@ -22,7 +22,7 @@ form {
     background: #BABFD1;
     border-radius: 20px;
 
-    display: flex;
+    display: grid;
     grid-template-columns: 1fr 4fr 1fr;
     align-items: end;
     gap: 20px;
@@ -57,15 +57,8 @@ input{
     background: #E8E9ED;
 }
 
-/*Layout of the Main Page*/
-
-#add-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.add-header{
+  /*Layout of the Main Page*/
+  .add-header{
     font-weight: 600;
     font-size: 15px;
     font-family: Arial, sans-serif;

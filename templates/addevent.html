@@ -9,9 +9,9 @@
     <nav class="navbar">
         <div class="nav-left">
             <a href="/">Pet Shelter App</a>
-            <a href="/pets">Pets</a>
-            <a href="#">Users</a>
-            <a href="#">Foster Families</a>
+            <a href="/templates/pets_search.html">Pets</a>
+            <a href="/templates/user_search.html">Users</a>
+            <a href="/templates/families_search.html">Foster Families</a>
             <a href="#">Events</a>
             <a href="#">Appointments</a>
         </div>
@@ -23,35 +23,105 @@
     </nav>
 </header>
 <body>
-    <h1>Create New Adoption Event</h1>
-
     <div class="page">
         <div class="outer-box">
-            <div class="inner-box">
-                <div class="input-group">
-                    <label for="petID"><strong>Pet IDs Present</strong></label>
-                    <input id="petID" type="text" placeholder="Pet IDs">
-                </div>
-                <div class="input-group">
-                    <label for="employeeID"><strong>Employee IDs</strong></label>
-                    <input id="employeeID" type="text" placeholder="Employee IDs">
-                </div>
-                <div class="input-group">
-                    <label for="dateTime"><strong>Date and Time of Event</strong></label>
-                    <input type="datetime-local">
-                </div>
-                <div class="input-group">
-                    <label for="location"><strong>Location of Event</strong></label>
-                    <input id="location" type="text" placeholder="Location of Event">
-                </div>
-                <div class="buttons-group">
-                    <button id="save"><strong>Save Changes</strong></button>
+            <form id="add-form">
+                <div class="left">
                     <button id="cancel"><strong>Cancel Changes</strong></button>
                 </div>
-            </div>
+                <div class="center">
+                    <div class="add-header">
+                        <h1>Create New Adoption Event</h1>
+                    </div>
+                    <div class="inner-box">
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('multiple-pet-modal')">
+                                Select Attending Pets Here
+                            </button>
+                            <input type="hidden" id="pet-popup-value" name="multiple-pet-popup-value">
+        
+                            <div id="multiple-pet-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Attending Pets Here</label>
+                                  <div id="checkbox-list"></div>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('multiple-pet-popup-value')">Save</button>
+                                    <button onclick="closeModal('multiple-pet-modal')">Cancel</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('multiple-employee-modal')">
+                                Select Attending Employees Here
+                            </button>
+                            <input type="hidden" id="employee-popup-value" name="multiple-employee-popup-value">
+        
+                            <div id="multiple-employee-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Attending Employees Here</label>
+                                  <div id="checkbox-list"></div>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('multiple-employee-popup-value')">Save</button>
+                                    <button onclick="closeModal('multiple-employee-modal')">Cancel</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="input-group">
+                            <button type="button" onclick="openModal('multiple-families-modal')">
+                                Select Attending Potential Adoptive Families Here
+                            </button>
+                            <input type="hidden" id="families-popup-value" name="multiple-families-popup-value">
+        
+                            <div id="multiple-families-modal" class="modal">
+                                <div class="modal-content">
+                                  <label>Please Select Attending Potential Adoptive Families Here</label>
+                                  <div id="checkbox-list"></div>
+                                  <div class="modal-buttons">
+                                    <button onclick="saveModalValue('multiple-families-popup-value')">Save</button>
+                                    <button onclick="closeModal('multiple-families-modal')">Cancel</button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="input-group">
+                            <label for="dateTime"><strong>Date and Time of Event</strong></label>
+                            <input type="datetime-local">
+                        </div>
+                        <div class="input-group">
+                            <label for="street"><strong>Event Address: Street Number and Name</strong></label>
+                            <input id="street" type="text" placeholder="Street">
+                        </div>
+                        <div class="input-group">
+                            <label for="city"><strong>Event Address: City</strong></label>
+                            <input id="city" type="text" placeholder="City">
+                        </div>
+                        <div class="input-group">
+                            <label for="state"><strong>Event Address: State</strong></label>
+                            <input id="state" type="text" placeholder="State">
+                        </div>
+                        <div class="input-group">
+                            <label for="zipCode"><strong>Event Address: Zip Code</strong></label>
+                            <input id="zipCode" type="text" placeholder="Zip Code">
+                        </div>
+                        <div class="input-group">
+                            <label for="country"><strong>Event Address: Country</strong></label>
+                            <input id="country" type="text" placeholder="Country">
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="submit" name="Submit" value="Create Event"></label>
+                </div>
+            </form>
         </div>
     </div>
 
+    <script src="/static/js/add.js"></script>
     
 </body>
 <footer>

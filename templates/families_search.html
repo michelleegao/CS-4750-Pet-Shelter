@@ -13,9 +13,9 @@
             <nav class="navbar">
                 <div class="nav-left">
                     <a href="/">Pet Shelter App</a>
-                    <a href="pets">Pets</a>
-                    <a href="#">Users</a>
-                    <a href="families">Families</a>
+                    <a href="/templates/pets_search.html">Pets</a>
+                    <a href="/templates/user_search.html">Users</a>
+                    <a href="/families">Families</a>
                     <a href="#">Events</a>
                     <a href="#">Appointments</a>
                 </div>
@@ -39,8 +39,7 @@
                     />
                     <button type="submit" class="search-button">Search</button>
                 </form>
-
-                <button class="filter-btn">Filter</button>
+                <button class="filter-btn" id="openFilter">Filter</button>
             </div>
         </div>
 
@@ -67,5 +66,6 @@
             </div>
         </div> 
     </div>
+  <script src="/static/js/family-filter.js"></script>
 </body>
 </html>
