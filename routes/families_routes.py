@@ -162,7 +162,7 @@ def families_add():
         children = request.form.get("children")
         phone_number = request.form.get("phone_number")
         email = request.form.get("email")
-        family_photo = request.form.get("family_photo")
+        family_photo = request.file.get("family_photo")
 
         is_foster = request.form.get("is_foster") == "1"
         is_adoptive = request.form.get("is_adoptive") == "1"
@@ -207,7 +207,7 @@ def families_add():
                        num_occupants,
                        phone_number,
                        email,
-                       family_photo
+                       family_photo,
                        creation_date
                        )
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())

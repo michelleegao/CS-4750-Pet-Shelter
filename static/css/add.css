@@ -17,12 +17,12 @@ form {
 }
 
 .outer-box{
-    width: 1000px;
+    width: 100%;
     padding: 20px;
     background: #BABFD1;
     border-radius: 20px;
 
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 4fr 1fr;
     align-items: end;
     gap: 20px;
@@ -58,6 +58,12 @@ input{
 }
 
 /*Layout of the Main Page*/
+
+#add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
 .add-header{
     font-weight: 600;
