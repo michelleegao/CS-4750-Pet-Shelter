@@ -29,7 +29,7 @@
             <div class="search-bar">
                 <button onclick="location.href='/family_add'" class="add-btn">Add a family</button>
 
-                <form class="search-form" action="/pets/search" method="GET">
+                <form class="search-form" action="{{ url_for('families.families') }}" method="GET">
                     <input
                     type="text"
                     name="query"
@@ -37,6 +37,7 @@
                     class="search-input"
                     value="{{ query if query else '' }}"
                     />
+                    <button type="submit" class="search-button">Search</button>
                 </form>
 
                 <button class="filter-btn">Filter</button>
@@ -48,7 +49,7 @@
             <div class="pets-grid">
                 {% if families %}
                     {% for family in families %}
-                        <a href="{{ url_for('families_view', family_id=family.family_id) }}" class="family-card-link">
+                        <a href="{{ url_for('families.families_view', family_id=family.family_id) }}" class="family-card-link">
                             <div class="pet-item">
                                 <img
                                     src="{{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"

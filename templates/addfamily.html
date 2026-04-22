@@ -33,11 +33,11 @@
                         <label><strong>Type of Family</strong></label>
 
                         <label>
-                            <input type="checkbox" id="fosterCheck" name="is_foster" value="1" onclick="ffamFunction()">
+                            <input type="checkbox" id="fosterCheck" class="family_type" name="is_foster" value="1" onclick="ffamFunction()" required>
                             Foster
                         </label>
                         <label>
-                            <input type="checkbox" id="adoptiveCheck" name="is_adoptive" value="1" onclick="afamFunction()">
+                            <input type="checkbox" id="adoptiveCheck" class="family_type" name="is_adoptive" value="1" onclick="afamFunction()" required>
                             Adoptive
                         </label>
                     </div>
@@ -128,7 +128,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="family-photo"><strong>Please Upload a Photo of the Family</strong></label>
+                        <label for="family_photo"><strong>Please Upload a Photo of the Family</strong></label>
                         <input id="family_photo" name="family_photo" type="file" placeholder="Family Photo Here" accept="image/*">
                     </div>
 
@@ -175,6 +175,17 @@
                 afam.style.display = "none";
             }
         }
+
+        // logic to require users to select at least adoptive and/or foster family when adding family
+        const checkboxes = document.querySelectorAll('.family_type');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                checkboxes.forEach(c => {
+                    c.required = !anyChecked; // if one if checked, none are required
+                });
+            });
+        });
     </script>
     
 </body>

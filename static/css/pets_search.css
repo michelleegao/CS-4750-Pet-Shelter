@@ -75,6 +75,16 @@ body {
     background-color: white;
 }
 
+.search-button {
+    background-color: #5b6b8c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 20px;
+}
 
 /* filter button and add button stylings */
 .filter-btn, .add-btn {
@@ -124,4 +134,9 @@ body {
   margin-bottom: 1px;
   font-size: 15px;
   font-weight: 500;
+}
+
+.family-card-link {
+    text-decoration: none;
+    color: black;
 }
