@@ -1,0 +1,55 @@
+@import url('https://rsms.me/inter/inter.css');
+
+* {
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    margin: 0;
+    background-color: #E8E9ED;
+}
+
+/* Nav bar stylings */
+.navbar {
+    width: 100%;
+    background-color: #e9e9ec;
+    padding: 18px 28px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style-type: none;
+}
+
+.nav-left a {
+    text-decoration: none;
+    color: #ff6f8f;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-left a:hover {
+    opacity: 0.6;
+}
+
+.profile-icon {
+    width: 28px;
+    height: 28px;
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.events-table {
+    width: 100%;
+}
