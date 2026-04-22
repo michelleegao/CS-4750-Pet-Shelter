@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Employee Sign Up</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
 
 <div class="top-section">
-  <div class="app-name">[Web App Name]</div>
+  <div class="app-name">Pet Shelter</div>
 
   <div class="login-container">
     <h1>Employee Sign Up</h1>
 
-    <form id="createForm">
+    <form id="createForm" method="POST" action="/signup">
       <div class="form-group">
         <label>First Name:</label>
         <input type="text" id="firstName" required>
@@ -35,11 +35,6 @@
       </div>
 
       <div class="form-group">
-        <label>Username:</label>
-        <input type="text" id="username" required>
-      </div>
-
-      <div class="form-group">
         <label>Password:</label>
         <input type="password" id="password" required>
       </div>
@@ -57,14 +52,22 @@
       <button type="submit" class="enter-btn">Enter</button>
 
       <div class="links">
-        <a href="login.html">Back to login</a>
+        <a href="/">Back to login</a>
       </div>
     </form>
   </div>
 </div>
 
 <div class="bottom-section"></div>
+<style>
+  .bottom-section {
+    height: 20vh;
+    background-image: url("{{ url_for('static', filename='images/paw_print.jpg') }}");
+    background-size: 294px;
+    background-repeat: repeat;
+  }
+</style>
 
-<script src="script.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

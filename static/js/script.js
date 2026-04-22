@@ -2,27 +2,29 @@
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
-  loginForm.addEventListener("submit", function (e) {
+  loginForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
 
-    const user = users.find(
-      u => u.username === username && u.password === password
-    );
+    const data = await res.json();
 
-    if (user) {
+    if (data.success) {
       showMessage("Login successful! Redirecting...", "green");
-
       setTimeout(() => {
-        window.location.href = "petsearch.html";
+        window.location.href = "/pets_search";
       }, 1000);
-
     } else {
-      showMessage("Incorrect username or password.", "red");
+      showMessage("Incorrect email or password.", "red");
     }
   });
 }
@@ -31,82 +33,105 @@ if (loginForm) {
 const createForm = document.getElementById("createForm");
 
 if (createForm) {
-  createForm.addEventListener("submit", function (e) {
+  createForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const positionName = document.getElementById("positionName").value;
 
     if (password !== confirmPassword) {
       showMessage("Passwords do not match.", "red");
       return;
     }
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
+    const res = await fetch("/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        positionName,
+        password
+      })
+    });
 
-    const exists = users.find(u => u.username === username);
+    const data = await res.json();
 
-    if (exists) {
-      showMessage("Username already exists.", "red");
-      return;
+    if (data.success) {
+      showMessage("Account successfully created!", "green");
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1200);
+    } else {
+      showMessage(data.message || "Signup failed.", "red");
     }
-
-    users.push({ firstName, lastName, username, password });
-
-    localStorage.setItem("users", JSON.stringify(users));
-
-    showMessage("Account successfully created!", "green");
-
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1200);
   });
 }
 
 // FORGOT PASSWORD
-const forgotForm = document.getElementById("forgotForm");
+let verifiedUser = null;
 
-if (forgotForm) {
-  forgotForm.addEventListener("submit", function (e) {
-    e.preventDefault();
+const checkUserBtn = document.getElementById("checkUserBtn");
+const resetBtn = document.getElementById("resetBtn");
 
-    const username = document.getElementById("forgotUsername").value;
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+if (checkUserBtn) {
+  checkUserBtn.addEventListener("click", async function () {
+    const email = document.getElementById("forgotUsername").value;
 
-    const user = users.find(u => u.username === username);
+    const res = await fetch("/check_user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
 
-    if (user) {
-      showMessage("User found! Enter a new password.", "green");
+    const data = await res.json();
+    const messageBox = document.getElementById("messageBox");
+
+    if (data.exists) {
+      verifiedUser = email;
+      messageBox.innerText = "User found. Enter new password.";
+      messageBox.style.color = "green";
       document.getElementById("resetSection").style.display = "block";
+      checkUserBtn.style.display = "none";
     } else {
-      showMessage("Username not found.", "red");
+      messageBox.innerText = "User not found.";
+      messageBox.style.color = "red";
     }
   });
 }
 
-// RESET PASSWORD BUTTON
-const resetBtn = document.getElementById("resetBtn");
-
 if (resetBtn) {
-  resetBtn.addEventListener("click", function () {
-    const username = document.getElementById("forgotUsername").value;
+  resetBtn.addEventListener("click", async function () {
     const newPassword = document.getElementById("newPassword").value;
 
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-
-    users = users.map(u => {
-      if (u.username === username) {
-        u.password = newPassword;
-      }
-      return u;
+    const res = await fetch("/reset_password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: verifiedUser,
+        newPassword
+      })
     });
 
-    localStorage.setItem("users", JSON.stringify(users));
+    const data = await res.json();
+    const messageBox = document.getElementById("messageBox");
 
-    showMessage("Password successfully reset!", "green");
+    if (data.success) {
+      messageBox.innerText = "Password reset successful!";
+      messageBox.style.color = "green";
+    } else {
+      messageBox.innerText = "Reset failed.";
+      messageBox.style.color = "red";
+    }
   });
 }
 
@@ -118,7 +143,6 @@ function showMessage(text, color) {
     msg = document.createElement("p");
     msg.id = "formMessage";
     msg.style.marginTop = "15px";
-
     const container = document.querySelector(".login-container") || document.body;
     container.appendChild(msg);
   }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet Search</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+<div class="top-section">
+  <div class="app-name">Pet Shelter</div>
+
+  <div class="login-container">
+    <h1>Pet Search</h1>
+
+    <p>Welcome! You are now logged in.</p>
+
+    <input type="text" placeholder="Search pets...">
+    <button class="enter-btn">Search</button>
+
+    <div class="links">
+      <a href="/">Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-section"></div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
