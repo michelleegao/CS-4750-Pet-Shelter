@@ -25,10 +25,20 @@
 <body>
     <h1>Create New Family</h1>
 
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+
     <div class="page">
         <div class="outer-box">
             <div class="inner-box">
-                <form id="add-form" method="POST" action="/family_add" enctype="multipart/form-data">
+                <form id="add-form" method="POST" action="{{ url_for('families.families_add') }}" enctype="multipart/form-data">
                     <div class="input-group">
                         <label><strong>Type of Family</strong></label>
 
@@ -96,25 +106,25 @@
                     </div>
 
                     <!-- Only for foster families -->
-                    <div class="input-group" id="ffam-item1" style="display:none">
+                    <div class="input-group" id="ffam-item" style="display:none">
+                        <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
+                        <input id="petfoster_number" name="num_pets_fostered" type="number" min="0" step="1" type="text" placeholder="Number of Pets Fostered">
+                    </div>
+
+                    <!-- Only for adoptive families -->
+                     <div class="input-group" id="afam-item1" style="display:none">
                         <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
                         <input id="adult_number" name="num_adults" type="number" min="0" step="1" placeholder="Number of Adults">
                     </div>
 
-                    <div class="input-group" id="ffam-item2" style="display:none">
+                    <div class="input-group" id="afam-item2" style="display:none">
                         <label for="child_number"><strong>Number of Children (0-17)</strong></label>
                         <input id="child_number" name="num_children" type="number" min="0" step="1" placeholder="Number of Children">
                     </div>
 
-                    <div class="input-group" id="ffam-item3" style="display:none">
+                    <div class="input-group" id="afam-item3" style="display:none">
                         <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
                         <input id="pet_number" name="num_pets_owned" type="number" min="0" step="1" placeholder="Number of Pets">
-                    </div>
-
-                    <!-- Only for adoptive families -->
-                    <div class="input-group" id="afam-item" style="display:none">
-                        <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
-                        <input id="petfoster_number" name="num_pets_fostered" type="number" min="0" step="1" type="text" placeholder="Number of Pets Fostered">
                     </div>
 
                     <div class="input-group">
@@ -142,37 +152,37 @@
     </div>
 
     <script>
+        // function to make adoptive family attributes appear
+        function afamFunction() {
+            // get the adoptive checkbox
+            var adoptiveCheck = document.getElementById("adoptiveCheck");
+            // get adoptive family fields
+            var afam1 = document.getElementById("afam-item1");
+            var afam2 = document.getElementById("afam-item2");
+            var afam3 = document.getElementById("afam-item3");
+
+            if (adoptiveCheck.checked == true) { // if adoptive family checkbox is checked
+                afam1.style.display = "block";
+                afam2.style.display = "block";
+                afam3.style.display = "block";
+            } else { // if adoptive family checkbox is not checked
+                afam1.style.display = "none";
+                afam2.style.display = "none";
+                afam3.style.display = "none";
+            }
+        }
+
         // function to make foster family attributes appear
         function ffamFunction() {
             // get the foster checkbox
             var fosterCheck = document.getElementById("fosterCheck");
             // get foster family fields
-            var ffam1 = document.getElementById("ffam-item1");
-            var ffam2 = document.getElementById("ffam-item2");
-            var ffam3 = document.getElementById("ffam-item3");
+            var ffam = document.getElementById("ffam-item");
 
             if (fosterCheck.checked == true) { // if foster family checkbox is checked
-                ffam1.style.display = "block";
-                ffam2.style.display = "block";
-                ffam3.style.display = "block";
+                ffam.style.display = "block";
             } else { // if foster family checkbox is not checked
-                ffam1.style.display = "none";
-                ffam2.style.display = "none";
-                ffam3.style.display = "none";
-            }
-        }
-
-        // function to make adoptive family attributes appear
-        function afamFunction() {
-            // get the foster checkbox
-            var adoptiveCheck = document.getElementById("adoptiveCheck");
-            // get foster family fields
-            var afam = document.getElementById("afam-item");
-
-            if (adoptiveCheck.checked == true) { // if foster family checkbox is checked
-                afam.style.display = "block";
-            } else { // if foster family checkbox is not checked
-                afam.style.display = "none";
+                ffam.style.display = "none";
             }
         }
 

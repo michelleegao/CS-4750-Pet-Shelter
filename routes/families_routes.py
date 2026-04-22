@@ -1,5 +1,7 @@
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, flash
 from db.connection import getconn
+from storage.gcs import upload_family_photo
+import uuid
 
 families_bp = Blueprint('families', __name__)
 
@@ -162,7 +164,10 @@ def families_add():
         children = request.form.get("children")
         phone_number = request.form.get("phone_number")
         email = request.form.get("email")
-        family_photo = request.file.get("family_photo")
+        uploaded_file = request.files.get("family_photo")
+        family_photo = None
+        if uploaded_file and uploaded_file.filename:
+            family_photo = upload_family_photo(uploaded_file)
 
         is_foster = request.form.get("is_foster") == "1"
         is_adoptive = request.form.get("is_adoptive") == "1"
@@ -207,7 +212,7 @@ def families_add():
                        num_occupants,
                        phone_number,
                        email,
-                       family_photo,
+                       image_url,
                        creation_date
                        )
                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NOW())
@@ -223,7 +228,7 @@ def families_add():
                             None,
                             phone_number or None,
                             email or None,
-                            family_photo or None
+                            family_photo
                        ))
         
         # insert adoptive subtype
