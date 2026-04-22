@@ -1,17 +1,11 @@
 from db.connection import getconn
 from flask import Flask, render_template, request, jsonify
-<<<<<<< Updated upstream
-=======
 from routes.pets import pet_blueprint
->>>>>>> Stashed changes
 import hashlib
 import uuid
 
 app = Flask(__name__)
-<<<<<<< Updated upstream
-=======
 app.register_blueprint(pet_blueprint)
->>>>>>> Stashed changes
 
 @app.route("/")
 def home():
