@@ -1,0 +1,255 @@
+@import url('https://rsms.me/inter/inter.css');
+
+* {
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    margin: 0;
+    background-color: #E8E9ED;
+}
+
+/* Nav bar stylings */
+.navbar {
+    width: 100%;
+    background-color: #e9e9ec;
+    padding: 18px 28px;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    list-style-type: none;
+}
+
+.nav-left a {
+    text-decoration: none;
+    color: #ff6f8f;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-left a:hover {
+    opacity: 0.6;
+}
+
+.profile-icon {
+    width: 28px;
+    height: 28px;
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Search bar stylings */
+.search-bar {
+    width: 100%;
+    padding: 16px 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+}
+
+.search-input {
+    width: 400px;
+    max-width: 100%;
+    padding: 10px 16px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    background-color: white;
+}
+
+
+/* filter button and add button stylings */
+.filter-btn, .add-btn {
+    background-color: #5b6b8c;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* pets view div stylings */
+.pets-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 40px 30px;
+    background-color: #b8bccd;
+    height: 500px;
+    overflow-y: auto;
+}
+
+/* grid layout */
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 50px;
+}
+
+/* each pet item */
+.pet-item {
+  text-align: left;
+}
+
+/* image only */
+.pet-item img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* name under image */
+.pet-item p {
+  margin-top: 4px;
+  margin-bottom: 1px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* hidden modal information (filter screen) */
+.hidden {
+    display: none !important;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    /*display: flex;
+    justify-content: center;
+    align-items: center;*/
+
+    z-index: 1000;
+}
+
+.modal-content {
+    font-family: Arial, sans-serif;
+
+    background: #FFC759;
+    padding: 20px;
+    border-radius: 10px;
+
+    max-height: 80vh;
+    width: 900px;
+    overflow-y: scroll;
+
+    justify-content:center;
+}
+
+.modal-header{
+    font-weight: 600;
+    font-size: 25px;
+    font-family: Arial, sans-serif;
+    color: #FF7B9C;
+
+    background: #BABFD1;
+    border-radius: 18px;
+    text-align: center;
+    
+    margin: 0 auto 5px auto;
+    padding: 6px 30px;
+    line-height: 1; 
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-body{
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap:20px;
+}
+
+.filter-card-body{
+    background: #E6D3B3;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    max-height:150px;
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-card h4{
+    font-family: 'Inter', sans-serif;
+    margin-bottom:10px;
+    font-style: italic;
+    color: #607196;
+}
+
+.filter-card-body label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-family: 'Inter', sans-serif;
+    color: #607196;
+    font-size: 12px;
+}
+
+/*Formatting Modal Buttons at the Bottom of the Pop-Up*/
+.modal-footer{
+    margin-top: 20px;
+
+    display:flex;
+    gap: 20px;
+}
+
+.btn{
+    border: none;
+    padding: 12px 30px;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 260px;
+}
+
+.apply-filter{
+    background-color: #607196;
+    color: #E8E9ED;
+}
+
+.clear-filter{
+    background-color: #BABFD1;
+    color: #E8E9ED;
+}
+
+.close-filter{
+    background-color: #E8E9ED;
+    color: #607196;
+}
+/*Formatting inside of filter screen*/
