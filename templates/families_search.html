@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Families Search</title>
+    <link rel="stylesheet" href="/static/css/pets_search.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Navigation Bar -->
+        <div class="top-section">
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="/">Pet Shelter App</a>
+                    <a href="/templates/pets_search.html">Pets</a>
+                    <a href="/templates/user_search.html">Users</a>
+                    <a href="/templates/families_search.html">Foster Families</a>
+                    <a href="#">Events</a>
+                    <a href="#">Appointments</a>
+                </div>
+                <svg class="profile-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+                </svg>
+            </nav>
+
+            <!-- Search bar, add button, filter button -->
+            <div class="search-bar">
+                <button onclick="location.href='/family_add'" class="add-btn">Add a family</button>
+
+                <form class="search-form" action="/pets/search" method="GET">
+                    <input
+                    type="text"
+                    name="query"
+                    placeholder="Search..."
+                    class="search-input"
+                    />
+                </form>
+
+                <button class="filter-btn" id="openFilter">Filter</button>
+            </div>
+        </div>
+
+        <!-- Family view -->
+        <div class="pets-container">
+            <div class="pets-grid">
+
+                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="4" data-children="no">
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="3" data-children="yes">
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item" data-species="dog" data-pets="1" data-occupants="3" data-children="yes">
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="3" data-children="yes">
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+                <div class="pet-item" data-species="Cat" data-pets="8" data-occupants="3" data-children="no">
+                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
+                    <p class="pet-name">Family Name</p>
+                    <p class="pet-id">123</p>
+                </div>
+
+            </div>
+        </div> 
+
+        <!-- Filter Families -->
+        <div id="filterFamilyModal" class="modal hidden">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h3>Select Filter Options for Families</h3>
+              </div>
+
+              <div class="modal-body">
+                <div class="filter-card">
+                    <h4>Preferred Species</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="species" value="dog"> Dog</label>
+                        <label><input type="checkbox" name="species" value="cat"> Cat</label>
+                      </div>
+                </div>
+    
+                <div class="filter-card">
+                    <h4>Number of Pets Fostered Before</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="pets" value="0"> 0</label>
+                        <label><input type="checkbox" name="pets" value="1"> 1</label>
+                        <label><input type="checkbox" name="pets" value="2"> 2</label>
+                        <label><input type="checkbox" name="pets" value="3"> 3</label>
+                        <label><input type="checkbox" name="pets" value="4"> 4</label>
+                        <label><input type="checkbox" name="pets" value="5"> 5</label>
+                        <label><input type="checkbox" name="pets" value="6"> 6</label>
+                        <label><input type="checkbox" name="pets" value="7"> 7</label>
+                        <label><input type="checkbox" name="pets" value="8"> 8</label>
+                        <label><input type="checkbox" name="pets" value="9"> 9</label>
+                        <label><input type="checkbox" name="pets" value="10over"> 10 and Over</label>
+                      </div>
+                </div>
+
+                <div class="filter-card">
+                    <h4>Number of Household Occupants</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="occupants" value="1"> 1</label>
+                        <label><input type="checkbox" name="occupants" value="2"> 2</label>
+                        <label><input type="checkbox" name="occupants" value="3"> 3</label>
+                        <label><input type="checkbox" name="occupants" value="4"> 4</label>
+                        <label><input type="checkbox" name="occupants" value="5"> 5</label>
+                        <label><input type="checkbox" name="occupants" value="6over"> 6 and Over</label>
+                      </div>
+                </div>
+    
+                <div class="filter-card">
+                    <h4>Children</h4>
+                      <div class="filter-card-body">
+                        <label><input type="checkbox" name="children" value="yes"> Yes</label>
+                        <label><input type="checkbox" name="children" value="no"> No</label>
+                    </div>
+                </div>
+              <div class="modal-footer">
+                <button class="btn apply-filter" id="applyFilters">Apply Filters</button>
+                <button class="btn clear-filter" id="clearFilters">Clear Filters</button>
+                <button class="btn close-filter" id="closeModal">Cancel</button>
+              </div>
+            </div>
+          </div>
+    
+          <script src="/static/js/family-filter.js"></script>
+    </div>
+</body>
+</html>
