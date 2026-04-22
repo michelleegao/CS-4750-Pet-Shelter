@@ -11,7 +11,7 @@
             <a href="/">Pet Shelter App</a>
             <a href="/templates/pets_search.html">Pets</a>
             <a href="/templates/user_search.html">Users</a>
-            <a href="/templates/families_search.html">Foster Families</a>
+            <a href="/families">Families</a>
             <a href="#">Events</a>
             <a href="#">Appointments</a>
         </div>
@@ -28,85 +28,165 @@
     <div class="page">
         <div class="outer-box">
             <div class="inner-box">
-                <form id="add-form">
-                    <div class="input-group">
-                        <label for="species"><strong>Preferred Species</strong></label>
-                        <input id="species" type="text" placeholder="Preferred Species">
-                    </div>
-                    <div class="input-group">
-                        <label for="occupant_number"><strong>Number of Occupants in the Home</strong></label>
-                        <input id="occupant_number" type="number" min="0" step="1" placeholder="Number of Occupants">
-                    </div>
-                    <div class="input-group">
-                        <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
-                        <input id="pet_number" type="number" min="0" step="1" placeholder="Number of Pets">
-                    </div>
-                    <div class="input-group">
-                        <label for="street"><strong>Home Address: Street Number and Name</strong></label>
-                        <input id="street" type="text" placeholder="Street">
-                    </div>
-                    <div class="input-group">
-                        <label for="city"><strong>Home Address: City</strong></label>
-                        <input id="city" type="text" placeholder="City">
-                    </div>
-                    <div class="input-group">
-                        <label for="state"><strong>Home Address: State</strong></label>
-                        <input id="state" type="text" placeholder="State">
-                    </div>
-                    <div class="input-group">
-                        <label for="zipCode"><strong>Home Address: Zip Code</strong></label>
-                        <input id="zipCode" type="text" placeholder="Zip Code">
-                    </div>
-                    <div class="input-group">
-                        <label for="country"><strong>Home Address: Country</strong></label>
-                        <input id="country" type="text" placeholder="Country">
-                    </div>
-                    <div class="input-group">
-                        <label><strong>Children?</strong></label>
-    
-                        <label>
-                            <input type="radio" name="children" value="yes">
-                            Yes
-                        </label>
-                        <label>
-                            <input type="radio" name="children" value="no">
-                            No
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="phone"><strong>Phone Number</strong></label>
-                        <input id="phone" type="tel" placeholder="Phone Number">
-                    </div>
-                    <div class="input-group">
-                        <label for="email"><strong>Email Address</strong></label>
-                        <input id="email" type="email" placeholder="Email Address">
-                    </div>
+                <form id="add-form" method="POST" action="{{ url_for('families.families_add') }}" enctype="multipart/form-data">
                     <div class="input-group">
                         <label><strong>Type of Family</strong></label>
 
                         <label>
-                            <input type="radio" name="family" value="Foster Family">
+                            <input type="checkbox" id="fosterCheck" class="family_type" name="is_foster" value="1" onclick="ffamFunction()" required>
                             Foster
                         </label>
                         <label>
-                            <input type="radio" name="family" value="Adoptive">
+                            <input type="checkbox" id="adoptiveCheck" class="family_type" name="is_adoptive" value="1" onclick="afamFunction()" required>
                             Adoptive
                         </label>
                     </div>
+
                     <div class="input-group">
-                        <label for="family-photo"><strong>Please Upload a Photo of the Family</strong></label>
-                        <input id="family_photo" type="image" placeholder="Family Photo Here">
+                        <label for="fname"><strong>First Name</strong></label>
+                        <input id="fname" name="first_name" type="text" placeholder="First Name" required>
                     </div>
-                    <div class="button-group">
-                        <input type="submit" name="submit" value="Save Changes">
-                        <button id="cancel">Cancel Changes</button>
+
+                    <div class="input-group">
+                        <label for="lname"><strong>Last Name</strong></label>
+                        <input id="lname" name="last_name" type="text" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="species"><strong>Preferred Species</strong></label>
+                        <input id="species" name="preferred_species" type="text" placeholder="Preferred Species">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="street"><strong>Home Address: Street Number and Name</strong></label>
+                        <input id="street" name="street" type="text" placeholder="Home Address">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="city"><strong>Home Address: City</strong></label>
+                        <input id="city" name="city" type="text" placeholder="Home Address">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="state"><strong>Home Address: State</strong></label>
+                        <input id="state" name="state" type="text" placeholder="Home Address">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="zipCode"><strong>Home Address: Zip Code</strong></label>
+                        <input id="zipCode" name="zip_code" type="text" placeholder="Home Address">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="country"><strong>Home Address: Country</strong></label>
+                        <input id="country" name="country" type="text" placeholder="Country">
+                    </div>
+
+                    <div class="input-group">
+                        <label><strong>Children?</strong></label>
+
+                        <label>
+                            <input type="radio" name="children" value="1">
+                            Yes
+                        </label>
+                        <label>
+                            <input type="radio" name="children" value="0">
+                            No
+                        </label>
+                    </div>
+
+                    <!-- Only for foster families -->
+                    <div class="input-group" id="ffam-item" style="display:none">
+                        <label for="pet_number"><strong>Number of Pets Fostered</strong></label>
+                        <input id="petfoster_number" name="num_pets_fostered" type="number" min="0" step="1" type="text" placeholder="Number of Pets Fostered">
+                    </div>
+
+                    <!-- Only for adoptive families -->
+                     <div class="input-group" id="afam-item1" style="display:none">
+                        <label for="adult_number"><strong>Number of Adults (18+)</strong></label>
+                        <input id="adult_number" name="num_adults" type="number" min="0" step="1" placeholder="Number of Adults">
+                    </div>
+
+                    <div class="input-group" id="afam-item2" style="display:none">
+                        <label for="child_number"><strong>Number of Children (0-17)</strong></label>
+                        <input id="child_number" name="num_children" type="number" min="0" step="1" placeholder="Number of Children">
+                    </div>
+
+                    <div class="input-group" id="afam-item3" style="display:none">
+                        <label for="pet_number"><strong>Number of Pets Already Owned</strong></label>
+                        <input id="pet_number" name="num_pets_owned" type="number" min="0" step="1" placeholder="Number of Pets">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="phone"><strong>Phone Number</strong></label>
+                        <input id="phone" name="phone_number" type="tel" placeholder="Phone Number">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="email"><strong>Email Address</strong></label>
+                        <input id="email" name="email" type="email" placeholder="Email Address">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="family_photo"><strong>Please Upload a Photo of the Family</strong></label>
+                        <input id="family_photo" name="family_photo" type="file" placeholder="Family Photo Here" accept="image/*">
+                    </div>
+
+                    <div class="buttons-group">
+                        <button id="save" type="submit"><strong>Save Changes</strong></button>
+                        <button id="cancel" type="button" onclick="window.location.href='/families'"><strong>Cancel Changes</strong></button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
 
+    <script>
+        // function to make adoptive family attributes appear
+        function afamFunction() {
+            // get the adoptive checkbox
+            var adoptiveCheck = document.getElementById("adoptiveCheck");
+            // get adoptive family fields
+            var afam1 = document.getElementById("afam-item1");
+            var afam2 = document.getElementById("afam-item2");
+            var afam3 = document.getElementById("afam-item3");
+
+            if (adoptiveCheck.checked == true) { // if adoptive family checkbox is checked
+                afam1.style.display = "block";
+                afam2.style.display = "block";
+                afam3.style.display = "block";
+            } else { // if adoptive family checkbox is not checked
+                afam1.style.display = "none";
+                afam2.style.display = "none";
+                afam3.style.display = "none";
+            }
+        }
+
+        // function to make foster family attributes appear
+        function ffamFunction() {
+            // get the foster checkbox
+            var fosterCheck = document.getElementById("fosterCheck");
+            // get foster family fields
+            var ffam = document.getElementById("ffam-item");
+
+            if (fosterCheck.checked == true) { // if foster family checkbox is checked
+                ffam.style.display = "block";
+            } else { // if foster family checkbox is not checked
+                ffam.style.display = "none";
+            }
+        }
+
+        // logic to require users to select at least adoptive and/or foster family when adding family
+        const checkboxes = document.querySelectorAll('.family_type');
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                checkboxes.forEach(c => {
+                    c.required = !anyChecked; // if one if checked, none are required
+                });
+            });
+        });
+    </script>
     
 </body>
 <footer>

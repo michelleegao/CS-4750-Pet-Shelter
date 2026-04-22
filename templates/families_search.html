@@ -15,7 +15,7 @@
                     <a href="/">Pet Shelter App</a>
                     <a href="/templates/pets_search.html">Pets</a>
                     <a href="/templates/user_search.html">Users</a>
-                    <a href="/templates/families_search.html">Foster Families</a>
+                    <a href="/families">Families</a>
                     <a href="#">Events</a>
                     <a href="#">Appointments</a>
                 </div>
@@ -29,15 +29,16 @@
             <div class="search-bar">
                 <button onclick="location.href='/family_add'" class="add-btn">Add a family</button>
 
-                <form class="search-form" action="/pets/search" method="GET">
+                <form class="search-form" action="{{ url_for('families.families') }}" method="GET">
                     <input
                     type="text"
                     name="query"
                     placeholder="Search..."
                     class="search-input"
+                    value="{{ query if query else '' }}"
                     />
+                    <button type="submit" class="search-button">Search</button>
                 </form>
-
                 <button class="filter-btn" id="openFilter">Filter</button>
             </div>
         </div>
@@ -45,101 +46,26 @@
         <!-- Family view -->
         <div class="pets-container">
             <div class="pets-grid">
-
-                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="4" data-children="no">
-                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
-                    <p class="pet-name">Family Name</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="3" data-children="yes">
-                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
-                    <p class="pet-name">Family Name</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-pets="1" data-occupants="3" data-children="yes">
-                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
-                    <p class="pet-name">Family Name</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-pets="2" data-occupants="3" data-children="yes">
-                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
-                    <p class="pet-name">Family Name</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="Cat" data-pets="8" data-occupants="3" data-children="no">
-                    <img src="https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg" alt="Family">
-                    <p class="pet-name">Family Name</p>
-                    <p class="pet-id">123</p>
-                </div>
+                {% if families %}
+                    {% for family in families %}
+                        <a href="{{ url_for('families.families_view', family_id=family.family_id) }}" class="family-card-link">
+                            <div class="pet-item">
+                                <img
+                                    src="{{ family.image_url if family.image_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
+                                    alt="Family"
+                                >
+                                <p class="pet-name">{{ family.first_name }} {{ family.last_name }}</p>
+                                <!-- <p class="pet-id">{{ family.family_id }}</p> -->
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>No families found.</p>
+                {% endif %}
 
             </div>
         </div> 
-
-        <!-- Filter Families -->
-        <div id="filterFamilyModal" class="modal hidden">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Select Filter Options for Families</h3>
-              </div>
-
-              <div class="modal-body">
-                <div class="filter-card">
-                    <h4>Preferred Species</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="species" value="dog"> Dog</label>
-                        <label><input type="checkbox" name="species" value="cat"> Cat</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Number of Pets Fostered Before</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="pets" value="0"> 0</label>
-                        <label><input type="checkbox" name="pets" value="1"> 1</label>
-                        <label><input type="checkbox" name="pets" value="2"> 2</label>
-                        <label><input type="checkbox" name="pets" value="3"> 3</label>
-                        <label><input type="checkbox" name="pets" value="4"> 4</label>
-                        <label><input type="checkbox" name="pets" value="5"> 5</label>
-                        <label><input type="checkbox" name="pets" value="6"> 6</label>
-                        <label><input type="checkbox" name="pets" value="7"> 7</label>
-                        <label><input type="checkbox" name="pets" value="8"> 8</label>
-                        <label><input type="checkbox" name="pets" value="9"> 9</label>
-                        <label><input type="checkbox" name="pets" value="10over"> 10 and Over</label>
-                      </div>
-                </div>
-
-                <div class="filter-card">
-                    <h4>Number of Household Occupants</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="occupants" value="1"> 1</label>
-                        <label><input type="checkbox" name="occupants" value="2"> 2</label>
-                        <label><input type="checkbox" name="occupants" value="3"> 3</label>
-                        <label><input type="checkbox" name="occupants" value="4"> 4</label>
-                        <label><input type="checkbox" name="occupants" value="5"> 5</label>
-                        <label><input type="checkbox" name="occupants" value="6over"> 6 and Over</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Children</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="children" value="yes"> Yes</label>
-                        <label><input type="checkbox" name="children" value="no"> No</label>
-                    </div>
-                </div>
-              <div class="modal-footer">
-                <button class="btn apply-filter" id="applyFilters">Apply Filters</button>
-                <button class="btn clear-filter" id="clearFilters">Clear Filters</button>
-                <button class="btn close-filter" id="closeModal">Cancel</button>
-              </div>
-            </div>
-          </div>
-    
-          <script src="/static/js/family-filter.js"></script>
     </div>
+  <script src="/static/js/family-filter.js"></script>
 </body>
 </html>
