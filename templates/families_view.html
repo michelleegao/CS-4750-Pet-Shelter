@@ -37,7 +37,7 @@
                 <div class="pet-left">
                     <div class="pet-image-frame">
                         <img
-                            src=" {{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
+                            src=" {{ family.image_url if family.image_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
                             alt="Family photo"
                         >
                     </div>
@@ -151,17 +151,19 @@
 
                 <div class="edit-title">Edit Family Information</div>
 
-                <form method="POST" action="{{ url_for('families.edit_family', family_id=family.family_id) }}">
+                <form method="POST" action="{{ url_for('families.edit_family', family_id=family.family_id) }}" enctype="multipart/form-data">
                     <div class="edit-modal-content">
                         <div class="edit-left-panel">
                             <div class="edit-photo-box">
                                 <img
-                                    src="{{ family.photo_url if family.photo_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
+                                    src="{{ family.image_url if family.image_url else 'https://cdn.creativefabrica.com/2021/02/08/Family-Member-Family-Vector-Illustration-Graphics-8412052-2-580x387.jpg' }}"
                                     alt="Family photo"
                                 >
                             </div>
 
-                            <button class="upload-btn" type="button">upload new photo</button>
+                            <!-- <button class="upload-btn" type="button">upload new photo</button> -->
+                             <label for="family_photo"><strong>Upload a new photo</strong></label>
+                             <input id="family_photo" name="family_photo" type="file" placeholder="Family Photo Here" accept="image/*">
                         </div>
 
                         <div class="edit-form-panel">

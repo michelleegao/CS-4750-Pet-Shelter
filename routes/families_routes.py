@@ -23,7 +23,8 @@ def families():
                 SELECT
                     HEX(familyID) AS family_id,
                     first_name,
-                    last_name
+                    last_name,
+                    image_url
                 FROM families
                 WHERE first_name LIKE %s
                    OR last_name LIKE %s
@@ -35,7 +36,8 @@ def families():
                 SELECT
                     HEX(familyID) AS family_id,
                     first_name,
-                    last_name
+                    last_name,
+                    image_url
                 FROM families
                 ORDER BY creation_date DESC, last_name ASC, first_name ASC
             """)
@@ -48,7 +50,7 @@ def families():
                 "family_id": row[0],
                 "first_name": row[1] or "",
                 "last_name": row[2] or "",
-                "photo_url": None
+                "image_url": row[3] or None
             })
 
         return render_template(
@@ -91,6 +93,7 @@ def families_view(family_id):
                 f.num_occupants,
                 f.phone_number,
                 f.email,
+                f.image_url,
                 af.num_pets_owned,
                 af.num_adults,
                 af.num_children,
@@ -122,11 +125,11 @@ def families_view(family_id):
             "num_occupants": row[10],
             "phone_number": row[11] or "",
             "email": row[12] or "",
-            "num_pets_owned": row[13],
-            "num_adults": row[14],
-            "num_children": row[15],
-            "num_pets_fostered": row[16],
-            "photo_url": None
+            "image_url": row[13] or None,
+            "num_pets_owned": row[14],
+            "num_adults": row[15],
+            "num_children": row[16],
+            "num_pets_fostered": row[17],
         }
 
         return render_template("families_view.html", family=family)
@@ -299,6 +302,10 @@ def edit_family(family_id):
         country = request.form.get("country", "").strip()
         phone_number = request.form.get("phone_number", "").strip()
         email = request.form.get("email", "").strip()
+        uploaded_file = request.files.get("family_photo", "")
+        family_photo = None
+        if uploaded_file and uploaded_file.filename:
+            family_photo = upload_family_photo(uploaded_file)
 
         num_adults = request.form.get("num_adults", "").strip()
         num_children = request.form.get("num_children", "").strip()
@@ -348,6 +355,10 @@ def edit_family(family_id):
         if email:
             family_updates.append("email = %s")
             family_values.append(email)
+
+        if family_photo:
+            family_updates.append("image_url = %s")
+            family_values.append(family_photo)
 
         if family_updates:
             query = f"""
