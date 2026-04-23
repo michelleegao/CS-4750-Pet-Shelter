@@ -88,14 +88,6 @@ input {
   text-decoration: underline;
 }
 
-/* BOTTOM PAW PRINT IMAGE */
-.bottom-section {
-  height: 20vh;
-  background-image: url("paw_print.jpg");
-  background-size: 294px;
-  background-position: repeat;
-}
-
 #formMessage {
   font-weight: bold;
 }
