@@ -3,184 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets View</title>
-    <link rel="stylesheet" href="/static/css/pets_search.css">
+    <title>Pet Details</title>
+    <link rel="stylesheet" href="/static/css/pets_view.css">
 </head>
 <body>
     <div class="page">
-        <!-- Navigation Bar -->
-        <div class="top-section">
-            <nav class="navbar">
-                <div class="nav-left">
-                    <a href="/">Pet Shelter App</a>
-                    <a href="/templates/pets_search.html">Pets</a>
-                    <a href="/templates/user_search.html">Users</a>
-                    <a href="/templates/families_search.html">Foster Families</a>
-                    <a href="pets">Events</a>
-                    <a href="pets">Appointments</a>
-                </div>
-                <svg class="profile-icon" viewBox="0 0 24 24">
-                    <circle cx="12" cy="8" r="4"></circle>
-                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
-                </svg>
-            </nav>
-
-            <!-- Search bar, add button, filter button -->
-            <div class="search-bar">
-                <a href="/templates/addpet.html" class="add-btn">Add a Pet</a>
-
-                <form class="search-form" action="/pets/search" method="GET">
-                    <input
-                    type="text"
-                    name="query"
-                    placeholder="Search..."
-                    class="search-input"
-                    />
-                </form>
-
-                <button class="filter-btn" id="openFilter">Filter</button>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/">Pet Shelter App</a>
+                <a href="/pets_search">Pets</a>
+                <a href="/user_search">Users</a>
+                <a href="/families_search">Foster Families</a>
+                <a href="#">Events</a>
+                <a href="#">Appointments</a>
             </div>
-        </div>
 
-        <!-- Pets view -->
-        <div class="pets-container">
-            <div class="pets-grid">
+            <svg class="profile-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+            </svg>
+        </nav>
 
-                <div class="pet-item" data-species="dog" data-age="2" data-color="brown" data-breed="bernese" data-siblings="no" data-weight="17">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Buddy</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="3" data-color="white" data-breed="goldendoodle" data-siblings="no" data-weight="90">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Luna</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="5" data-color="yellow" data-breed="chihuahua" data-siblings="no" data-weight="8">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Max</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="1" data-color="brown" data-breed="rottweiler" data-siblings="yes" data-weight="23">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Bella</p>
-                    <p class="pet-id">123</p>
-                </div>
-
-                <div class="pet-item" data-species="dog" data-age="7" data-color="brown" data-breed="pittbull" data-siblings="yes" data-weight="45">
-                    <img src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg" alt="Pet">
-                    <p class="pet-name">Charlie</p>
-                    <p class="pet-id">123</p>
-                </div>
-
+        <!-- Main content area -->
+        <main class="details-section">
+            <div class="top-row">
+                <a href="/pets_search" class="return-btn">Return to Search</a>
+                <h1 class="page-title">All About {{ pets.name }}</h1>
             </div>
-        </div>
 
-        <!-- Filter Pets -->
-        <div id="filterPetModal" class="modal hidden">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3>Select Filter Options for Pets</h3>
-              </div>
+            <div class="details-content">
+                <!-- Left side -->
+                <div class="pet-left">
+                    <div class="pet-image-frame">
+                        <img
+                            src="{{  pets.image_url  }}"
+                            alt="Pet photo"
+                        >
+                    </div>
 
-              <div class="modal-body">
-                <div class="filter-card">
-                    <h4>Species</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="species" value="dog"> Dog</label>
-                        <label><input type="checkbox" name="species" value="cat"> Cat</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Age</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="age" value="under1"> 1 and under</label>
-                        <label><input type="checkbox" name="age" value="2"> 2</label>
-                        <label><input type="checkbox" name="age" value="3"> 3</label>
-                        <label><input type="checkbox" name="age" value="4"> 4</label>
-                        <label><input type="checkbox" name="age" value="5"> 5</label>
-                        <label><input type="checkbox" name="age" value="6"> 6</label>
-                        <label><input type="checkbox" name="age" value="7"> 7</label>
-                        <label><input type="checkbox" name="age" value="8"> 8</label>
-                        <label><input type="checkbox" name="age" value="9"> 9</label>
-                        <label><input type="checkbox" name="age" value="10over"> 10 and Over</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Color</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="color" value="yellow"> Yellow</label>
-                        <label><input type="checkbox" name="color" value="mixed"> Mixed</label>
-                        <label><input type="checkbox" name="color" value="black"> Black</label>
-                        <label><input type="checkbox" name="color" value="white"> White</label>
-                        <label><input type="checkbox" name="color" value="brown"> Brown</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Breed</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="breed" value="bernese"> Bernese Mountain Dog</label>
-                        <label><input type="checkbox" name="breed" value="golden"> Golden Retriever</label>
-                        <label><input type="checkbox" name="breed" value="chihuahua"> Chihuahua</label>
-                        <label><input type="checkbox" name="breed" value="pitbull"> Pitbull</label>
-                        <label><input type="checkbox" name="breed" value="rottweiler"> Rottweiler</label>
-                        <label><input type="checkbox" name="breed" value="unknown"> Unknown Mix</label>
-                        <label><input type="checkbox" name="breed" value="goldendoodle"> Golden Doodle</label>
-                        <label><input type="checkbox" name="breed" value="blacklab"> Black Labrador</label>
-                        <label><input type="checkbox" name="breed" value="bassett"> Bassett Hound</label>
-                        <label><input type="checkbox" name="breed" value="foxhound"> Foxhound</label>
-                        <label><input type="checkbox" name="breed" value="bulldog"> Bulldog</label>
-                        <label><input type="checkbox" name="breed" value="dachshund"> Dachshund</label>
-                        <label><input type="checkbox" name="breed" value="bengal"> Bengal</label>
-                        <label><input type="checkbox" name="breed" value="birman"> Birman</label>
-                        <label><input type="checkbox" name="breed" value="selkirk"> Selkirk Rex</label>
-                        <label><input type="checkbox" name="breed" value="laperm"> Laperm</label>
-                        <label><input type="checkbox" name="breed" value="bobtail"> American Bobtail</label>
-                        <label><input type="checkbox" name="breed" value="siamese"> Siamese</label>
-                        <label><input type="checkbox" name="breed" value="cyprus"> Cyprus</label>
-                        <label><input type="checkbox" name="breed" value="shorthair"> British Shorthair</label>
-                        <label><input type="checkbox" name="breed" value="curl"> American Curl</label>
-                        <label><input type="checkbox" name="breed" value="husky"> Husky</label>
-                        <label><input type="checkbox" name="breed" value="beagle"> Beagle</label>
-                      </div>
-                </div>
-    
-                <div class="filter-card">
-                    <h4>Siblings</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="siblings" value="yes"> Yes</label>
-                        <label><input type="checkbox" name="siblings" value="no"> No</label>
+                    <div class="action-buttons">
+                        <button class="action-btn" onclick="openDeleteModal(this)"
+                        data-id="{{ pets.petID }}"
+                        data-adoption="{{  pets.adoption_status  }}"
+                        data-photo="{{ pets.image_url  }}"
+                        >Delete pet</button>
+
+                        <button class="action-btn" onclick="openEditModal(this)"
+                        data-id="{{ pets.petID }}"
+                        data-species="{{ pets.species }}"
+                        data-age="{{ pets.age  }}"
+                        data-name="{{ pets.name  }}"
+                        data-color="{{  pets.color  }}"
+                        data-description="{{ pets.description }}"
+                        data-fixed="{{ pets.fixed  }}"
+                        data-adoption="{{  pets.adoption_status  }}"
+                        data-shelter-time="{{ pets.days_in_shelter  }}"
+                        data-breed="{{  pets.breed  }}"
+                        data-weight="{{ pets.weight  }}"
+                        data-siblings="{{  pets.siblings  }}"
+                        data-sex="{{  pets.sex  }}"
+                        data-special-needs="{{  pets.special_needs  }}"
+                        data-cur-location="{{  pets.current_location  }}"
+                        data-foster-id="{{  pets.foster_ID  }}"
+                        data-foster-name="{{  pets.foster_name  }}"
+                        data-foster-phone="{{  pets.foster_phone  }}"
+                        data-foster-email="{{  pets.foster_email  }}"
+                        data-photo="{{ pets.image_url  }}"
+                        data-adoptive-family="{{ pets.adoptive_family  }}"
+                        >Edit pet information 
+                        </button>
                     </div>
                 </div>
-                  
-                <div class="filter-card">
-                    <h4>Weight</h4>
-                      <div class="filter-card-body">
-                        <label><input type="checkbox" name="weight" value="under10"> Under 10 Pounds</label>
-                        <label><input type="checkbox" name="weight" value="10to20"> 10 to 20 Pounds</label>
-                        <label><input type="checkbox" name="weight" value="20to30"> 20 to 30 Pounds</label>
-                        <label><input type="checkbox" name="weight" value="30to40"> 30 to 40 Pounds</label>
-                        <label><input type="checkbox" name="weight" value="40to50"> 40 to 50 Pounds</label>
-                        <label><input type="checkbox" name="weight" value="over50"> Over 50 Pounds</label>
-                      </div>
-                </div>
-              </div>
 
-              <div class="modal-footer">
-                <button class="btn apply-filter" id="applyFilters">Apply Filters</button>
-                <button class="btn clear-filter" id="clearFilters">Clear Filters</button>
-                <button class="btn close-filter" id="closeModal">Cancel</button>
-              </div>
+                <!-- Right side -->
+                <div class="pet-right">
+                    <div class="info-scroll">
+                        
+                        <div class="info-row">
+                            <div class="info-label">Species:</div>
+                            <div class="info-value">{{ pets.species  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Breed:</div>
+                            <div class="info-value">{{ pets.breed  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Age:</div>
+                            <div class="info-value">{{ pets.age  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Weight:</div>
+                            <div class="info-value">{{ pets.weight  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">M / F:</div>
+                            <div class="info-value">{{ pets.sex  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Special Needs:</div>
+                            <div class="info-value">{{ pets.special_needs  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Days in Shelter:</div>
+                            <div class="info-value">{{ pets.days_in_shelter }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Color:</div>
+                            <div class="info-value">{{ pets.color  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Spayed or Neutered? </div>
+                            <div class="info-value">{{ pets.fixed  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Notes:</div>
+                            <div class="info-value">{{ pets.description  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Current Location:</div>
+                            <div class="info-value">{{ pets.current_location  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Foster Family Name:</div>
+                            <div class="info-value">{{ pets.foster_name  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Foster Family Phone:</div>
+                            <div class="info-value">{{ pets.foster_phone  }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Foster Family Email:</div>
+                            <div class="info-value">{{ pets.foster_email  }}</div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-          </div>
+        </main>
+
+        <!-- Edit Popup -->
+        <div class="modal-overlay" id="editModal">
+            <div class="edit-modal">
+                <form id="edit-pet-form">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+
+                    <div class="edit-title">Edit Pet Information: {{ pets.name }}</div>
     
-          <script src="/static/js/pet-filter.js"></script>
+                    <div class="edit-modal-content">
+                        <div class="edit-left-panel">
+                            <div class="edit-photo-box">
+                                <img
+                                    id="edit-photo"
+                                    alt="Pet photo"
+                                    src=""
+                                />
+                            </div>
+    
+                            <label for="pet-photo"><Strong>Upload New Photo Here</Strong></label>
+                            <input type="file" id="pet-photo" accept="image/*"/>
+                        </div>
+    
+                        <div class="edit-form-panel">
+                            <div class="edit-scroll">
+                                {% if pets.deleted %}
+                                <div class="alert-box">
+                                    Pet has Been Deleted due to {{ pets.deletion_reason }}
+                                </div>
+                                {% endif %}
+
+                                <div class="edit-row">
+                                    <input type="hidden" id="edit-petid">
+                                </div>
+        
+                                <div class="edit-row">
+                                    <label class="edit-label">Name:</label>
+                                    <input class="edit-input" id="edit-name" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Breed:</label>
+                                    <input class="edit-input" id="edit-breed" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Age:</label>
+                                    <input class="edit-input" id="edit-age" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Weight:</label>
+                                    <input class="edit-input" id="edit-weight" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Special Needs:</label>
+                                    <label>
+                                        <input type="radio" name="special-needs" value="yes" required>
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="special-needs" value="no">
+                                        No
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Spayed or Neutered:</label>
+                                    <label>
+                                        <input type="radio" name="fixed" value="yes" required>
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="fixed" value="no">
+                                        No
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Location:</label>
+                                    <label>
+                                        <input type="radio" name="location" value="Foster Home" required>
+                                        Foster
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="location" value="Shelter">
+                                        Shelter
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="location" value="Other">
+                                        Other
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Foster Family:</label>
+                                    <select id="foster-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in fosters %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Description/Notes:</label>
+                                    <input class="edit-input" id="edit-notes" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoption Status:</label>
+                                    <select id="adoption-dropdown">
+                                        <option value="Not yet adopted">Not Yet Adopted</option>
+                                        <option value="Adoption Pending">Adoption Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Other">Other</option>
+                                        <option value="Adopted">Adopted</option>
+                                    </select>
+                                </div>
+
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoptive Family:</label>
+                                    <select id="adoptive-families-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in adoptives %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="edit-buttons-panel">
+                            <input type="submit" value="confirm edits">
+                            <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-overlay" id="deleteModal">
+            <div class="edit-modal">
+                <form id="previous-pet-form">
+                    <button class="close-modal" id="closeDeleteModal">&times;</button>
+
+                    <div class="edit-title">Move {{ pets.name }} to Previous Pets</div>
+    
+                    <div class="edit-modal-content">
+                        <div class="edit-left-panel">
+                            <div class="edit-photo-box">
+                                <img
+                                    id="delete-photo"
+                                    alt="Pet photo"
+                                    src=""
+                                />
+                            </div>
+                        </div>
+    
+                        <div class="edit-form-panel">
+                            <div class="edit-scroll">
+
+                                <div class="edit-row">
+                                    <input type="hidden" id="delete-petid">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Reason for Deletion:</label>
+                                    <input class="edit-input" id="delete-reason" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoption Status:</label>
+                                    <select id="delete-adoption-dropdown">
+                                        <option value="">-- Adoption Status --</option>
+                                        <option value="Other">Other</option>
+                                        <option value="Adopted">Adopted</option>
+                                    </select>
+                                </div>
+
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoptive Family:</label>
+                                    <select id="delete-adoptive-families-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in adoptives %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="edit-buttons-panel">
+                            <input type="submit" value="confirm deletion edits">
+                            <button class="modal-action-btn cancel-btn" id="cancelDeleteModal">cancel deletion update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <script src="/static/js/pets-view.js"></script>
 </body>
 </html>

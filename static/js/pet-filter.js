@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("filterPetModal");
     const openBtn = document.getElementById("openFilter");
 
-    const pets = document.querySelectorAll(".pet-item");
+    const pets = document.querySelectorAll(".pet-link");
 
     openBtn.addEventListener("click", function () {
         modal.classList.remove("hidden");
@@ -15,28 +15,30 @@ document.addEventListener("DOMContentLoaded", function () {
     applyBtn.addEventListener("click", function () {
         const selected = getSelectedFilters();
         pets.forEach(pet => {
+            let item = pet.querySelector(".pet-item");
             let show = true;
 
-            if (!matchesFilter(pet.dataset.species.toLowerCase(), selected.species)) {
+            if (!matchesFilter(item.dataset.species.toLowerCase(), selected.species)) {
                 show = false;
             }
-            if (!matchesAge(pet.dataset.age, selected.age)) {
+            if (!matchesAge(item.dataset.age, selected.age)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.color.toLowerCase(), selected.color)) {
+            if (!matchesFilter(item.dataset.color.toLowerCase(), selected.color)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.breed.toLowerCase(), selected.breed)) {
+            if (!matchesFilter(item.dataset.breed.toLowerCase(), selected.breed)) {
                 show = false;
             }
-            if (!matchesFilter(pet.dataset.siblings.toLowerCase(), selected.siblings)) {
+            if (!matchesFilter(item.dataset.siblings.toLowerCase(), selected.siblings)) {
                 show = false;
             }
-            if (!matchesWeight(pet.dataset.weight, selected.weight)) {
+            if (!matchesWeight(item.dataset.weight, selected.weight)) {
                 show = false;
             }
 
-            pet.style.display = show ? "block" : "none";
+            pet.classList.toggle("hidden", !show);
+            // pet.style.display = show ? "block" : "none";
         });
 
         modal.classList.add("hidden");
@@ -48,7 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         pets.forEach(pet => {
-            pet.style.display = "block";
+            //pet.style.display = "block";
+            pet.classList.remove("hidden");
         });
     });
 
