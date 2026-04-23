@@ -131,3 +131,5 @@ document.getElementById("add-pet-form").addEventListener("submit", async  (e) =>
   const text = await response.text();
   console.log("RAW RESPONSE:", text);
 })
+
+
