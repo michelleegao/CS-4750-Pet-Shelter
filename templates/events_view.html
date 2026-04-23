@@ -24,6 +24,63 @@
                     <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
                 </svg>
             </nav>
+
+            <!-- Main content area -->
+            <main class="details-section">
+                <div class="top-row">
+                    <a href="/events" class="return-btn">Return to Search</a>
+                    <h1 class="page-title">All About Adoption Event</h1>
+                </div>
+
+                <div class="details-content">
+                    <!-- Left side -->
+                    <div class="pet-left">
+                        <div class="pet-image-frame">
+                            <div class="info-row">
+                                <div class="info-label">Location:</div>
+                                <div class="info-value">{{ event.street_name }} {{ event.zip_code }} {{ event.country }}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Date:</div>
+                                <div class="info-value">{{ event.event_date }}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Time:</div>
+                                <div class="info-value">{{ event.event_time }}</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="action-btn" id="openEditModal">Edit event information</button>
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="pet-right">
+                        <div class="info-scroll">
+
+                            <div class="info-row">
+                                <div class="info-label">Pets Present:</div>
+                                <div class="info-value">{{ event.pet_names }}</div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Staff Working:</div>
+                                <div class="info-value">{{ event.staff_names }}</div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Families Attending:</div>
+                                <div class="info-value">{{ event.family_names }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Edit Popup -->
+
         </div>
 
 

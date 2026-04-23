@@ -85,3 +85,86 @@ def events():
             cursor.close()
         if conn: 
             conn.close()
+
+# links event view for a specific event 
+@events_bp.route("/events/<event_id>")
+def events_view(event_id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = getconn()
+        cursor = conn.cursor()
+
+        cursor.execute("""
+                       SELECT
+                        HEX(e.eventID) AS event_id,
+                        e.street_name,
+                        e.zip_code,
+                        e.country,
+
+                        DATE(e.event_date_time) AS event_date,
+                        TIME(e.event_date_time) AS event_time,
+
+                        GROUP_CONCAT(DISTINCT p.name ORDER BY p.name SEPARATOR ', ') AS pet_names,
+
+                        GROUP_CONCAT(
+                            DISTINCT CONCAT(u.first_name, ' ', u.last_name)
+                            ORDER BY u.first_name
+                            SEPARATOR ', '
+                        ) AS staff_names,
+
+                        GROUP_CONCAT(
+                            DISTINCT CONCAT(f.first_name, ' ', f.last_name)
+                            ORDER BY f.first_name
+                            SEPARATOR ', '
+                        ) AS family_names
+
+                    FROM adoption_event e
+                    LEFT JOIN attends a ON e.eventID = a.eventID
+                    LEFT JOIN adoptive_families af ON a.adoptive_family_ID = af.adoptive_family_ID
+                    LEFT JOIN families f ON af.familyID = f.familyID
+                    LEFT JOIN goes_to g ON e.eventID = g.eventID
+                    LEFT JOIN pet p ON g.petID = p.petID
+                    LEFT JOIN works_at wa ON e.eventID = wa.eventID
+                    LEFT JOIN users u ON wa.userID = u.userID
+                       
+                    WHERE HEX(e.eventID) = %s
+                    
+                    GROUP BY
+                        e.eventID,
+                        e.street_name,
+                        e.zip_code,
+                        e.country,
+                        e.event_date_time
+                    """, (event_id,))
+        
+        row = cursor.fetchone()
+
+        if not row:
+            flash("Event not found.")
+            return redirect(url_for("events.events"))
+        
+        event = {
+            "event_id": row[0],
+            "street_name": row[1] or "",
+            "zip_code": row[2] or "",
+            "country": row[3] or "",
+            "event_date": row[4] or "",
+            "event_time": row[5] or "",
+            "pet_names": row[6] or "",
+            "staff_names": row[7] or "",
+            "family_names": row[8] or ""
+        }
+        
+        return render_template("events_view.html", event=event)
+    
+    except Exception as e:
+        print("ERROR IN /events<event_id>:", e)
+        return f"Error loading event: {e}"
+    
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()

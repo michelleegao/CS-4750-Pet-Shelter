@@ -58,7 +58,7 @@ body {
     margin: 20px 0;
 }
 
-.add-btn, .delete-btn {
+.add-btn {
     background-color: #5b6b8c;
     color: white;
     border: none;
@@ -100,5 +100,13 @@ body {
 
 /* hover effect (optional) */
 .events-table tr:hover {
+    background-color: #e0e4ef;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+.clickable-row:hover {
     background-color: #e0e4ef;
 }
