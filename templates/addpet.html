@@ -10,9 +10,9 @@
     <nav class="navbar">
         <div class="nav-left">
             <a href="/">Pet Shelter App</a>
-            <a href="/templates/pets_search.html">Pets</a>
-            <a href="/templates/user_search.html">Users</a>
-            <a href="/templates/families_search.html">Foster Families</a>
+            <a href="/pets_search">Pets</a>
+            <a href="/user_search">Users</a>
+            <a href="/families_search">Foster Families</a>
             <a href="#">Events</a>
             <a href="#">Appointments</a>
         </div>
@@ -26,7 +26,7 @@
 <body>
     <div class="page">
         <div class="outer-box">
-            <form id="add-pet-form">
+            <form id="add-pet-form" autocomplete="off">
                 <div class="left">
                     <label for="pet-photo"><Strong>Upload Photo Here</Strong></label>
                     <input type="file" id="pet-photo" accept="image/*" required/>
@@ -107,7 +107,13 @@
                         </div>
                         <div class="input-group">
                             <label for="location-state"><strong>Location Found: State</strong></label>
-                            <input id="location-state" type="text" placeholder="State" required>
+                            <select id="location-state">
+                                <!-- populate with state abbreviations  -->
+                                <option value="">-- Select a State --</option>
+                                {% for state in states %}
+                                <option value="{{ state }}">{{ state }}</option>
+                                {% endfor %}
+                              </select>
                         </div>
                         <div class="input-group">
                             <label for="location-country"><strong>Location Found: Country</strong></label>
@@ -121,7 +127,7 @@
                             <label><strong>Current Location</strong></label>
         
                             <label>
-                                <input type="radio" name="cur-location" value="Foster" required>
+                                <input type="radio" name="cur-location" value="Foster Home" required>
                                 Foster
                             </label>
                             <label>
@@ -158,8 +164,15 @@
                         </div>
 
                         <div class="input-group">
-                            <label for="special-needs"><strong>Special Needs</strong></label>
-                            <input id="special-needs" type="text" placeholder="Special Needs" required>
+                            <label><Strong>Has Special Needs</Strong></label>
+                            <label>
+                                <input type="radio" name="special-needs" value="yes" required>
+                                Yes
+                            </label>
+                            <label>
+                                <input type="radio" name="special-needs" value="no">
+                                No
+                            </label>
                         </div>
                         <div class="input-group">
                             <label><strong>Has Sibling</strong></label>
@@ -211,8 +224,7 @@
         </div>
     </div>
 
-    <script src="/static/js/add.js"></script>
-    <script src="/static/js/pet.js"></script>
+    <script src="/static/js/add-pet.js"></script>
     
 </body>
 <footer>
