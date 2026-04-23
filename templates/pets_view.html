@@ -43,11 +43,18 @@
                     </div>
 
                     <div class="action-buttons">
-                        <button class="action-btn" onclick="openDeleteModal(this)"
+                        {% if not pets.deleted %}
+                        <button class="action-btn" onclick="openPreviousModal(this)"
                         data-id="{{ pets.petID }}"
                         data-adoption="{{  pets.adoption_status  }}"
                         data-photo="{{ pets.image_url  }}"
                         >Delete pet</button>
+                        {% endif %}
+                        {% if pets.deleted %}
+                        <button class="action-btn" id="delete-btn"
+                        data-id="{{ pets.petID }}"
+                        >Delete pet</button>
+                        {% endif %}
 
                         <button class="action-btn" onclick="openEditModal(this)"
                         data-id="{{ pets.petID }}"
@@ -79,6 +86,17 @@
                 <!-- Right side -->
                 <div class="pet-right">
                     <div class="info-scroll">
+                        {% if pets.deleted %}
+                        <div class="info-row">
+                            <div class="info-label">Date of Deletion:</div>
+                            <div class="info-value">{{ pets.deletion_date  }}</div>
+                        </div> 
+
+                        <div class="info-row">
+                            <div class="info-label">Reason for Deletion:</div>
+                            <div class="info-value">{{ pets.deletion_reason  }}</div>
+                        </div> 
+                        {% endif %}
                         
                         <div class="info-row">
                             <div class="info-label">Species:</div>
@@ -297,10 +315,10 @@
                 </form>
             </div>
         </div>
-        <div class="modal-overlay" id="deleteModal">
+        <div class="modal-overlay" id="previousModal">
             <div class="edit-modal">
                 <form id="previous-pet-form">
-                    <button class="close-modal" id="closeDeleteModal">&times;</button>
+                    <button class="close-modal" id="closePreviousModal">&times;</button>
 
                     <div class="edit-title">Move {{ pets.name }} to Previous Pets</div>
     
@@ -351,7 +369,7 @@
     
                         <div class="edit-buttons-panel">
                             <input type="submit" value="confirm deletion edits">
-                            <button class="modal-action-btn cancel-btn" id="cancelDeleteModal">cancel deletion update</button>
+                            <button class="modal-action-btn cancel-btn" id="cancelPreviousModal">cancel deletion update</button>
                         </div>
                     </div>
                 </form>
