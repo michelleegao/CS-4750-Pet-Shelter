@@ -34,9 +34,23 @@ def pets_view():
 def get_all_pets():
     if request.method == "GET":
         query = "SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet"
-        get_all_pets = run_query(query, fetch=True)
-        print(get_all_pets[0][7])
-        return render_template('/pets_search.html', pets=get_all_pets)
+        params = ()
+        breed_query = "SELECT DISTINCT breed FROM pet"
+        breed_list = run_query(breed_query, fetch=True)
+
+        query_param = request.args.get("query", "").strip()
+        if query_param:
+            search_term = f"%{query_param}%"
+            query = """SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet 
+            WHERE species LIKE %s OR age LIKE %s OR color LIKE %s OR breed LIKE %s OR name like %s"""
+            params = (search_term, search_term, search_term, search_term, search_term)
+
+        query_param = request.args.get("query", "").strip()
+
+        get_all_pets = run_query(query, params, fetch=True)
+
+        print("ARGS:", request.args)
+        return render_template('/pets_search.html', pets=get_all_pets, breed=breed_list)
     
 @pet_blueprint.route("/pet/<pet_id>", methods=["GET", "POST"])
 def pet_detail(pet_id):
@@ -86,7 +100,7 @@ def pet_detail(pet_id):
         get_previous_pets_query = "SELECT BIN_TO_UUID(petID), reason_for_deletion, BIN_TO_UUID(adoptive_familyID) FROM previous_pet WHERE petID = UUID_TO_BIN(%s)"
         get_previous_pets = run_query(get_previous_pets_query, (pet_id,), fetch=True)
 
-        if get_previous_pets==[]:
+        if get_previous_pets==():
             adoptive_ID = None
             reason_for_deletion = None
             deleted_from_database = False
