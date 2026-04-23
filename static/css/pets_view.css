@@ -200,6 +200,10 @@ body {
     display: flex;
 }
 
+.modal {
+    display: none;
+}
+
 /* Modal box */
 .edit-modal {
     width: 95%;
@@ -350,4 +354,15 @@ body {
 
 .cancel-btn {
     background-color: #f06f92;
+}
+
+input[type="submit"] {
+    background-color: #ff4378;
+    border: none;
+    border-radius: 999px;
+    padding: 18px 20px;
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
 }
