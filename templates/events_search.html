@@ -26,7 +26,12 @@
             </nav>
         </div>
 
-    
+        <!-- Add and delete buttons -->
+        <div class="action-items">
+            <button onclick="location.href='/events_add'" class="add-btn">Add event</button>
+            <button onclick="location.href='/events_delete'" class="delete-btn">Delete event</button>
+        </div>
+
         <!-- Table listing all events -->
         <table class="events-table">
             <tr>
@@ -37,6 +42,18 @@
                 <th>Staff Working</th>
                 <th>Families Attending</th>
             </tr>
+            {% if events %}
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.street_name }} {{ event.zip_code }} {{ event.country }}</td>
+                        <td>{{ event.event_date }}</td>
+                        <td>{{ event.event_time }}</td>
+                        <td>{{ event.pet_names }}</td>
+                        <td>{{ event.staff_names }}</td>
+                        <td>{{ event.family_names }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </table>
 
     </div>
