@@ -210,7 +210,7 @@ def events_view(event_id):
         if conn:
             conn.close()
 
-# shows edit modal for events
+# proper routing for edit modal for events
 @events_bp.route("/events/<event_id>/edit", methods=["POST"])
 def edit_event(event_id):
     conn = None
@@ -306,7 +306,7 @@ def edit_event(event_id):
         if conn:
             conn.close()
 
-# links add event HTMl page
+# links add event HTML page
 @events_bp.route("/events/add", methods=["GET", "POST"])
 def events_add():
     if request.method == "GET":
@@ -452,6 +452,7 @@ def events_add():
         if conn:
             conn.close()
 
+# provides routing for delete event
 @events_bp.route("/events/<event_id>/delete", methods=["POST"])
 def delete_event(event_id):
     conn = None
@@ -461,12 +462,12 @@ def delete_event(event_id):
         conn = getconn()
         cursor = conn.cursor()
 
-        # Delete child table records first because of foreign keys
+        # delete records from goes_to, works_at, and attends
         cursor.execute("DELETE FROM goes_to WHERE eventID = UNHEX(%s)", (event_id,))
         cursor.execute("DELETE FROM works_at WHERE eventID = UNHEX(%s)", (event_id,))
         cursor.execute("DELETE FROM attends WHERE eventID = UNHEX(%s)", (event_id,))
 
-        # Delete main event
+        # delete from adoption_event
         cursor.execute("DELETE FROM adoption_event WHERE eventID = UNHEX(%s)", (event_id,))
 
         conn.commit()
