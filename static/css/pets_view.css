@@ -366,3 +366,10 @@ input[type="submit"] {
     color: white;
     cursor: pointer;
 }
+
+/*Controlling Checkbox*/
+.checkbox-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 per row */
+    gap: 8px;
+}

@@ -310,14 +310,9 @@ def delete_pet(pet_id):
     cursor = conn.cursor()
 
     try:
-        print(conn)
-        cursor.execute("SELECT DATABASE()")
-        print(cursor.fetchone())
-
         params = (pet_id, )
 
         cursor.execute("DELETE FROM previous_pet WHERE petID = UUID_TO_BIN(%s)", params)
-        print("pet deleted rows:", cursor.rowcount)
         cursor.execute("DELETE FROM is_a_sibling_of WHERE petID1 = UUID_TO_BIN(%s) OR petID2 = UUID_TO_BIN(%s)",
                        (pet_id, pet_id))
         cursor.execute("DELETE FROM appointments WHERE petID = UUID_TO_BIN(%s)", params)

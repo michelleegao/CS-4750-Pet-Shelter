@@ -28,23 +28,23 @@
         <!-- Main content area -->
         <main class="details-section">
             <div class="top-row">
-                <a href="/pets_view" class="return-btn">Return to Search</a>
-                <h1 class="page-title">All About [User Name]</h1>
+                <a href="/users_search" class="return-btn">Return to Search</a>
+                <h1 class="page-title">All About {{ user.userFirst }} {{ user.userLast }}</h1>
             </div>
 
             <div class="details-content">
                 <!-- Left side -->
                 <div class="pet-left">
-                    <div class="pet-image-frame">
-                        <img
-                            src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg"
-                            alt="Pet photo"
-                        >
-                    </div>
-
+            
                     <div class="action-buttons">
-                        <button class="action-btn">Delete user</button>
-                        <button class="action-btn" id="openEditModal">Edit user information</button>
+                        <button class="action-btn" id="delete-btn"
+                        data-id="{{ user.userID }}"
+                        >Delete user</button>
+                        <button class="action-btn" id="openEditModal"
+                        data-id = "{{ user.userID  }}"
+                        data-role = "{{ user.role }}"
+                        data-managees = "{{ user.managedUsers }}"
+                        >Edit User's Manager/Manager Status</button>
                     </div>
                 </div>
 
@@ -53,33 +53,33 @@
                     <div class="info-scroll">
 
                         <div class="info-row">
-                            <div class="info-label">User ID:</div>
-                            <div class="info-value">[user ID here]</div>
-                        </div>
-
-                        <div class="info-row">
                             <div class="info-label">First Name:</div>
-                            <div class="info-value">[first name info here]</div>
+                            <div class="info-value">{{ user.userFirst }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Last Name:</div>
-                            <div class="info-value">[last name info here]</div>
+                            <div class="info-value">{{ user.userLast }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Email:</div>
-                            <div class="info-value">[Email here]</div>
+                            <div class="info-value">{{ user.userEmail }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Phone Number:</div>
-                            <div class="info-value">[phone number here]</div>
+                            <div class="info-value">{{ user.userPhone }}</div>
                         </div>
 
                         <div class="info-row">
                             <div class="info-label">Role:</div>
-                            <div class="info-value">[role info here]</div>
+                            <div class="info-value">{{ user.userRole }}</div>
+                        </div>
+
+                        <div class="info-row">
+                            <div class="info-label">Employees Managed:</div>
+                            <div class="info-value">{{ user.managedNames }}</div>
                         </div>
                     </div>
                 </div>
@@ -89,60 +89,78 @@
         <!-- Edit Popup -->
         <div class="modal-overlay" id="editModal">
             <div class="edit-modal">
-                <button class="close-modal" id="closeEditModal">&times;</button>
+                <form id="edit-user-form">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
 
-                <div class="edit-title">Edit User Information</div>
-
-                <div class="edit-modal-content">
-                    <div class="edit-left-panel">
-                        <div class="edit-photo-box">
-                            <img
-                                src="https://d3544la1u8djza.cloudfront.net/APHI/Blog/2023/September/small-breeds-hero.jpg"
-                                alt="Pet photo"
-                            >
+                    <div class="edit-title">Edit User Information</div>
+    
+                    <div class="edit-modal-content">
+                        <div class="edit-left-panel">
                         </div>
+    
+                        <div class="edit-form-panel">
+                            <div class="edit-scroll">
+                                <div class="edit-row">
+                                    <input type="hidden" id="edit-userid" value="{{ user.userID }}">
+                                </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Role:</label>
+                                    <select id="role-dropdown">
 
-                        <button class="upload-btn">upload new photo</button>
-                    </div>
-
-                    <div class="edit-form-panel">
-                        <div class="edit-scroll">
-                            <div class="edit-row">
-                                <label class="edit-label">User ID:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-
-                            <div class="edit-row">
-                                <label class="edit-label">First Name:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-
-                            <div class="edit-row">
-                                <label class="edit-label">Last Name:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-
-                            <div class="edit-row">
-                                <label class="edit-label">Email:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-
-                            <div class="edit-row">
-                                <label class="edit-label">Phone Number:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
-                            </div>
-
-                            <div class="edit-row">
-                                <label class="edit-label">Role:</label>
-                                <input class="edit-input" type="text" placeholder="[EDIT HERE]">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- Role --</option>
+                                        <option value="intern"
+                                            {% if user.userRole == "intern" %}selected{% endif %}>
+                                            Intern
+                                        </option>
+                                        <option value="part-time employee"
+                                        {% if user.userRole == "part-time employee" %}selected{% endif %}>
+                                            Part-Time
+                                        </option>
+                                        <option value="full-time employee"
+                                        {% if user.userRole == "full-time employee" %}selected{% endif %}>
+                                            Full-Time
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Managerial Status:</label>
+                                    <div class="checkbox-list">
+                                        <label class="checkbox-item">
+                                            <input type="radio" name="manager-status" class="manager-option" value="yes">
+                                            Manager
+                                        </label>
+                                        <label class="checkbox-item">
+                                            <input type="radio" name="manager-status" class="manager-option" value="no"
+                                                {% if not user[6] %}checked{% endif %}>
+                                            Non-Manager
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="edit-row">
+                                    <label class="edit-label">Employees Managed:</label>
+                                    <div class="checkbox-list">
+                                        {% for user in all_users %}
+                                        <label class="checkbox-item">
+                                            <input type="checkbox"
+                                                class="user-option"
+                                                name="managed-employees"
+                                                value="{{ user[0] }}"
+                                                data-name="{{ user.name }}"
+                                                {% if user[0] in managedIds %}checked{% endif %}>
+                                            {{ user[1] }} {{ user[2] }}
+                                        </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="edit-buttons-panel">
-                        <button class="modal-action-btn confirm-btn">confirm edits</button>
-                        <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
-                    </div>
+    
+                        <div class="edit-buttons-panel">
+                            <input type="submit" value="confirm edits">
+                            <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
+                        </div>
+                </form>
                 </div>
             </div>
         </div>
@@ -173,5 +191,6 @@
             }
         });
     </script>
+    <script src="/static/js/user-filter.js"></script>
 </body>
 </html>
