@@ -147,7 +147,7 @@
                                                 name="managed-employees"
                                                 value="{{ all_user[0] }}"
                                                 data-name="{{ all_user[1] }} {{ all_user[2] }}"
-                                                {% if all_user[0] in user.managedIds %}checked{% endif %}>
+                                                {% if user.managedIds and all_user[0] in user.managedIds %}checked{% endif %}>
                                             {{ all_user[1] }} {{ all_user[2] }}
                                         </label>
                                         {% endfor %}

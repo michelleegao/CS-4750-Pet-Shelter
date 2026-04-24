@@ -82,6 +82,8 @@ def users_view(user_id):
         }
 
         return render_template("/user_view.html", user=user_data, all_users = all_other_users)
+    
+    
     if request.method=="POST":
         action = request.form.get("action")
         if action == "update":
