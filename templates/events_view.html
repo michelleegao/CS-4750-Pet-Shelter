@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Families Search</title>
+    <link rel="stylesheet" href="/static/css/events_view.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Navigation Bar -->
+        <div class="top-section">
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="/">Pet Shelter App</a>
+                    <a href="/pets_search">Pets</a>
+                    <a href="/user_search">Users</a>
+                    <a href="/families">Families</a>
+                    <a href="/events">Events</a>
+                    <a href="#">Appointments</a>
+                </div>
+                <svg class="profile-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+                </svg>
+            </nav>
+
+            <!-- Main content area -->
+            <main class="details-section">
+                <div class="top-row">
+                    <a href="/events" class="return-btn">Return to Search</a>
+                    <h1 class="page-title">All About Adoption Event</h1>
+                </div>
+
+                <div class="details-content">
+                    <!-- Left side -->
+                    <div class="pet-left">
+                        <div class="pet-image-frame">
+                            <div class="info-row">
+                                <div class="info-label">Location:</div>
+                                <div class="info-value">{{ event.street_name }} {{ event.zip_code }} {{ event.country }}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Date:</div>
+                                <div class="info-value">{{ event.event_date }}</div>
+                            </div>
+                            <div class="info-row">
+                                <div class="info-label">Time:</div>
+                                <div class="info-value">{{ event.event_time }}</div>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="action-btn" id="openEditModal">Edit event information</button>
+
+                            <form method="POST"
+                                action="/events/{{ event.event_id }}/delete"
+                                onsubmit="return confirm('Are you sure you want to delete this event?');">
+                                <button class="action-btn" type="submit">Delete event</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="pet-right">
+                        <div class="info-scroll">
+
+                            <div class="info-row">
+                                <div class="info-label">Pets Present:</div>
+                                <div class="info-value">{{ event.pet_names }}</div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Staff Working:</div>
+                                <div class="info-value">{{ event.staff_names }}</div>
+                            </div>
+
+                            <div class="info-row">
+                                <div class="info-label">Families Attending:</div>
+                                <div class="info-value">{{ event.family_names }}</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Edit Popup -->
+            <div class="modal-overlay" id="editModal">
+                <div class="edit-modal">
+                    <button class="close-modal" id="closeEditModal">&times;</button>
+
+                    <div class="edit-title">Edit Event Information</div>
+
+                    <form method="POST" action="/events/{{ event.event_id }}/edit">
+                        <div class="edit-modal-content">
+                            <div class="edit-form-panel">
+                                <div class="edit-scroll">
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Attending Pets</label>
+                                        <button type="button" class="edit-input" onclick="openSelectionModal('pet-modal')">
+                                            Select Pets
+                                        </button>
+                                        <div class="selected-preview" id="pet-preview">{{ event.pet_names or 'No pets selected' }}</div>
+                                        <input type="hidden" id="pet-popup-value" name="pet_ids"
+                                            value="{{ selected_pet_ids|join(',') }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Staff Working</label>
+                                        <button type="button" class="edit-input" onclick="openSelectionModal('user-modal')">
+                                            Select Users
+                                        </button>
+                                        <div class="selected-preview" id="user-preview">{{ event.staff_names or 'No users selected' }}</div>
+                                        <input type="hidden" id="user-popup-value" name="user_ids"
+                                            value="{{ selected_user_ids|join(',') }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Families Attending</label>
+                                        <button type="button" class="edit-input" onclick="openSelectionModal('family-modal')">
+                                            Select Families
+                                        </button>
+                                        <div class="selected-preview" id="family-preview">{{ event.family_names or 'No families selected' }}</div>
+                                        <input type="hidden" id="family-popup-value" name="family_ids"
+                                            value="{{ selected_family_ids|join(',') }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Date and Time</label>
+                                        <input class="edit-input" type="datetime-local" name="dateTime"
+                                            value="{{ event.event_datetime_local }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Street</label>
+                                        <input class="edit-input" type="text" name="street"
+                                            value="{{ event.street_name }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">City</label>
+                                        <input class="edit-input" type="text" name="city">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">State</label>
+                                        <input class="edit-input" type="text" name="state">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Zip Code</label>
+                                        <input class="edit-input" type="text" name="zipCode"
+                                            value="{{ event.zip_code }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Country</label>
+                                        <input class="edit-input" type="text" name="country"
+                                            value="{{ event.country }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="edit-buttons-panel">
+                                <button class="modal-action-btn confirm-btn" type="submit">confirm edits</button>
+                                <button class="modal-action-btn cancel-btn" id="cancelEditModal" type="button">cancel edits</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="pet-modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeSelectionModal('pet-modal')">&times;</span>
+                <label><strong>Select Pets</strong></label>
+                <div class="checkbox-list">
+                    {% for pet in pets %}
+                    <label class="checkbox-item">
+                        <input type="checkbox"
+                            class="pet-option"
+                            value="{{ pet.petID }}"
+                            data-name="{{ pet.name }}"
+                            {% if pet.petID in selected_pet_ids %}checked{% endif %}>
+                        {{ pet.name }}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" onclick="saveSelection('pet')">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="user-modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeSelectionModal('user-modal')">&times;</span>
+                <label><strong>Select Users</strong></label>
+                <div class="checkbox-list">
+                    {% for user in users %}
+                    <label class="checkbox-item">
+                        <input type="checkbox"
+                            class="user-option"
+                            value="{{ user.userID }}"
+                            data-name="{{ user.first_name }} {{ user.last_name }}"
+                            {% if user.userID in selected_user_ids %}checked{% endif %}>
+                        {{ user.first_name }} {{ user.last_name }}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" onclick="saveSelection('user')">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="family-modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeSelectionModal('family-modal')">&times;</span>
+                <label><strong>Select Families</strong></label>
+                <div class="checkbox-list">
+                    {% for family in families %}
+                    <label class="checkbox-item">
+                        <input type="checkbox"
+                            class="family-option"
+                            value="{{ family.familyID }}"
+                            data-name="{{ family.first_name }} {{ family.last_name }}"
+                            {% if family.familyID in selected_family_ids %}checked{% endif %}>
+                        {{ family.first_name }} {{ family.last_name }}
+                    </label>
+                    {% endfor %}
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" onclick="saveSelection('family')">Save</button>
+                </div>
+            </div>
+        </div>
+
+
+    
+    </div>
+
+    <script>
+        const editModal = document.getElementById("editModal");
+        const openEditModal = document.getElementById("openEditModal");
+        const closeEditModal = document.getElementById("closeEditModal");
+        const cancelEditModal = document.getElementById("cancelEditModal");
+
+        openEditModal.addEventListener("click", () => {
+            editModal.classList.add("show");
+        });
+
+        closeEditModal.addEventListener("click", () => {
+            editModal.classList.remove("show");
+        });
+
+        cancelEditModal.addEventListener("click", () => {
+            editModal.classList.remove("show");
+        });
+
+        function openSelectionModal(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function closeSelectionModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function saveSelection(type) {
+            let selector = "";
+            let hiddenId = "";
+            let previewId = "";
+            let modalId = "";
+
+            if (type === "pet") {
+                selector = ".pet-option";
+                hiddenId = "pet-popup-value";
+                previewId = "pet-preview";
+                modalId = "pet-modal";
+            } else if (type === "user") {
+                selector = ".user-option";
+                hiddenId = "user-popup-value";
+                previewId = "user-preview";
+                modalId = "user-modal";
+            } else if (type === "family") {
+                selector = ".family-option";
+                hiddenId = "family-popup-value";
+                previewId = "family-preview";
+                modalId = "family-modal";
+            }
+
+            const checked = Array.from(document.querySelectorAll(`${selector}:checked`));
+            const ids = checked.map(item => item.value);
+            const names = checked.map(item => item.dataset.name);
+
+            document.getElementById(hiddenId).value = ids.join(",");
+            document.getElementById(previewId).textContent =
+                names.length ? names.join(", ") : "None selected";
+
+            closeSelectionModal(modalId);
+        }
+
+        window.addEventListener("click", function (e) {
+            if (e.target === editModal) {
+                editModal.classList.remove("show");
+            }
+
+            document.querySelectorAll(".modal").forEach(modal => {
+                if (e.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
