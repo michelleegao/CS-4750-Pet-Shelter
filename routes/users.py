@@ -54,11 +54,11 @@ def users_view(user_id):
             FROM users u LEFT JOIN managers m ON u.userID=m.userID  WHERE u.userID = UUID_TO_BIN(%s)"""
         user = run_query(user_query, (user_id,), fetch=True)[0]
         if user[6] is not None:
-            users_managed_query = """SELECT BIN_TO_UUID(m.userID as managed_id, u.first_name as first, u.last_name as last FROM
+            users_managed_query = """SELECT BIN_TO_UUID(m.userID) as managed_id, u.first_name as first, u.last_name as last FROM
             users u LEFT JOIN manages m ON m.userID = u.userID WHERE m.managerID = UUID_TO_BIN(%s)"""
             managed_users = run_query(users_managed_query, (user_id), fetch=True)
-            managed_names  = tuple(f"{first} {last}" for first, last in managed_users)
-            managed_ids = tuple(f"{managed_id}" for managed_id in managed_users)
+            managed_names  = tuple(f"{row[1]} {row[2]}" for row in managed_users)
+            managed_ids = tuple(f"{row[0]}" for row in managed_users)
         else:
             managed_names = ()
             managed_users = []
