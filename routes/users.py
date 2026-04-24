@@ -23,7 +23,7 @@ def run_query(query, params=None, fetch=False):
 
     return result
 
-@users_blueprint.route("/users_search", methods=["GET"])
+@users_blueprint.route("/user_search", methods=["GET"])
 def get_all_users():
     if request.method == "GET":
         query = """SELECT BIN_TO_UUID(u.userID) AS userIDString, u.first_name, u.last_name, u.email, u.phone_number, u.role, m.managerID 
@@ -38,13 +38,13 @@ def get_all_users():
             FROM users u LEFT JOIN managers m ON u.userID=m.userID 
             WHERE u.first_name LIKE %s OR u.last_name LIKE %s OR u.email LIKE %s OR u.role LIKE %s"""
             params = (search_term, search_term, search_term, search_term)
-            if search_term.lower() == "manager":
-                query = query + " OR m.manager NOT NULL" 
+            if query_param.lower() == "manager":
+                query = query + " OR m.manager IS NOT NULL" 
                 
-        get_all_users = run_query(query, params, fetch=True)
+        get_users = run_query(query, params, fetch=True)
 
         print("ARGS:", request.args)
-        return render_template('/user_search.html', users=get_all_users)
+        return render_template('/user_search.html', users=get_users)
 
 @users_blueprint.route("/users/<user_id>", methods=["GET", "POST"])
 def users_view(user_id):
