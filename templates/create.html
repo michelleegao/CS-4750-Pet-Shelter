@@ -46,7 +46,12 @@
 
       <div class="form-group">
         <label>Position Name:</label>
-        <input type="text" id="positionName" required>
+        <select id="positionName" required>
+          <option value="" disabled selected>Select position</option>
+          <option value="full-time employee">Full-Time Employee</option>
+          <option value="part-time employee">Part-Time Employee</option>
+          <option value="intern">Intern</option>
+        </select>
       </div>
 
       <button type="submit" class="enter-btn">Enter</button>
