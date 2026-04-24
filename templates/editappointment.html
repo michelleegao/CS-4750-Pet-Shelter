@@ -14,7 +14,7 @@
                 <a href="/pets_search">Pets</a>
                 <a href="/user_search">Users</a>
                 <a href="/families">Families</a>
-                <a href="#">Events</a>
+                <a href="/events">Events</a>
                 <a href="/appointments">Appointments</a>
             </div>
 
@@ -30,6 +30,11 @@
 <form method="POST">
     <label>Pet ID:</label>
     <input type="text" name="pet_id" value="{{ appointment.pet_id }}">
+
+    <br><br>
+
+    <label>User ID:</label>
+    <input type="text" name="user_id" value="{{ appointment.user_id }}">
 
     <br><br>
 

@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from db.connection import getconn
 import uuid
+from datetime import datetime
+from flask import session
 
 appointments_bp = Blueprint('appointments', __name__)
 
-# =========================
 # VIEW ALL APPOINTMENTS
-# =========================
 @appointments_bp.route("/appointments")
 def appointments_view():
     conn = None
@@ -20,6 +20,7 @@ def appointments_view():
             SELECT
                 HEX(appointmentID),
                 HEX(petID),
+                HEX(userID),
                 appointment_date_time,
                 appointment_reason,
                 cost,
@@ -35,10 +36,11 @@ def appointments_view():
             appointments.append({
                 "appointment_id": r[0],
                 "pet_id": r[1],
-                "datetime": r[2],
-                "reason": r[3],
-                "cost": r[4],
-                "notes": r[5]
+                "user_id": r[2],
+                "datetime": r[3],
+                "reason": r[4],
+                "cost": r[5],
+                "notes": r[6]
             })
 
         return render_template("appointment.html", appointments=appointments)
@@ -53,9 +55,7 @@ def appointments_view():
             conn.close()
 
 
-# =========================
 # VIEW ONE APPOINTMENT
-# =========================
 @appointments_bp.route("/appointments/<appointment_id>")
 def appointment_detail(appointment_id):
     conn = None
@@ -69,6 +69,7 @@ def appointment_detail(appointment_id):
             SELECT
                 HEX(appointmentID),
                 HEX(petID),
+                HEX(userID),
                 appointment_date_time,
                 appointment_reason,
                 cost,
@@ -85,10 +86,11 @@ def appointment_detail(appointment_id):
         appointment = {
             "appointment_id": row[0],
             "pet_id": row[1],
-            "datetime": row[2],
-            "reason": row[3],
-            "cost": row[4],
-            "notes": row[5]
+            "user_id": row[2],
+            "datetime": row[3],
+            "reason": row[4],
+            "cost": row[5],
+            "notes": row[6]
         }
 
         return render_template("appointment_detail.html", appointment=appointment)
@@ -103,17 +105,13 @@ def appointment_detail(appointment_id):
             conn.close()
 
 
-# =========================
 # ADD PAGE
-# =========================
 @appointments_bp.route("/appointments/add")
 def add_appointment():
     return render_template("addappointment.html")
 
 
-# =========================
 # CREATE APPOINTMENT (POST)
-# =========================
 @appointments_bp.route("/appointments/add", methods=["POST"])
 def create_appointment():
     conn = None
@@ -125,29 +123,35 @@ def create_appointment():
 
         appointment_id = uuid.uuid4().hex
         pet_id = request.form["pet_id"]
+        user_id = request.form["user_id"]
         datetime_val = request.form["datetime"]
         reason = request.form["reason"]
         cost = request.form["cost"]
         notes = request.form["notes"]
+        creationDateTime = datetime.utcnow()
 
         cursor.execute("""
             INSERT INTO appointments (
                 appointmentID,
-                petID,
                 appointment_date_time,
                 appointment_reason,
                 cost,
-                notes
+                notes,
+                creation_date,
+                petID,
+                userID
             )
             VALUES (
                 UNHEX(%s),
+                %s,
+                %s,
+                %s,
+                %s,
+                %s,
                 UNHEX(%s),
-                %s,
-                %s,
-                %s,
-                %s
+                UNHEX(%s)
             )
-        """, (appointment_id, pet_id, datetime_val, reason, cost, notes))
+        """, (appointment_id, datetime_val, reason, cost, notes, creationDateTime, pet_id, user_id))
 
         conn.commit()
 
@@ -162,10 +166,7 @@ def create_appointment():
         if conn:
             conn.close()
 
-
-# =========================
 # EDIT PAGE
-# =========================
 @appointments_bp.route("/appointments/edit/<appointment_id>")
 def edit_appointment_page(appointment_id):
     conn = None
@@ -179,6 +180,7 @@ def edit_appointment_page(appointment_id):
             SELECT
                 HEX(appointmentID),
                 HEX(petID),
+                HEX(userID),
                 appointment_date_time,
                 appointment_reason,
                 cost,
@@ -195,10 +197,11 @@ def edit_appointment_page(appointment_id):
         appointment = {
             "appointment_id": row[0],
             "pet_id": row[1],
-            "datetime": row[2],
-            "reason": row[3],
-            "cost": row[4],
-            "notes": row[5]
+            "user_id": row[2],
+            "datetime": row[3],
+            "reason": row[4],
+            "cost": row[5],
+            "notes": row[6]
         }
 
         return render_template("editappointment.html", appointment=appointment)
@@ -212,10 +215,7 @@ def edit_appointment_page(appointment_id):
         if conn:
             conn.close()
 
-
-# =========================
 # UPDATE APPOINTMENT
-# =========================
 @appointments_bp.route("/appointments/edit/<appointment_id>", methods=["POST"])
 def update_appointment(appointment_id):
     conn = None
@@ -226,6 +226,7 @@ def update_appointment(appointment_id):
         cursor = conn.cursor()
 
         pet_id = request.form["pet_id"]
+        user_id = request.form["user_id"]
         datetime_val = request.form["datetime"]
         reason = request.form["reason"]
         cost = request.form["cost"]
@@ -235,12 +236,13 @@ def update_appointment(appointment_id):
             UPDATE appointments
             SET
                 petID = UNHEX(%s),
+                userID = UNHEX(%s),
                 appointment_date_time = %s,
                 appointment_reason = %s,
                 cost = %s,
                 notes = %s
             WHERE appointmentID = UNHEX(%s)
-        """, (pet_id, datetime_val, reason, cost, notes, appointment_id))
+        """, (pet_id, user_id, datetime_val, reason, cost, notes, appointment_id))
 
         conn.commit()
 
@@ -255,10 +257,7 @@ def update_appointment(appointment_id):
         if conn:
             conn.close()
 
-
-# =========================
 # DELETE APPOINTMENT
-# =========================
 @appointments_bp.route("/appointments/delete/<appointment_id>", methods=["POST"])
 def delete_appointment(appointment_id):
     conn = None

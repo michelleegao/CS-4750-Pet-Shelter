@@ -16,45 +16,54 @@ form {
     display: contents; /* makes form "invisible" to layout, children go straight to the grid */
 }
 
-.outer-box{
+.outer-box {
     width: 100%;
-    padding: 20px;
+    max-width: 1500px;
+    padding: 40px;
     background: #BABFD1;
     border-radius: 20px;
-
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-    align-items: end;
-    gap: 20px;
 }
 
-.inner-box{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 15px;
+.inner-box {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 30px;
     border-radius: 20px;
     background: #607196;
-    height: 400px;
-
-    overflow-y: scroll;
+    height: 450px;
+    overflow-y: auto;
 }
 
 h1{
     text-align: center;
 }
-.page{
-    height: 80vh;
+
+.page {
+    min-height: 80vh;
+    padding: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #FFC759;
 }
 
-input{
-    font-family: Arial, sans-serif;
-    background: #E8E9ED;
+.input-group {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
 }
 
   /*Layout of the Main Page*/
@@ -123,5 +132,37 @@ input{
 .close {
     float: right;
     font-size: 24px;
+    cursor: pointer;
+}
+
+.family-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.family-card-link:hover {
+    opacity: 0.95;
+    cursor: pointer;
+}
+
+/* checkbox stylings */
+.checkbox-group {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #ff6f8f;
+}
+
+.checkbox-item input {
+    width: auto;
+    transform: scale(1.2);
     cursor: pointer;
 }

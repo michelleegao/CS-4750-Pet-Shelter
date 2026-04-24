@@ -3,7 +3,7 @@
 <head>
     <title>Add a New Family</title>
     <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/add.css">
+    <link rel="stylesheet" href="/static/css/addfamily.css">
 </head>
 <header>
     <nav class="navbar">
@@ -32,14 +32,17 @@
                     <div class="input-group">
                         <label><strong>Type of Family</strong></label>
 
-                        <label>
-                            <input type="checkbox" id="fosterCheck" class="family_type" name="is_foster" value="1" onclick="ffamFunction()" required>
-                            Foster
-                        </label>
-                        <label>
-                            <input type="checkbox" id="adoptiveCheck" class="family_type" name="is_adoptive" value="1" onclick="afamFunction()" required>
-                            Adoptive
-                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="is_foster" value="1">
+                                Foster
+                            </label>
+
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="is_adoptive" value="1">
+                                Adoptive
+                            </label>
+                        </div>
                     </div>
 
                     <div class="input-group">
@@ -85,14 +88,17 @@
                     <div class="input-group">
                         <label><strong>Children?</strong></label>
 
-                        <label>
-                            <input type="radio" name="children" value="1">
-                            Yes
-                        </label>
-                        <label>
-                            <input type="radio" name="children" value="0">
-                            No
-                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="radio" name="children" value="1">
+                                Yes
+                            </label>
+
+                            <label class="checkbox-item">
+                                <input type="radio" name="children" value="0">
+                                No
+                            </label>
+                        </div>
                     </div>
 
                     <!-- Only for foster families -->
