@@ -2,8 +2,26 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from db.connection import getconn
 import uuid
 from datetime import datetime
+from flask import session
 
 appointments_bp = Blueprint('appointments', __name__)
+
+def is_full_time_employee(user_id):
+    conn = getconn()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT role
+        FROM users
+        WHERE userID = UNHEX(%s)
+    """, (user_id,))
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result and result[0].strip().lower() == "full-time employee"
 
 # VIEW ALL APPOINTMENTS
 @appointments_bp.route("/appointments")
