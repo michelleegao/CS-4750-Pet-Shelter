@@ -1,9 +1,10 @@
 const editModal = document.getElementById("editModal");
 const closeEditModal = document.getElementById("closeEditModal");
 const cancelEditModal = document.getElementById("cancelEditModal");
-const closeDeleteModal = document.getElementById("closeDeleteModal");
-const cancelDeleteModal = document.getElementById("cancelDeleteModal");
-const deleteModal = document.getElementById("deleteModal");
+const closePreviousModal = document.getElementById("closePreviousModal");
+const cancelPreviousModal = document.getElementById("cancelPreviousModal");
+const previousModal = document.getElementById("previousModal");
+const deleteButton = document.getElementById("delete-btn");
 
 
 function openEditModal(button){
@@ -51,26 +52,26 @@ editModal.addEventListener("click", (e) => {
     }
 });
 
-function openDeleteModal(button){
+function openPreviousModal(button){
     console.log(button.dataset);
-    deleteModal.classList.add("show");
+    previousModal.classList.add("show");
 
     document.getElementById("delete-petid").value = button.dataset.id;
     document.getElementById("delete-photo").src = button.dataset.photo;
     document.getElementById("delete-adoption-dropdown").value = button.dataset.adoption;
 }
 
-closeDeleteModal.addEventListener("click", () => {
-    deleteModal.classList.remove("show");
+closePreviousModal.addEventListener("click", () => {
+    previousModal.classList.remove("show");
 });
 
-cancelDeleteModal.addEventListener("click", () => {
-    deleteModal.classList.remove("show");
+cancelPreviousModal.addEventListener("click", () => {
+    previousModal.classList.remove("show");
 });
 
-deleteModal.addEventListener("click", (e) => {
-    if (e.target === deleteModal) {
-        deleteModal.classList.remove("show");
+previousModal.addEventListener("click", (e) => {
+    if (e.target === previousModal) {
+        previousModal.classList.remove("show");
     }
 });
 
@@ -149,4 +150,17 @@ document.getElementById("edit-pet-form").addEventListener("submit", async  (e) =
     console.log("RAW RESPONSE:", text);
 
     window.location.href = `/pet/${petId}`;
-  })
+});
+
+deleteButton.addEventListener("click", async function(){
+    const petId = this.dataset.id;
+
+    const response = await fetch(`/delete_pet/${petId}`, {
+      method: "POST"
+    });
+
+    if (response.ok) {
+      // remove pet from UI
+      window.location.href = "/pets_search";
+    }
+})

@@ -20,4 +20,5 @@ def getconn():
         password=DB_PASS,
         db=DB_NAME
     )
+    
     return conn
