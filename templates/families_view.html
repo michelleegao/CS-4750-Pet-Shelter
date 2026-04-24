@@ -168,6 +168,34 @@
 
                         <div class="edit-form-panel">
                             <div class="edit-scroll">
+                                <div class="edit-row">
+                                    <label class="edit-label">Type of Family:</label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            id="editFosterCheck"
+                                            name="is_foster"
+                                            value="1"
+                                            onclick="toggleEditFamilyFields()"
+                                            {% if family.is_foster %}checked{% endif %}
+                                        >
+                                        Foster
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            id="editAdoptiveCheck"
+                                            name="is_adoptive"
+                                            value="1"
+                                            onclick="toggleEditFamilyFields()"
+                                            {% if family.is_adoptive %}checked{% endif %}
+                                        >
+                                        Adoptive
+                                    </label>
+                                </div>
+
 
                                 <div class="edit-row">
                                     <label class="edit-label">Preferred species:</label>
@@ -183,24 +211,28 @@
                                     </select>
                                 </div>
 
-                                <div class="edit-row">
-                                    <label class="edit-label">Number of Adults (18+):</label>
-                                    <input class="edit-input" name="num_adults" type="number" min="0" placeholder="{{ family.num_adults if family.num_adults is not none else '' }}">
+                                <div id="editAdoptiveFields">
+                                    <div class="edit-row">
+                                        <label class="edit-label">Number of Adults (18+):</label>
+                                        <input class="edit-input" name="num_adults" type="number" min="0" placeholder="{{ family.num_adults if family.num_adults is not none else '' }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Number of Children (0-17):</label>
+                                        <input class="edit-input" name="num_children" type="number" min="0" placeholder="{{ family.num_children if family.num_children is not none else '' }}">
+                                    </div>
+
+                                    <div class="edit-row">
+                                        <label class="edit-label">Number of Pets Already Owned:</label>
+                                        <input class="edit-input" name="num_pets_owned" type="number" min="0" placeholder="{{ family.num_pets_owned if family.num_pets_owned is not none else '' }}">
+                                    </div>
                                 </div>
 
-                                <div class="edit-row">
-                                    <label class="edit-label">Number of Children (0-17):</label>
-                                    <input class="edit-input" name="num_children" type="number" min="0" placeholder="{{ family.num_children if family.num_children is not none else '' }}">
-                                </div>
-
-                                <div class="edit-row">
-                                    <label class="edit-label">Number of Pets Already Owned:</label>
-                                    <input class="edit-input" name="num_pets_owned" type="number" min="0" placeholder="{{ family.num_pets_owned if family.num_pets_owned is not none else '' }}">
-                                </div>
-
-                                <div class="edit-row">
-                                    <label class="edit-label">Number of Pets Fostered:</label>
-                                    <input class="edit-input" name="num_pets_fostered" type="number" min="0" placeholder="{{ family.num_pets_fostered if family.num_pets_fostered is not none else '' }}">
+                                <div id="editFosterFields">
+                                    <div class="edit-row">
+                                        <label class="edit-label">Number of Pets Fostered:</label>
+                                        <input class="edit-input" name="num_pets_fostered" type="number" min="0" placeholder="{{ family.num_pets_fostered if family.num_pets_fostered is not none else '' }}">
+                                    </div>
                                 </div>
 
                                 <div class="edit-row">
@@ -257,7 +289,18 @@
         const closeEditModal = document.getElementById("closeEditModal");
         const cancelEditModal = document.getElementById("cancelEditModal");
 
+        const editFosterCheck = document.getElementById("editFosterCheck");
+        const editAdoptiveCheck = document.getElementById("editAdoptiveCheck");
+        const editFosterFields = document.getElementById("editFosterFields");
+        const editAdoptiveFields = document.getElementById("editAdoptiveFields");
+
+        function toggleEditFamilyFields() {
+            editFosterFields.style.display = editFosterCheck.checked ? "block" : "none";
+            editAdoptiveFields.style.display = editAdoptiveCheck.checked ? "block" : "none";
+        }
+
         openEditModal.addEventListener("click", () => {
+            toggleEditFamilyFields();
             editModal.classList.add("show");
         });
 
@@ -274,6 +317,15 @@
                 editModal.classList.remove("show");
             }
         });
+
+        document.querySelector("#editModal form").addEventListener("submit", function(e) {
+            if (!editFosterCheck.checked && !editAdoptiveCheck.checked) {
+                e.preventDefault();
+                alert("A family must be Foster, Adoptive, or both.");
+            }
+        });
+
+        toggleEditFamilyFields();
     </script>
 </body>
 </html>

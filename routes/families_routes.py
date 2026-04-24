@@ -97,7 +97,9 @@ def families_view(family_id):
                 af.num_pets_owned,
                 af.num_adults,
                 af.num_children,
-                ff.num_pets_fostered
+                ff.num_pets_fostered,
+                af.familyID IS NOT NULL AS is_adoptive,
+                ff.familyID IS NOT NULL AS is_foster
             FROM families f
             LEFT JOIN zip_codes z ON f.zip_code = z.zip_code
             LEFT JOIN adoptive_families af ON f.familyID = af.familyID
@@ -130,6 +132,8 @@ def families_view(family_id):
             "num_adults": row[15],
             "num_children": row[16],
             "num_pets_fostered": row[17],
+            "is_adoptive": bool(row[18]),
+            "is_foster": bool(row[19]),
         }
 
         return render_template("families_view.html", family=family)
@@ -312,6 +316,13 @@ def edit_family(family_id):
         num_pets_owned = request.form.get("num_pets_owned", "").strip()
         num_pets_fostered = request.form.get("num_pets_fostered", "").strip()
 
+        is_foster = request.form.get("is_foster") == "1"
+        is_adoptive = request.form.get("is_adoptive") == "1"
+
+        if not is_foster and not is_adoptive:
+            flash("A family must be Foster, Adoptive, or both.")
+            return redirect(url_for("families.families_view", family_id=family_id))
+
         if zip_code:
             cursor.execute("""
                 INSERT INTO zip_codes (zip_code, city, state)
@@ -384,7 +395,8 @@ def edit_family(family_id):
             adoptive_updates.append("num_children = %s")
             adoptive_values.append(int(num_children))
 
-        if adoptive_updates:
+        # adoptive subtype handling
+        if is_adoptive:
             cursor.execute("""
                 SELECT COUNT(*)
                 FROM adoptive_families
@@ -393,13 +405,19 @@ def edit_family(family_id):
             has_adoptive = cursor.fetchone()[0] > 0
 
             if has_adoptive:
-                query = f"""
+                cursor.execute("""
                     UPDATE adoptive_families
-                    SET {', '.join(adoptive_updates)}
+                    SET
+                        num_pets_owned = COALESCE(NULLIF(%s, ''), num_pets_owned),
+                        num_adults = COALESCE(NULLIF(%s, ''), num_adults),
+                        num_children = COALESCE(NULLIF(%s, ''), num_children)
                     WHERE HEX(familyID) = %s
-                """
-                adoptive_values.append(family_id)
-                cursor.execute(query, tuple(adoptive_values))
+                """, (
+                    num_pets_owned,
+                    num_adults,
+                    num_children,
+                    family_id
+                ))
             else:
                 cursor.execute("""
                     INSERT INTO adoptive_families (
@@ -413,12 +431,19 @@ def edit_family(family_id):
                 """, (
                     family_id,
                     uuid.uuid4().bytes,
-                    int(num_pets_owned) if num_pets_owned != "" else 0,
-                    int(num_adults) if num_adults != "" else 0,
-                    int(num_children) if num_children != "" else 0
+                    int(num_pets_owned) if num_pets_owned else 0,
+                    int(num_adults) if num_adults else 0,
+                    int(num_children) if num_children else 0
                 ))
+        else:
+            cursor.execute("""
+                DELETE FROM adoptive_families
+                WHERE HEX(familyID) = %s
+            """, (family_id,))
 
-        if num_pets_fostered != "":
+
+        # foster subtype handling
+        if is_foster:
             cursor.execute("""
                 SELECT COUNT(*)
                 FROM foster_families
@@ -429,9 +454,12 @@ def edit_family(family_id):
             if has_foster:
                 cursor.execute("""
                     UPDATE foster_families
-                    SET num_pets_fostered = %s
+                    SET num_pets_fostered = COALESCE(NULLIF(%s, ''), num_pets_fostered)
                     WHERE HEX(familyID) = %s
-                """, (int(num_pets_fostered), family_id))
+                """, (
+                    num_pets_fostered,
+                    family_id
+                ))
             else:
                 cursor.execute("""
                     INSERT INTO foster_families (
@@ -443,8 +471,13 @@ def edit_family(family_id):
                 """, (
                     family_id,
                     uuid.uuid4().bytes,
-                    int(num_pets_fostered)
+                    int(num_pets_fostered) if num_pets_fostered else 0
                 ))
+        else:
+            cursor.execute("""
+                DELETE FROM foster_families
+                WHERE HEX(familyID) = %s
+            """, (family_id,))
 
         conn.commit()
         flash("Family updated successfully.")
@@ -472,6 +505,14 @@ def delete_family(family_id):
         cursor = conn.cursor()
 
         # delete subtype rows first
+        cursor.execute("""
+            DELETE FROM attends
+            WHERE adoptive_family_ID IN (
+                SELECT adoptive_family_ID
+                FROM adoptive_families
+                WHERE HEX(familyID) = %s
+            );""", (family_id,))
+
         cursor.execute("""
             DELETE FROM adoptive_families
             WHERE HEX(familyID) = %s
@@ -502,19 +543,3 @@ def delete_family(family_id):
             cursor.close()
         if conn:
             conn.close()
-
-# families search query rules
-# @families_bp.route("/families/search", methods=["GET"])
-# def search_family():
-
-#     conn = None
-#     cursor = None
-
-#     try: 
-#         conn = getconn()
-#         cursor = conn.cursor()
-
-#     if request.method == "GET":
-#         family = request.form['family']
-#         # search by family name
-#         cursor.execute("SELECT * ")
