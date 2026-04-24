@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Appointment</title>
+    <title>Add Event</title>
     <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/add.css">
+    <link rel="stylesheet" href="/static/css/addevent.css">
 </head>
 <header>
     <nav class="navbar">
@@ -11,8 +11,8 @@
             <a href="/">Pet Shelter App</a>
             <a href="/pets_search">Pets</a>
             <a href="/user_search">Users</a>
-            <a href="/families">Foster Families</a>
-            <a href="#">Events</a>
+            <a href="/families">Families</a>
+            <a href="/events">Events</a>
             <a href="/appointments">Appointments</a>
         </div>
 
@@ -22,108 +22,227 @@
         </svg>
     </nav>
 </header>
+
 <body>
     <div class="page">
         <div class="outer-box">
-            <form id="add-form">
+            <form id="add-form" method="POST" action="/events/add">
                 <div class="left">
-                    <button id="cancel"><strong>Cancel Changes</strong></button>
+                    <button type="button" id="cancel" onclick="location.href='/events'">
+                        <strong>Cancel Changes</strong>
+                    </button>
                 </div>
+
                 <div class="center">
                     <div class="add-header">
                         <h1>Create New Adoption Event</h1>
                     </div>
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% endwith %}
+
                     <div class="inner-box">
+                        <!-- Pets -->
                         <div class="input-group">
-                            <button type="button" onclick="openModal('multiple-pet-modal')">
+                            <label><strong>Attending Pets</strong></label>
+                            <button type="button" class="select-btn" onclick="openModal('multiple-pet-modal')">
                                 Select Attending Pets Here
                             </button>
-                            <input type="hidden" id="pet-popup-value" name="multiple-pet-popup-value">
-        
-                            <div id="multiple-pet-modal" class="modal">
-                                <div class="modal-content">
-                                  <label>Please Select Attending Pets Here</label>
-                                  <div id="checkbox-list"></div>
-                                  <div class="modal-buttons">
-                                    <button onclick="saveModalValue('multiple-pet-popup-value')">Save</button>
-                                    <button onclick="closeModal('multiple-pet-modal')">Cancel</button>
-                                  </div>
+                            <div class="selected-preview" id="pet-preview">No pets selected</div>
+                            <input type="hidden" id="pet-popup-value" name="pet_ids">
+                        </div>
+
+                        <div id="multiple-pet-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal('multiple-pet-modal')">&times;</span>
+                                <label><strong>Please Select Attending Pets Here</strong></label>
+
+                                <div class="checkbox-list" id="pet-checkbox-list">
+                                    {% for pet in pets %}
+                                    <label class="checkbox-item">
+                                        <input type="checkbox"
+                                               class="pet-option"
+                                               value="{{ pet.petID }}"
+                                               data-name="{{ pet.name }}">
+                                        {{ pet.name }}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="modal-buttons">
+                                    <button type="button" onclick="saveModalValue('pet')">Save</button>
+                                    <button type="button" onclick="closeModal('multiple-pet-modal')">Cancel</button>
                                 </div>
                             </div>
                         </div>
-        
+
+                        <!-- Users -->
                         <div class="input-group">
-                            <button type="button" onclick="openModal('multiple-employee-modal')">
-                                Select Attending Employees Here
+                            <label><strong>Attending Employees</strong></label>
+                            <button type="button" class="select-btn" onclick="openModal('multiple-employee-modal')">
+                                Select Attending Users Here
                             </button>
-                            <input type="hidden" id="employee-popup-value" name="multiple-employee-popup-value">
-        
-                            <div id="multiple-employee-modal" class="modal">
-                                <div class="modal-content">
-                                  <label>Please Select Attending Employees Here</label>
-                                  <div id="checkbox-list"></div>
-                                  <div class="modal-buttons">
-                                    <button onclick="saveModalValue('multiple-employee-popup-value')">Save</button>
-                                    <button onclick="closeModal('multiple-employee-modal')">Cancel</button>
-                                  </div>
+                            <div class="selected-preview" id="employee-preview">No users selected</div>
+                            <input type="hidden" id="employee-popup-value" name="user_ids">
+                        </div>
+
+                        <div id="multiple-employee-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal('multiple-employee-modal')">&times;</span>
+                                <label><strong>Please Select Attending Users Here</strong></label>
+
+                                <div class="checkbox-list" id="employee-checkbox-list">
+                                    {% for user in users %}
+                                    <label class="checkbox-item">
+                                        <input type="checkbox"
+                                               class="employee-option"
+                                               value="{{ user.userID }}"
+                                               data-name="{{ user.first_name }} {{ user.last_name }}">
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="modal-buttons">
+                                    <button type="button" onclick="saveModalValue('employee')">Save</button>
+                                    <button type="button" onclick="closeModal('multiple-employee-modal')">Cancel</button>
                                 </div>
                             </div>
                         </div>
-        
+
+                        <!-- Families -->
                         <div class="input-group">
-                            <button type="button" onclick="openModal('multiple-families-modal')">
-                                Select Attending Potential Adoptive Families Here
+                            <label><strong>Potential Adoptive Families</strong></label>
+                            <button type="button" class="select-btn" onclick="openModal('multiple-families-modal')">
+                                Select Adoptive Families Here
                             </button>
-                            <input type="hidden" id="families-popup-value" name="multiple-families-popup-value">
-        
-                            <div id="multiple-families-modal" class="modal">
-                                <div class="modal-content">
-                                  <label>Please Select Attending Potential Adoptive Families Here</label>
-                                  <div id="checkbox-list"></div>
-                                  <div class="modal-buttons">
-                                    <button onclick="saveModalValue('multiple-families-popup-value')">Save</button>
-                                    <button onclick="closeModal('multiple-families-modal')">Cancel</button>
-                                  </div>
+                            <div class="selected-preview" id="family-preview">No families selected</div>
+                            <input type="hidden" id="families-popup-value" name="family_ids">
+                        </div>
+
+                        <div id="multiple-families-modal" class="modal">
+                            <div class="modal-content">
+                                <span class="close" onclick="closeModal('multiple-families-modal')">&times;</span>
+                                <label><strong>Please Select Potential Adoptive Families Here</strong></label>
+
+                                <div class="checkbox-list" id="family-checkbox-list">
+                                    {% for family in families %}
+                                    <label class="checkbox-item">
+                                        <input type="checkbox"
+                                               class="family-option"
+                                               value="{{ family.familyID }}"
+                                               data-name="{{ family.first_name }} {{ family.last_name }}">
+                                        {{ family.first_name }} {{ family.last_name }}
+                                    </label>
+                                    {% endfor %}
+                                </div>
+
+                                <div class="modal-buttons">
+                                    <button type="button" onclick="saveModalValue('family')">Save</button>
+                                    <button type="button" onclick="closeModal('multiple-families-modal')">Cancel</button>
                                 </div>
                             </div>
                         </div>
-        
+
                         <div class="input-group">
                             <label for="dateTime"><strong>Date and Time of Event</strong></label>
-                            <input type="datetime-local">
+                            <input id="dateTime" name="dateTime" type="datetime-local" required>
                         </div>
+
                         <div class="input-group">
                             <label for="street"><strong>Event Address: Street Number and Name</strong></label>
-                            <input id="street" type="text" placeholder="Street">
+                            <input id="street" name="street" type="text" placeholder="Street" required>
                         </div>
+
                         <div class="input-group">
                             <label for="city"><strong>Event Address: City</strong></label>
-                            <input id="city" type="text" placeholder="City">
+                            <input id="city" name="city" type="text" placeholder="City" required>
                         </div>
+
                         <div class="input-group">
                             <label for="state"><strong>Event Address: State</strong></label>
-                            <input id="state" type="text" placeholder="State">
+                            <input id="state" name="state" type="text" placeholder="State" required>
                         </div>
+
                         <div class="input-group">
                             <label for="zipCode"><strong>Event Address: Zip Code</strong></label>
-                            <input id="zipCode" type="text" placeholder="Zip Code">
+                            <input id="zipCode" name="zipCode" type="text" placeholder="Zip Code" required>
                         </div>
+
                         <div class="input-group">
                             <label for="country"><strong>Event Address: Country</strong></label>
-                            <input id="country" type="text" placeholder="Country">
+                            <input id="country" name="country" type="text" placeholder="Country" required>
                         </div>
                     </div>
                 </div>
+
                 <div class="right">
-                    <input type="submit" name="Submit" value="Create Event"></label>
+                    <input type="submit" name="Submit" value="Create Event">
                 </div>
             </form>
         </div>
     </div>
 
-    <script src="/static/js/add.js"></script>
-    
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        function saveModalValue(type) {
+            let checkboxClass = "";
+            let hiddenInputId = "";
+            let previewId = "";
+            let modalId = "";
+
+            if (type === "pet") {
+                checkboxClass = ".pet-option";
+                hiddenInputId = "pet-popup-value";
+                previewId = "pet-preview";
+                modalId = "multiple-pet-modal";
+            } else if (type === "employee") {
+                checkboxClass = ".employee-option";
+                hiddenInputId = "employee-popup-value";
+                previewId = "employee-preview";
+                modalId = "multiple-employee-modal";
+            } else if (type === "family") {
+                checkboxClass = ".family-option";
+                hiddenInputId = "families-popup-value";
+                previewId = "family-preview";
+                modalId = "multiple-families-modal";
+            }
+
+            const checked = Array.from(document.querySelectorAll(`${checkboxClass}:checked`));
+            const ids = checked.map(item => item.value);
+            const names = checked.map(item => item.dataset.name);
+
+            document.getElementById(hiddenInputId).value = ids.join(",");
+            document.getElementById(previewId).textContent =
+                names.length > 0 ? names.join(", ") : "None selected";
+
+            closeModal(modalId);
+        }
+
+        window.onclick = function(event) {
+            document.querySelectorAll(".modal").forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        };
+    </script>
 </body>
+
 <footer>
     <p>CS4750 Final Project</p>
 </footer>

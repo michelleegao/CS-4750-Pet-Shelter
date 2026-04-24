@@ -145,7 +145,7 @@ def families_view(family_id):
             conn.close()
 
 
-# links family view HTML page
+# links add family HTML page
 @families_bp.route("/family_add", methods=["GET", "POST"])
 def families_add():
     if request.method == "GET":
