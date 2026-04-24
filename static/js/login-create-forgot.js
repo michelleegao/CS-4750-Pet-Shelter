@@ -21,7 +21,7 @@ if (loginForm) {
     if (data.success) {
       showMessage("Login successful! Redirecting...", "green");
       setTimeout(() => {
-        window.location.href = "/pets";
+        window.location.href = "/pets_search";
       }, 1000);
     } else {
       showMessage("Incorrect email or password.", "red");
