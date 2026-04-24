@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Details</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+</head>
+
+<body>
+
+    <div class="top-section">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/">Pet Shelter App</a>
+                <a href="/pets_search">Pets</a>
+                <a href="/user_search">Users</a>
+                <a href="/families">Families</a>
+                <a href="#">Events</a>
+                <a href="/appointments">Appointments</a>
+            </div>
+
+            <svg class="profile-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+            </svg>
+        </nav>
+    </div>
+
+<h1>Appointment Details</h1>
+
+<div>
+    <p><strong>Appointment ID:</strong> {{ appointment.appointment_id }}</p>
+    <p><strong>Pet ID:</strong> {{ appointment.pet_id }}</p>
+    <p><strong>Date/Time:</strong> {{ appointment.datetime }}</p>
+    <p><strong>Reason:</strong> {{ appointment.reason }}</p>
+    <p><strong>Cost:</strong> {{ appointment.cost }}</p>
+    <p><strong>Notes:</strong> {{ appointment.notes }}</p>
+</div>
+
+<br>
+
+<button onclick="window.location.href='/appointments'">Back</button>
+
+</body>
+</html>
