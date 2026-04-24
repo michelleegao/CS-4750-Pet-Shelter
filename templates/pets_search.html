@@ -15,8 +15,8 @@
                     <a href="/">Pet Shelter App</a>
                     <a href="/pets_search">Pets</a>
                     <a href="/users_search">Users</a>
-                    <a href="/families">Foster Families</a>
-                    <a href="pets">Events</a>
+                    <a href="/families">Families</a>
+                    <a href="/events">Events</a>
                     <a href="/appointments">Appointments</a>
                 </div>
                 <svg class="profile-icon" viewBox="0 0 24 24">
@@ -39,13 +39,41 @@
                 </form>
 
                 <button class="filter-btn" id="openFilter">Filter</button>
+
+                <div class="toggle-container">
+                  <label class="switch">
+                    <input type="checkbox" id="previousToggle">
+                    <span class="slider round"></span>
+                  </label>
+
+                  <div class="toggle-label">
+                    Previous Pets
+                  </div>
+                </div>
+                
             </div>
         </div>
 
         <!-- Pets view -->
         <div class="pets-container">
-            <div class="pets-grid">
+            <div class="pets-grid" id="current-pet-grid">
               {% for pet in pets %}
+              <a href="/pet/{{ pet[0] }}" class="pet-link">
+                <div class="pet-item"
+                  data-species="{{  pet[1]  }}"
+                  data-age="{{ pet[2] }}"
+                  data-color="{{ pet[3] }}"
+                  data-breed="{{ pet[4] }}"
+                  data-siblings="{{ pet[5] }}"
+                  data-weight="{{ pet[6] }}">
+                  <img src="{{ pet[7] }}" alt="Pet">
+                  <p class="pet-name">{{ pet[8] }}</p>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <div class="pets-grid" id="previous-pet-grid" style="display: none;">
+              {% for pet in previous_pets %}
               <a href="/pet/{{ pet[0] }}" class="pet-link">
                 <div class="pet-item"
                   data-species="{{  pet[1]  }}"
@@ -147,7 +175,6 @@
           </div>
     
           <script src="/static/js/pet-filter.js"></script>
-          <script src="/static/js/pet.js"></script>
     </div>
 </body>
 </html>

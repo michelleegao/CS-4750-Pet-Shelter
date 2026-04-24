@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const openBtn = document.getElementById("openFilter");
 
     const pets = document.querySelectorAll(".pet-link");
+    const toggle = document.getElementById("previousToggle");
+    const curPets = document.getElementById("current-pet-grid");
+    const prevPets = document.getElementById("previous-pet-grid");
 
     openBtn.addEventListener("click", function () {
         modal.classList.remove("hidden");
@@ -38,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             pet.classList.toggle("hidden", !show);
-            // pet.style.display = show ? "block" : "none";
         });
 
         modal.classList.add("hidden");
@@ -106,4 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    toggle.addEventListener("change", function(){
+        if (this.checked){
+            curPets.style.display = "none";
+            prevPets.style.display = "grid";
+        } else {
+            curPets.style.display = "grid";
+            prevPets.style.display = "none";
+        }
+    });
+
 });
+

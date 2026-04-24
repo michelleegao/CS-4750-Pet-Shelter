@@ -9,7 +9,6 @@ pet_blueprint = Blueprint('pet', __name__)
 bucket_name = "pets-database"
 
 def run_query(query, params=None, fetch=False):
-
     conn = getconn()
     cursor = conn.cursor()
 
@@ -42,7 +41,8 @@ def pets_view():
 @pet_blueprint.route("/pets_search", methods=["GET"])
 def get_all_pets():
     if request.method == "GET":
-        query = "SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet"
+        query = "SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet WHERE petID NOT IN (SELECT petID FROM previous_pet)"
+        previous_query = "SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet NATURAL JOIN previous_pet"
         params = ()
         breed_query = "SELECT DISTINCT breed FROM pet"
         breed_list = run_query(breed_query, fetch=True)
@@ -51,15 +51,17 @@ def get_all_pets():
         if query_param:
             search_term = f"%{query_param}%"
             query = """SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet 
+            WHERE species LIKE %s OR age LIKE %s OR color LIKE %s OR breed LIKE %s OR name like %s AND petID NOT IN (SELECT petID FROM previous_pet)"""
+            previous_query = """SELECT BIN_TO_UUID(petID) as petIDString, species, age, color, breed, siblings, weight, image_url, name FROM pet NATURAL JOIN previous_pet
             WHERE species LIKE %s OR age LIKE %s OR color LIKE %s OR breed LIKE %s OR name like %s"""
             params = (search_term, search_term, search_term, search_term, search_term)
 
-        query_param = request.args.get("query", "").strip()
-
         get_all_pets = run_query(query, params, fetch=True)
+        get_previous_pets = run_query(previous_query, params, fetch=True)
 
         print("ARGS:", request.args)
-        return render_template('/pets_search.html', pets=get_all_pets, breed=breed_list)
+        return render_template('/pets_search.html', pets=get_all_pets, previous_pets=get_previous_pets, breed=breed_list)
+    
     
 @pet_blueprint.route("/pet/<pet_id>", methods=["GET", "POST"])
 def pet_detail(pet_id):
@@ -106,16 +108,18 @@ def pet_detail(pet_id):
         get_adoptives_query = "SELECT BIN_TO_UUID(familyID), first_name, last_name FROM families NATURAL JOIN adoptive_families"
         get_adoptives = run_query(get_adoptives_query, fetch=True)
 
-        get_previous_pets_query = "SELECT BIN_TO_UUID(petID), reason_for_deletion, BIN_TO_UUID(adoptive_familyID) FROM previous_pet WHERE petID = UUID_TO_BIN(%s)"
+        get_previous_pets_query = "SELECT BIN_TO_UUID(petID), reason_for_deletion, BIN_TO_UUID(adoptive_familyID), date_of_deletion FROM previous_pet WHERE petID = UUID_TO_BIN(%s)"
         get_previous_pets = run_query(get_previous_pets_query, (pet_id,), fetch=True)
 
         if get_previous_pets==():
             adoptive_ID = None
             reason_for_deletion = None
+            date_of_deletion = None
             deleted_from_database = False
         else:
             adoptive_ID = get_previous_pets[0][2]
             reason_for_deletion = get_previous_pets[0][1]
+            date_of_deletion = get_previous_pets[0][3]
             deleted_from_database = True
 
         pet_data = {
@@ -141,7 +145,8 @@ def pet_detail(pet_id):
             "image_url" : pet[19],
             "adoptive_family" : adoptive_ID,
             "deleted" : deleted_from_database,
-            "deletion_reason" : reason_for_deletion
+            "deletion_reason" : reason_for_deletion,
+            "deletion_date" : date_of_deletion
         }
 
         return render_template("/pets_view.html", pets=pet_data, fosters=get_fosters, adoptives=get_adoptives)
@@ -299,25 +304,34 @@ def add_pet():
     
     return redirect(url_for("pet.get_all_pets"))
 
-    
+@pet_blueprint.route("/delete_pet/<pet_id>", methods=["POST"])
+def delete_pet(pet_id):
+    conn = getconn()
+    cursor = conn.cursor()
 
-    
+    try:
+        print(conn)
+        cursor.execute("SELECT DATABASE()")
+        print(cursor.fetchone())
 
-## filtering -- implement later
-"""def filter_pets(species=None, min_age=None, max_age=None):
-    query = "SELECT * FROM pet WHERE 1=1"
-    params = []
+        params = (pet_id, )
 
-    if species:
-        query += " AND species = %s"
-        params.append(species)
-
-    if min_age:
-        query += " AND age >= %s"
-        params.append(min_age)
-
-    if max_age:
-        query += " AND age <= %s"
-        params.append(max_age)
-
-    return run_query(query, tuple(params), fetch_all=True)"""
+        cursor.execute("DELETE FROM previous_pet WHERE petID = UUID_TO_BIN(%s)", params)
+        print("pet deleted rows:", cursor.rowcount)
+        cursor.execute("DELETE FROM is_a_sibling_of WHERE petID1 = UUID_TO_BIN(%s) OR petID2 = UUID_TO_BIN(%s)",
+                       (pet_id, pet_id))
+        cursor.execute("DELETE FROM appointments WHERE petID = UUID_TO_BIN(%s)", params)
+        cursor.execute("DELETE FROM goes_to WHERE petID=UUID_TO_BIN(%s)", params)
+        cursor.execute("DELETE FROM pet WHERE petID = UUID_TO_BIN(%s)", params)
+        
+        conn.commit()
+        
+        print("Deleting Pet: ", pet_id)
+        return "", 204
+    except Exception as e:
+        conn.rollback()
+        print("Delete Failed: ", e)
+        return "Error deleting pet", 500
+    finally:
+        cursor.close()
+        conn.close()

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Families Search</title>
+    <link rel="stylesheet" href="/static/css/events_search.css">
+</head>
+<body>
+    <div class="page">
+        <!-- Navigation Bar -->
+        <div class="top-section">
+            <nav class="navbar">
+                <div class="nav-left">
+                    <a href="/">Pet Shelter App</a>
+                    <a href="/pets_search">Pets</a>
+                    <a href="/user_search">Users</a>
+                    <a href="/families">Families</a>
+                    <a href="/events">Events</a>
+                    <a href="/appointments">Appointments</a>
+                </div>
+                <svg class="profile-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+                </svg>
+            </nav>
+        </div>
+
+        <!-- Add and delete buttons -->
+        <div class="action-items">
+            <button onclick="location.href='/events/add'" class="add-btn">Add event</button>
+        </div>
+
+        <!-- Table listing all events -->
+        <table class="events-table">
+            <tr>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Pet IDs</th>
+                <th>Staff Working</th>
+                <th>Families Attending</th>
+            </tr>
+            {% if events %}
+                {% for event in events %}
+                    <tr class="clickable-row" data-href="{{ url_for('events.events_view', event_id=event.event_id) }}">
+                        <td>{{ event.street_name }} {{ event.zip_code }} {{ event.country }}</td>
+                        <td>{{ event.event_date }}</td>
+                        <td>{{ event.event_time }}</td>
+                        <td>{{ event.pet_names }}</td>
+                        <td>{{ event.staff_names }}</td>
+                        <td>{{ event.family_names }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+
+    </div>
+
+    <script>
+        document.querySelectorAll(".clickable-row").forEach(row => {
+            row.addEventListener("click", () => {
+                window.location.href = row.dataset.href;
+            });
+        });
+    </script>
+</body>
+</html>
