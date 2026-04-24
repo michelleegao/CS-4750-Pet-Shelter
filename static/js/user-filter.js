@@ -38,6 +38,6 @@ deleteButton.addEventListener("click", async function(){
 
     if (response.ok) {
       // remove pet from UI
-      window.location.href = "/users_search";
+      window.location.href = "/user_search";
     }
 })
