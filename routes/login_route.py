@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from db.connection import getconn
 import hashlib
 import uuid
+from datetime import datetime
 
 login_bp = Blueprint('login', __name__)
 
@@ -21,6 +22,7 @@ def signup():
     lastName = data.get("lastName")
     phoneNumber = data.get("phoneNumber")
     positionName = data.get("positionName")
+    creationDateTime = datetime.utcnow()
 
     if not email or not password:
         return jsonify({"success": False, "message": "Missing fields"})
@@ -40,9 +42,9 @@ def signup():
 
     cursor.execute(
         """INSERT INTO users 
-        (userID, email, password_hash, first_name, last_name, phone_number, role) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-        (userID, email, hashed_password, firstName, lastName, phoneNumber, positionName)
+        (userID, email, password_hash, first_name, last_name, phone_number, role, creation_date) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+        (userID, email, hashed_password, firstName, lastName, phoneNumber, positionName, creationDateTime)
     )
 
     conn.commit()
