@@ -140,15 +140,15 @@
                                 <div class="edit-row">
                                     <label class="edit-label">Employees Managed:</label>
                                     <div class="checkbox-list">
-                                        {% for user in all_users %}
+                                        {% for all_user in all_users %}
                                         <label class="checkbox-item">
                                             <input type="checkbox"
                                                 class="user-option"
                                                 name="managed-employees"
-                                                value="{{ user[0] }}"
-                                                data-name="{{ user.name }}"
-                                                {% if user[0] in managedIds %}checked{% endif %}>
-                                            {{ user[1] }} {{ user[2] }}
+                                                value="{{ all_user[0] }}"
+                                                data-name="{{ all_user[1] }} {{ all_user[2] }}"
+                                                {% if all_user[0] in user.managedIds %}checked{% endif %}>
+                                            {{ all_user[1] }} {{ all_user[2] }}
                                         </label>
                                         {% endfor %}
                                     </div>
