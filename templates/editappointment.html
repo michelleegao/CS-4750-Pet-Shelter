@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Appointment</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+</head>
+
+<body>
+
+    <div class="top-section">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/">Pet Shelter App</a>
+                <a href="/pets_search">Pets</a>
+                <a href="/user_search">Users</a>
+                <a href="/families">Families</a>
+                <a href="#">Events</a>
+                <a href="/appointments">Appointments</a>
+            </div>
+
+            <svg class="profile-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+            </svg>
+        </nav>
+    </div>
+
+<h1>Edit Appointment</h1>
+
+<form method="POST">
+    <label>Pet ID:</label>
+    <input type="text" name="pet_id" value="{{ appointment.pet_id }}">
+
+    <br><br>
+
+    <label>Date/Time:</label>
+    <input type="datetime-local" name="datetime" value="{{ appointment.datetime }}">
+
+    <br><br>
+
+    <label>Reason:</label>
+    <input type="text" name="reason" value="{{ appointment.reason }}">
+
+    <br><br>
+
+    <label>Cost:</label>
+    <input type="text" name="cost" value="{{ appointment.cost }}">
+
+    <br><br>
+
+    <label>Notes:</label>
+    <input type="text" name="notes" value="{{ appointment.notes }}">
+
+    <br><br>
+
+    <button type="submit">Save Changes</button>
+</form>
+
+</body>
+</html>

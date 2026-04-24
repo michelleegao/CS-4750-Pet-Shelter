@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointments</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+</head>
+
+<body>
+
+    <div class="top-section">
+        <nav class="navbar">
+            <div class="nav-left">
+                <a href="/">Pet Shelter App</a>
+                <a href="/pets_search">Pets</a>
+                <a href="/user_search">Users</a>
+                <a href="/families">Families</a>
+                <a href="#">Events</a>
+                <a href="/appointments">Appointments</a>
+            </div>
+
+            <svg class="profile-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="8" r="4"></circle>
+                <path d="M4 20c1.5-3.5 5-5 8-5s6.5 1.5 8 5"></path>
+            </svg>
+        </nav>
+    </div>
+
+<h1>Appointments</h1>
+
+<form id="appointmentForm">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Appointment ID</th>
+                <th>Pet ID</th>
+                <th>Date/Time</th>
+                <th>Reason</th>
+                <th>Cost</th>
+                <th>Notes</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            {% for a in appointments %}
+            <tr>
+                <td>
+                    <input type="radio" name="selected_appointment" value="{{ a.appointment_id }}">
+                </td>
+                <td>{{ a.appointment_id }}</td>
+                <td>{{ a.pet_id }}</td>
+                <td>{{ a.datetime }}</td>
+                <td>{{ a.reason }}</td>
+                <td>{{ a.cost }}</td>
+                <td>{{ a.notes }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+
+<br>
+
+<button onclick="viewAppointment()">View</button>
+<button onclick="editAppointment()">Edit</button>
+<button onclick="deleteAppointment()">Delete</button>
+<button onclick="location.href='/appointments/add'">Add</button>
+
+<script>
+    function getSelectedAppointment() {
+        const selected = document.querySelector('input[name="selected_appointment"]:checked');
+        if (!selected) {
+            alert("Please select an appointment first.");
+            return null;
+        }
+        return selected.value;
+    }
+    
+    function viewAppointment() {
+        const id = getSelectedAppointment();
+        if (id) {
+            window.location.href = "/appointments/" + id;
+        }
+    }
+    
+    function editAppointment() {
+        const id = getSelectedAppointment();
+        if (id) {
+            window.location.href = "/appointments/edit/" + id;
+        }
+    }
+    
+    function deleteAppointment() {
+        const id = getSelectedAppointment();
+        if (!id) return;
+    
+        if (confirm("Are you sure you want to delete this appointment?")) {
+            fetch("/appointments/delete/" + id, { method: "POST" })
+                .then(() => location.reload());
+        }
+    }
+</script>
+
+</body>
+</html>

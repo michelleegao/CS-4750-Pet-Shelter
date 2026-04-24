@@ -28,7 +28,16 @@ def run_query(query, params=None, fetch=False):
 # links pets view HTML page
 @pet_blueprint.route("/pets_view")
 def pets_view():
-    return render_template('/pets_view.html')
+    conn = getconn()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM pet")
+    pets = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("pets_view.html", pets=pets)
 
 @pet_blueprint.route("/pets_search", methods=["GET"])
 def get_all_pets():
@@ -296,7 +305,7 @@ def add_pet():
 
 ## filtering -- implement later
 """def filter_pets(species=None, min_age=None, max_age=None):
-    query = "SELECT * FROM pets WHERE 1=1"
+    query = "SELECT * FROM pet WHERE 1=1"
     params = []
 
     if species:

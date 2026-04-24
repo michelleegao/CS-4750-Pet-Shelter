@@ -6,9 +6,12 @@ from routes.families_routes import families_bp
 from routes.pets import pet_blueprint
 from routes.events_routes import events_bp
 from routes.login_route import login_bp
+from routes.appointments import appointments_bp
 
 app = Flask(__name__)
 
+
+app.register_blueprint(appointments_bp)
 app.register_blueprint(pet_blueprint)
 app.register_blueprint(families_bp)
 app.register_blueprint(events_bp)
