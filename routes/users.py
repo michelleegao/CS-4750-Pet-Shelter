@@ -40,6 +40,7 @@ def get_all_users():
             params = (search_term, search_term, search_term, search_term)
             if search_term.lower() == "manager":
                 query = query + " OR m.manager NOT NULL" 
+                
         get_all_users = run_query(query, params, fetch=True)
 
         print("ARGS:", request.args)
@@ -103,6 +104,8 @@ def users_view(user_id):
                         cursor.execute("INSERT IGNORE INTO manages (managerID, userID) VALUES (%s, %s)",
                                        (user_id, employee))
                         
+                conn.commit()
+                        
             except Exception as e:
                 conn.rollback()
                 print("Delete Failed: ", e)
@@ -124,7 +127,7 @@ def delete_user(user_id):
 
         cursor.execute("DELETE FROM works_at WHERE userID=UUID_TO_BIN(%s)", params)
         cursor.execute("DELETE FROM appointments WHERE userID=UUID_TO_BIN(%s)", params)
-        cursor.execute("DELETE FROM manages WHERE managerID=UUID_TO_BIN(%s) OR userID=UUID_TO_BIN(%s)", params)
+        cursor.execute("DELETE FROM manages WHERE managerID=UUID_TO_BIN(%s) OR userID=UUID_TO_BIN(%s)", (user_id, user_id, ))
         cursor.execute("DELETE FROM managers WHERE userID=UUID_TO_BIN(%s)", params)
         cursor.execute("DELETE FROM users WHERE userID=UUID_TO_BIN(%s)", params)
         conn.commit()
