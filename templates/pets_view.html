@@ -379,4 +379,163 @@
 
     <script src="/static/js/pets-view.js"></script>
 </body>
+</html>                         </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Weight:</label>
+                                    <input class="edit-input" id="edit-weight" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Special Needs:</label>
+                                    <label>
+                                        <input type="radio" name="special-needs" value="yes" required>
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="special-needs" value="no">
+                                        No
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Spayed or Neutered:</label>
+                                    <label>
+                                        <input type="radio" name="fixed" value="yes" required>
+                                        Yes
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="fixed" value="no">
+                                        No
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Location:</label>
+                                    <label>
+                                        <input type="radio" name="location" value="Foster Home" required>
+                                        Foster
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="location" value="Shelter">
+                                        Shelter
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="location" value="Other">
+                                        Other
+                                    </label>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Current Foster Family:</label>
+                                    <select id="foster-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in fosters %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Description/Notes:</label>
+                                    <input class="edit-input" id="edit-notes" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoption Status:</label>
+                                    <select id="adoption-dropdown">
+                                        <option value="Not yet adopted">Not Yet Adopted</option>
+                                        <option value="Adoption Pending">Adoption Pending</option>
+                                        <option value="Processing">Processing</option>
+                                        <option value="Other">Other</option>
+                                        <option value="Adopted">Adopted</option>
+                                    </select>
+                                </div>
+
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoptive Family:</label>
+                                    <select id="adoptive-families-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in adoptives %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="edit-buttons-panel">
+                            <input type="submit" value="confirm edits">
+                            <button class="modal-action-btn cancel-btn" id="cancelEditModal">cancel edits</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-overlay" id="previousModal">
+            <div class="edit-modal">
+                <form id="previous-pet-form">
+                    <button class="close-modal" id="closePreviousModal">&times;</button>
+
+                    <div class="edit-title">Move {{ pets.name }} to Previous Pets</div>
+    
+                    <div class="edit-modal-content">
+                        <div class="edit-left-panel">
+                            <div class="edit-photo-box">
+                                <img
+                                    id="delete-photo"
+                                    alt="Pet photo"
+                                    src=""
+                                />
+                            </div>
+                        </div>
+    
+                        <div class="edit-form-panel">
+                            <div class="edit-scroll">
+
+                                <div class="edit-row">
+                                    <input type="hidden" id="delete-petid">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Reason for Deletion:</label>
+                                    <input class="edit-input" id="delete-reason" type="text">
+                                </div>
+    
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoption Status:</label>
+                                    <select id="delete-adoption-dropdown">
+                                        <option value="">-- Adoption Status --</option>
+                                        <option value="Other">Other</option>
+                                        <option value="Adopted">Adopted</option>
+                                    </select>
+                                </div>
+
+                                <div class="edit-row">
+                                    <label class="edit-label">Adoptive Family:</label>
+                                    <select id="delete-adoptive-families-dropdown">
+                                        <!-- populate with first name, last name  -->
+                                        <option value="">-- No Family --</option>
+                                        {% for family in adoptives %}
+                                        <option value="{{ family[0] }}">{{ family[1] }} {{ family[2] }} Family</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="edit-buttons-panel">
+                            <input type="submit" value="confirm deletion edits">
+                            <button class="modal-action-btn cancel-btn" id="cancelPreviousModal">cancel deletion update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/pets-view.js"></script>
+</body>
 </html>
