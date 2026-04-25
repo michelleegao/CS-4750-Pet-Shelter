@@ -19,7 +19,7 @@ app.register_blueprint(families_bp)
 app.register_blueprint(events_bp)
 app.register_blueprint(login_bp)
 app.register_blueprint(users_blueprint)
-app.config["SECRET KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key") # replace later with env var
+app.secret_key = os.environ.get("SECRET_KEY") # replace later with env var
 
 # links login HTML page
 @app.route("/")
