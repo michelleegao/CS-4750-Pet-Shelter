@@ -127,12 +127,13 @@
                                     <label class="edit-label">Current Managerial Status:</label>
                                     <div class="checkbox-list">
                                         <label class="checkbox-item">
-                                            <input type="radio" name="manager-status" class="manager-option" value="yes">
+                                            <input type="radio" name="manager-status" class="manager-option" value="yes"
+                                            {% if user.userManager %}checked{% endif %}>
                                             Manager
                                         </label>
                                         <label class="checkbox-item">
                                             <input type="radio" name="manager-status" class="manager-option" value="no"
-                                                {% if not user[6] %}checked{% endif %}>
+                                            {% if not user.userManager %}checked{% endif %}>
                                             Non-Manager
                                         </label>
                                     </div>

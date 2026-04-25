@@ -83,15 +83,14 @@ def users_view(user_id):
 
         return render_template("/user_view.html", user=user_data, all_users = all_other_users)
     
-    
+
     if request.method=="POST":
         action = request.form.get("action")
         if action == "update":
             user_role = request.form.get("user_role").lower()
             manager_status = request.form.get("manager_status")
             managed_employees = json.loads(request.form.get("managed_employees"))
-
-            print(uuid.UUID(user_id))
+            print(managed_employees)
 
             conn = getconn()
             cursor = conn.cursor()
@@ -100,10 +99,10 @@ def users_view(user_id):
                                (user_role, user_id))
                 
                 if (manager_status=="yes"):
-                    cursor.execute("INSERT IGNORE INTO managers (userID, managerID) VALUES (%s, UUID_TO_BIN(UUID()))",
+                    cursor.execute("INSERT IGNORE INTO managers (userID, managerID) VALUES (UUID_TO_BIN(%s), UUID_TO_BIN(UUID()))",
                                    (user_id,))
                     for employee in managed_employees:
-                        cursor.execute("INSERT IGNORE INTO manages (managerID, userID) VALUES (%s, %s)",
+                        cursor.execute("INSERT IGNORE INTO manages (managerID, userID) VALUES (UUID_TO_BIN(%s), UUID_TO_BIN(%s))",
                                        (user_id, employee))
                         
                 conn.commit()
