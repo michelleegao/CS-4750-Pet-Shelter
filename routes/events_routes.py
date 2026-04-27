@@ -339,7 +339,7 @@ def events_add():
             families = cursor.fetchall()
 
             return render_template(
-                "addEvent.html",
+                "addevent.html",
                 pets=pets,
                 users=users,
                 families=families

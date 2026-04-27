@@ -153,7 +153,7 @@ def families_view(family_id):
 @families_bp.route("/family_add", methods=["GET", "POST"])
 def families_add():
     if request.method == "GET":
-        return render_template('addFamily.html')
+        return render_template('addfamily.html')
 
     conn = None
     cursor = None
