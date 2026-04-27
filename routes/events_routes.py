@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, request, redirect, url_for,
 from db.connection import getconn
 import uuid
 import pymysql
+import os
 
 events_bp = Blueprint('events', __name__)
 
@@ -213,6 +214,7 @@ def events_view(event_id):
 # proper routing for edit modal for events
 @events_bp.route("/events/<event_id>/edit", methods=["POST"])
 def edit_event(event_id):
+
     conn = None
     cursor = None
 

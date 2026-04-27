@@ -127,12 +127,13 @@
                                     <label class="edit-label">Current Managerial Status:</label>
                                     <div class="checkbox-list">
                                         <label class="checkbox-item">
-                                            <input type="radio" name="manager-status" class="manager-option" value="yes">
+                                            <input type="radio" name="manager-status" class="manager-option" value="yes"
+                                            {% if user.userManager %}checked{% endif %}>
                                             Manager
                                         </label>
                                         <label class="checkbox-item">
                                             <input type="radio" name="manager-status" class="manager-option" value="no"
-                                                {% if not user[6] %}checked{% endif %}>
+                                            {% if not user.userManager %}checked{% endif %}>
                                             Non-Manager
                                         </label>
                                     </div>
@@ -147,7 +148,7 @@
                                                 name="managed-employees"
                                                 value="{{ all_user[0] }}"
                                                 data-name="{{ all_user[1] }} {{ all_user[2] }}"
-                                                {% if all_user[0] in user.managedIds %}checked{% endif %}>
+                                                {% if user.managedIds and all_user[0] in user.managedIds %}checked{% endif %}>
                                             {{ all_user[1] }} {{ all_user[2] }}
                                         </label>
                                         {% endfor %}
