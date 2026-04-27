@@ -98,7 +98,7 @@ document.getElementById("previous-pet-form").addEventListener("submit", async  (
     const text = await response.text();
     console.log("RAW RESPONSE:", text);
 
-    window.location.href = `/pet/${petId}`;
+    window.location.href = "/pets_search";
   })
 
 
@@ -151,6 +151,7 @@ document.getElementById("edit-pet-form").addEventListener("submit", async  (e) =
 
     window.location.href = `/pet/${petId}`;
 });
+
 
 deleteButton.addEventListener("click", async function(){
     const petId = this.dataset.id;

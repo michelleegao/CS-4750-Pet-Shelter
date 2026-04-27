@@ -60,7 +60,7 @@ def get_all_pets():
         get_previous_pets = run_query(previous_query, params, fetch=True)
 
         print("ARGS:", request.args)
-        return render_template('/pets_search.html', pets=get_all_pets, previous_pets=get_previous_pets, breed=breed_list)
+        return render_template('pets_search.html', pets=get_all_pets, previous_pets=get_previous_pets, breed=breed_list)
     
     
 @pet_blueprint.route("/pet/<pet_id>", methods=["GET", "POST"])
@@ -149,14 +149,14 @@ def pet_detail(pet_id):
             "deletion_date" : date_of_deletion
         }
 
-        return render_template("/pets_view.html", pets=pet_data, fosters=get_fosters, adoptives=get_adoptives)
+        return render_template("pets_view.html", pets=pet_data, fosters=get_fosters, adoptives=get_adoptives)
     elif request.method=="POST":
         action = request.form.get("action")
         if action == "update":
-            pet_name = request.form.get("pet_name").lower()
+            pet_name = (request.form.get("pet_name") or "").lower()
             pet_age = request.form.get("pet_age")
-            pet_description = request.form.get("pet_description").lower()
-            if (request.form.get("pet_fixed") == "yes"):
+            pet_description = (request.form.get("pet_description") or "").lower()
+            if request.form.get("pet_fixed") == "yes":
                 pet_fixed = True
             else:
                 pet_fixed = False
@@ -165,15 +165,17 @@ def pet_detail(pet_id):
                 foster_id = request.form.get("foster_id")
             else:
                 foster_id = None
-            pet_breed = request.form.get("pet_breed").lower()
+            pet_breed = (request.form.get("pet_breed") or "").lower()
             pet_weight = request.form.get("pet_weight")
-            if (request.form.get("pet_special_needs" == "yes")):
+            if request.form.get("pet_special_needs") == "yes":
                 pet_special_needs = True
             else:
                 pet_special_needs = False
             pet_photo = request.files.get("pet_photo")
             pet_adoption_status = request.form.get("pet_adoption")
             pet_adoptive_family = request.form.get("pet_adoption_family")
+
+            print(pet_special_needs, pet_fixed)
 
             if pet_photo is None:
                 update_pet_query = "UPDATE pet SET adoption_status=%s, name=%s, age=%s, description=%s, current_location=%s, foster_familyID=UUID_TO_BIN(%s), spayed_or_neutered=%s, breed=%s, weight=%s, special_needs=%s WHERE petID=UUID_TO_BIN(%s)"
@@ -199,7 +201,7 @@ def pet_detail(pet_id):
                 params = (pet_adoption_status, pet_name, pet_age, pet_description, pet_curr_location, foster_id, pet_fixed, pet_breed, pet_weight, pet_special_needs, photo_url, pet_id,)
                 run_query(update_pet_query, params, fetch=False)
                 if pet_adoption_status=="Adopted":
-                    previous_pet_query = "INSERT IGNORE INTO previous_pet (petID, reason_for_deletion, date_of_deletion, adoptive_familyId) VALUES (UUID_TO_BIN(%s), %s, NOW(), UUID_TO_BIN(%s))" ## come back here 
+                    previous_pet_query = "INSERT IGNORE INTO previous_pet (petID, reason_for_deletion, date_of_deletion, adoptive_familyId) VALUES (UUID_TO_BIN(%s), %s, NOW(), UUID_TO_BIN(%s))"
                     previous_pet_params = (pet_id, pet_adoption_status, pet_adoptive_family)
                     run_query(previous_pet_query, previous_pet_params, fetch=False)
             return redirect(url_for("pet.pet_detail", pet_id=pet_id))
@@ -207,24 +209,29 @@ def pet_detail(pet_id):
             delete_description = request.form.get("pet_deletion_reason")
             adoptive_family_id = request.form.get("pet_adoption_family")
             adoption_status = request.form.get("pet_adoption")
-            delete_pet_query = "INSERT IGNORE INTO previous_pet (petID, reason_for_deletion, date_of_deletion, adoptive_familyID) VALUES (UUID_TO_BIN(%s), %s, NOW(), UUID_TO_BIN(%s))"
-            delete_pet_params = (pet_id, delete_description, adoptive_family_id,)
-            run_query(delete_pet_query, delete_pet_params, fetch=False)
-            if adoption_status != "":
-                adoption_status_change_query = "UPDATE pet SET adoption_status=%s WHERE petID=UUID_TO_BIN(%s)"
-                adoption_status_change_params = (adoption_status, pet_id)
-                run_query(adoption_status_change_query, adoption_status_change_params, fetch=False)
-            return redirect(url_for("pet.pet_detail", pet_id=pet_id))
+            if (adoption_status == ""):
+                delete_pet_query = "INSERT IGNORE INTO previous_pet (petID, reason_for_deletion, date_of_deletion, adoptive_familyID) VALUES (UUID_TO_BIN(%s), %s, NOW(), NULL)"
+                delete_pet_params = (pet_id, delete_description,)
+                run_query(delete_pet_query, delete_pet_params, fetch=False)
+            else:
+                conn = getconn()
+                cursor = conn.cursor()
+
+                try:
+                    cursor.execute("INSERT IGNORE INTO previous_pet (petID, reason_for_deletion, date_of_deletion, adoptive_familyID) VALUES (UUID_TO_BIN(%s), %s, NOW(), UUID_TO_BIN(%s))", (pet_id, delete_description, adoptive_family_id,))
+                    cursor.execute("UPDATE pet SET adoption_status=%s WHERE petID=UUID_TO_BIN(%s)", (adoption_status, pet_id))
+
+                    conn.commit()
+                    return redirect(url_for("pet.get_all_pets"))
+                except Exception as e:
+                    conn.rollback()
+                    print("Move to Previous Pet Failed: ", e)
+                    return "Error deleting pet", 500
+                finally:
+                    cursor.close()
+                    conn.close()
+            return redirect(url_for("pet.get_all_pets"))
             
-            
-
-
-
-
-
-        
-## come back to this! 
-
 
 @pet_blueprint.route("/addpet", methods=["GET", "POST"])
 def add_pet():
@@ -240,57 +247,67 @@ def add_pet():
         "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
         "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"
         ]
-        return render_template("/addpet.html", pets=get_pets, fosters=get_fosters, states=state)
+        return render_template("addpet.html", pets=get_pets, fosters=get_fosters, states=state)
     
-    pet_name = request.form.get("pet_name").lower()
-    pet_species = request.form.get("species_name").lower()
+    pet_name = (request.form.get("pet_name") or "").lower()
+    pet_species = (request.form.get("species_name") or "").lower()
     pet_age = request.form.get("pet_age")
-    pet_color = request.form.get("pet_color").lower()
-    pet_description = request.form.get("pet_description").lower()
-    if (request.form.get("pet_fixed") == "yes"):
+    pet_color = (request.form.get("pet_color") or "").lower()
+    pet_description = (request.form.get("pet_description") or "").lower()
+    if request.form.get("pet_fixed") == "yes":
         pet_fixed = True
     else:
         pet_fixed = False
-    ## pet_adoption_status = request.form.get("pet_adoption_status")
-    pet_street = request.form.get("pet_street").title()
-    pet_city = request.form.get("pet_city").title()
+    pet_street = (request.form.get("pet_street") or "").title()
+    pet_city = (request.form.get("pet_city") or "").title()
     pet_state = request.form.get("pet_state")
     pet_zip = request.form.get("pet_zip")
-    pet_country = request.form.get("pet_country").title()
+    pet_country = (request.form.get("pet_country") or "").title()
     pet_curr_location = request.form.get("pet_curr_location")
     if (pet_curr_location=="Foster Home"):
         foster_id = request.form.get("foster_id")
     else:
         foster_id = None
 
-    pet_breed = request.form.get("pet_breed").lower()
+    pet_breed = (request.form.get("pet_breed") or "").lower()
     pet_weight = request.form.get("pet_weight")
-    if (request.form.get("pet_has_sibling")=="yes"):
+    if request.form.get("pet_has_sibling") =="yes":
         pet_has_sibling=True
     else:
         pet_has_sibling=False
     pet_sex = request.form.get("pet_sex")
-    if (request.form.get("pet_special_needs" == "yes")):
+    if request.form.get("pet_special_needs") == "yes":
         pet_special_needs = True
     else:
         pet_special_needs = False
     pet_photo = request.files.get("pet_photo")
-    pet_id = uuid.uuid4().bytes
+    pet_id = str(uuid.uuid4())
     
+    photo_url = None
+
+    if pet_photo and pet_photo.filename != "":
+        filename = f"{uuid.uuid4()}.jpg"
+
+        client = storage.Client()
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(filename)
+
+        blob.upload_from_file(pet_photo)
+
+        photo_url = blob.public_url
+    else:
+        photo_url = "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg?w=360"
     ## Uploading Pet Photo to Google Cloud
-    filename = f"{uuid.uuid4()}.jpg"
-
-    client = storage.Client()
-    bucket = client.bucket(bucket_name)
-    blob = bucket.blob(filename)
-
-    blob.upload_from_file(pet_photo)
-
-    photo_url = blob.public_url
-
-    query = "INSERT INTO pet (petID, species, age, name, color, description, spayed_or_neutered, adoption_status, creation_date, country, street_name, zip_code, current_location, breed, weight, siblings, sex, special_needs, foster_familyID, image_url) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, UUID_TO_BIN(%s), %s)"
-    params = (pet_id, pet_species, pet_age, pet_name, pet_color, pet_description, pet_fixed, "Not Yet Adopted", pet_country, pet_street, pet_zip, pet_curr_location, pet_breed, pet_weight, pet_has_sibling, pet_sex, pet_special_needs, foster_id, photo_url)
-    run_query(query, params, fetch=False)
+    
+    if foster_id != None:
+        query = "INSERT INTO pet (petID, species, age, name, color, description, spayed_or_neutered, adoption_status, creation_date, country, street_name, zip_code, current_location, breed, weight, siblings, sex, special_needs, foster_familyID, image_url) VALUES (UUID_TO_BIN(%s), %s, %s, %s, %s, %s, %s, %s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, UUID_TO_BIN(%s), %s)"
+        params = (pet_id, pet_species, pet_age, pet_name, pet_color, pet_description, pet_fixed, "Not Yet Adopted", pet_country, pet_street, pet_zip, pet_curr_location, pet_breed, pet_weight, pet_has_sibling, pet_sex, pet_special_needs, foster_id, photo_url)
+        run_query(query, params, fetch=False)
+    else:
+        query = "INSERT INTO pet (petID, species, age, name, color, description, spayed_or_neutered, adoption_status, creation_date, country, street_name, zip_code, current_location, breed, weight, siblings, sex, special_needs, foster_familyID, image_url) VALUES (UUID_TO_BIN(%s), %s, %s, %s, %s, %s, %s, %s, NOW(), %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL, %s)"
+        params = (pet_id, pet_species, pet_age, pet_name, pet_color, pet_description, pet_fixed, "Not Yet Adopted", pet_country, pet_street, pet_zip, pet_curr_location, pet_breed, pet_weight, pet_has_sibling, pet_sex, pet_special_needs, photo_url)
+        run_query(query, params, fetch=False)
+    
 
     query = "INSERT IGNORE INTO zip_codes (zip_code, city, state) VALUES (%s, %s, %s)"
     params = (pet_zip, pet_city, pet_state)
@@ -322,7 +339,7 @@ def delete_pet(pet_id):
         conn.commit()
         
         print("Deleting Pet: ", pet_id)
-        return "", 204
+        return redirect(url_for("pet.get_all_pets"))
     except Exception as e:
         conn.rollback()
         print("Delete Failed: ", e)
